@@ -7,35 +7,23 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{--Y:#FFC107;--Yd:#e6ac00;--Yl:#fff8e1;--B:#29ABE2;--Bd:#1a8abf;--Bl:#e3f4fc;--T:#0a0a0a;--T2:#1a1a18;--T3:#4a5568;--BOR:#d1d9e0;--BG:#f0f2f5;--W:#fff}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,sans-serif;background:var(--BG);color:var(--T);min-height:100vh}
-
-/* HEADER */
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--BG);color:var(--T);min-height:100vh}
 .header{background:var(--Y);padding:0 28px;position:sticky;top:0;z-index:300;box-shadow:0 2px 10px rgba(0,0,0,.15)}
-.header-inner{max-width:100%;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:64px;padding:0 4px}
+.header-inner{max-width:100%;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:64px}
 .logo-img{height:52px;object-fit:contain;max-width:200px}
 .hmeta{font-size:13px;color:#1a1a18;font-weight:700}
-
-/* WRAP — Full HD full width */
-.wrap{width:100%;max-width:100%;padding:20px 28px}
-@media(min-width:1920px){.wrap{padding:20px 60px}}
-
-/* NAV */
+.wrap{width:100%;padding:20px 28px}
 .nav-wrap{background:var(--W);border-radius:14px;border:1px solid var(--BOR);margin-bottom:20px;padding:0 8px;display:flex;overflow-x:auto;box-shadow:0 1px 4px rgba(0,0,0,.06)}
 .nb{padding:14px 22px;border:none;background:none;cursor:pointer;font-size:14px;color:#4a5568;border-bottom:3px solid transparent;margin-bottom:-1px;font-family:inherit;white-space:nowrap;font-weight:700;display:flex;align-items:center;gap:7px;transition:all .2s}
 .nb.active{color:var(--Bd);border-bottom-color:var(--B)}
 .nb:hover:not(.active){color:var(--T)}
 .pg{display:none}.pg.active{display:block}
-
-/* BREADCRUMB */
-.breadcrumb{display:flex;align-items:center;gap:6px;font-size:13px;color:#4a5568;margin-bottom:14px;flex-wrap:wrap}
+.breadcrumb{display:flex;align-items:center;gap:6px;font-size:13px;color:#4a5568;margin-bottom:14px}
 .breadcrumb a{color:var(--Bd);cursor:pointer;font-weight:700}.breadcrumb a:hover{text-decoration:underline}
-.breadcrumb .sep{color:#9aa0ab}
-
-/* KPI */
 .kpi-row{display:grid;grid-template-columns:repeat(7,1fr);gap:12px;margin-bottom:20px}
 @media(max-width:1400px){.kpi-row{grid-template-columns:repeat(4,1fr)}}
-@media(max-width:900px){.kpi-row{grid-template-columns:repeat(2,1fr)}}
-.kpi{background:var(--W);border-radius:12px;padding:16px 16px 14px;border:1px solid var(--BOR);cursor:pointer;transition:all .2s;position:relative;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+@media(max-width:768px){.kpi-row{grid-template-columns:repeat(2,1fr)}}
+.kpi{background:var(--W);border-radius:12px;padding:16px;border:1px solid var(--BOR);cursor:pointer;transition:all .2s;position:relative;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.05)}
 .kpi::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px}
 .bkpi::after{background:var(--B)}.ykpi::after{background:var(--Y)}.gkpi::after{background:#10b981}.pkpi::after{background:#db2777}
 .kpi:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(41,171,226,.18);border-color:var(--B)}
@@ -43,138 +31,94 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,sans-seri
 .kpi-val{font-size:28px;font-weight:800;color:var(--T);line-height:1}
 .kpi-sub{font-size:11px;color:#4a5568;margin-top:4px;font-weight:600}
 .kpi-hint{font-size:10px;color:var(--Bd);margin-top:5px;font-weight:700}
-
-/* CHARTS */
 .cgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin-bottom:16px}
 .cc{background:var(--W);border:1px solid var(--BOR);border-radius:14px;padding:18px;box-shadow:0 1px 4px rgba(0,0,0,.05)}
 .ctitle{font-size:11px;font-weight:700;color:#4a5568;margin-bottom:14px;text-transform:uppercase;letter-spacing:.08em;display:flex;align-items:center;justify-content:space-between}
-.drill-hint{font-size:10px;color:var(--Bd);font-weight:700;text-transform:none;letter-spacing:0;background:var(--Bl);padding:2px 9px;border-radius:99px;cursor:default;border:1px solid rgba(41,171,226,.25)}
-
-/* BAR */
+.drill-hint{font-size:10px;color:var(--Bd);font-weight:700;text-transform:none;letter-spacing:0;background:var(--Bl);padding:2px 9px;border-radius:99px;border:1px solid rgba(41,171,226,.25)}
 .bar-list{display:flex;flex-direction:column;gap:8px}
-.br{display:flex;align-items:flex-start;gap:8px;font-size:13px;padding:5px 7px;border-radius:8px;cursor:pointer;transition:background .15s}
-.br:hover{background:var(--Bl)}.br:hover .bl{flex:2;min-width:140px;max-width:260px;overflow:visible;white-space:normal;word-break:break-word;color:var(--T);font-weight:600;transition:color .15s;line-height:1.4;padding-right:4px}
-.br:hover .bl{color:var(--Bd);font-weight:800}
-.bt{flex:1;height:9px;background:#e8edf2;border-radius:5px;overflow:hidden}
-.bf{height:100%;border-radius:5px}
-.bn{width:28px;text-align:right;color:var(--T);font-size:12px;font-weight:800}
-.bp{font-size:11px;color:#4a5568;width:32px;text-align:right;font-weight:600}
-
-/* DONUT */
+.bar-row{display:flex;align-items:flex-start;gap:8px;font-size:13px;padding:5px 7px;border-radius:8px;cursor:pointer;transition:background .15s}
+.bar-row:hover{background:var(--Bl)}.bar-row:hover .bar-lbl{color:var(--Bd);font-weight:800}
+.bar-lbl{flex:2;min-width:120px;overflow:visible;white-space:normal;word-break:break-word;color:var(--T);font-weight:600;line-height:1.4;padding-right:4px}
+.bar-track{flex:2;height:9px;background:#e8edf2;border-radius:5px;overflow:hidden;margin-top:5px}
+.bar-fill{height:100%;border-radius:5px}
+.bar-num{width:28px;text-align:right;color:var(--T);font-size:12px;font-weight:800;flex-shrink:0;margin-top:2px}
+.bar-pct{font-size:11px;color:#4a5568;width:32px;text-align:right;flex-shrink:0;margin-top:2px;font-weight:600}
 .donut-wrap{display:flex;align-items:center;justify-content:center;gap:24px;flex-wrap:wrap;padding:4px 0}
 .leg{display:flex;flex-direction:column;gap:10px}
-.lr{display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;padding:5px 10px;border-radius:8px;font-weight:700;color:var(--T);transition:background .15s}
-.lr:hover{background:var(--Bl)}.ld{width:12px;height:12px;border-radius:3px;flex-shrink:0}
-
-/* HIST */
+.leg-row{display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;padding:5px 10px;border-radius:8px;font-weight:700;color:var(--T);transition:background .15s}
+.leg-row:hover{background:var(--Bl)}.leg-dot{width:12px;height:12px;border-radius:3px;flex-shrink:0}
 .hist{display:flex;align-items:flex-end;gap:6px;height:110px;padding:0 4px}
-.hc{display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;cursor:pointer}
-.hc:hover .hb{opacity:.75}.hb{width:100%;border-radius:5px 5px 0 0;min-height:4px;transition:opacity .2s}
-.hl{font-size:10px;color:#4a5568;text-align:center;white-space:nowrap;line-height:1.4;font-weight:600}
-.hn{font-size:11px;color:var(--T);font-weight:800}
-
-/* MONTH */
+.hist-col{display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;cursor:pointer}
+.hist-col:hover .hist-bar{opacity:.75}.hist-bar{width:100%;border-radius:5px 5px 0 0;min-height:4px}
+.hist-lbl{font-size:10px;color:#4a5568;text-align:center;white-space:nowrap;line-height:1.4;font-weight:600}
+.hist-num{font-size:11px;color:var(--T);font-weight:800}
 .mgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
 .mbox{background:var(--BG);border-radius:10px;padding:10px 6px;text-align:center;cursor:pointer;transition:all .15s;border:1.5px solid var(--BOR)}
 .mbox:hover{background:var(--Bl);border-color:var(--B)}
-.mname{font-size:11px;color:#4a5568;margin-bottom:4px;font-weight:700}
-.mval{font-size:20px;font-weight:800;color:var(--T)}.mbar{height:4px;border-radius:2px;background:var(--B);margin-top:6px}
-
-/* TOOLBAR */
+.mname{font-size:11px;color:#4a5568;margin-bottom:4px;font-weight:700}.mval{font-size:20px;font-weight:800;color:var(--T)}.mbar{height:4px;border-radius:2px;background:var(--B);margin-top:6px}
 .toolbar{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center}
-.toolbar input,.toolbar select{padding:8px 12px;border:1.5px solid var(--BOR);border-radius:9px;background:var(--W);color:var(--T);font-size:13px;font-family:inherit;outline:none;font-weight:600;transition:border-color .2s}
-.toolbar input:focus,.toolbar select:focus{border-color:var(--B)}
-.toolbar input{flex:1;min-width:200px}
-.vb{padding:8px 13px;border:1.5px solid var(--BOR);border-radius:9px;background:var(--W);color:var(--T);cursor:pointer;font-size:13px;font-family:inherit;font-weight:700;transition:all .15s}
-.vb.active{background:var(--Bl);color:var(--Bd);border-color:var(--B)}
-.export-btn{padding:8px 14px;border:1.5px solid #16a34a;border-radius:9px;background:#f0fdf4;color:#15803d;cursor:pointer;font-size:13px;font-family:inherit;font-weight:700;display:flex;align-items:center;gap:5px;transition:all .15s}
-.export-btn:hover{background:#16a34a;color:#fff}
+.toolbar input,.toolbar select{padding:8px 12px;border:1.5px solid var(--BOR);border-radius:9px;background:var(--W);color:var(--T);font-size:13px;font-family:inherit;outline:none;font-weight:600}
+.toolbar input:focus,.toolbar select:focus{border-color:var(--B)}.toolbar input{flex:1;min-width:200px}
+.vbtn{padding:8px 13px;border:1.5px solid var(--BOR);border-radius:9px;background:var(--W);color:var(--T);cursor:pointer;font-size:13px;font-family:inherit;font-weight:700;transition:all .15s}
+.vbtn.active{background:var(--Bl);color:var(--Bd);border-color:var(--B)}
+.exp-btn{padding:8px 14px;border:1.5px solid #16a34a;border-radius:9px;background:#f0fdf4;color:#15803d;cursor:pointer;font-size:13px;font-family:inherit;font-weight:700;display:flex;align-items:center;gap:5px}
+.exp-btn:hover{background:#16a34a;color:#fff}
 #rc{font-size:13px;color:var(--T);margin-left:auto;font-weight:700}
-
-/* TABLE — sticky header */
 .tw{border:1px solid var(--BOR);border-radius:14px;overflow:auto;background:var(--W);box-shadow:0 1px 4px rgba(0,0,0,.06);max-height:calc(100vh - 260px)}
 table{width:100%;border-collapse:collapse;font-size:13px}
-thead{position:sticky;top:0;z-index:10;background:var(--BG)}
-thead tr{box-shadow:0 2px 4px rgba(0,0,0,.08)}
-th{padding:11px 13px;font-weight:800;font-size:11px;color:var(--T);text-align:left;white-space:nowrap;cursor:pointer;border-bottom:2px solid var(--BOR);user-select:none;letter-spacing:.03em;background:var(--BG)}
-th:hover{color:var(--Bd);background:#e3f4fc}.sc{color:var(--Bd)!important}
+thead{position:sticky;top:0;z-index:10}
+th{padding:11px 13px;font-weight:800;font-size:11px;color:var(--T);text-align:left;white-space:nowrap;cursor:pointer;border-bottom:2px solid var(--BOR);user-select:none;background:var(--BG)}
+th:hover{color:var(--Bd);background:var(--Bl)}.sc{color:var(--Bd)!important}
 td{padding:10px 13px;border-bottom:1px solid #eef1f5;color:var(--T);vertical-align:middle;white-space:nowrap;font-weight:600}
-tr:last-child td{border-bottom:none}
-tr:hover td{background:var(--Bl);cursor:pointer}
+tr:last-child td{border-bottom:none}.tr-click:hover td{background:var(--Bl);cursor:pointer}
 .badge{display:inline-block;padding:3px 10px;border-radius:99px;font-size:11px;font-weight:800}
 .av{border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0}
-
-/* CARDS */
 .cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
-.card{background:var(--W);border:1.5px solid var(--BOR);border-radius:14px;padding:14px;cursor:pointer;transition:all .2s;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.card{background:var(--W);border:1.5px solid var(--BOR);border-radius:14px;padding:14px;cursor:pointer;transition:all .2s;box-shadow:0 1px 4px rgba(0,0,0,.04)}
 .card:hover{border-color:var(--B);box-shadow:0 4px 16px rgba(41,171,226,.18);transform:translateY(-2px)}
 .card-top{display:flex;gap:10px;align-items:center;margin-bottom:10px}
-.card-name{font-size:13px;font-weight:800;color:var(--T);line-height:1.3}
-.card-sub{font-size:11px;color:#4a5568;margin-top:2px;font-weight:600}
+.card-name{font-size:13px;font-weight:800;color:var(--T);line-height:1.3}.card-sub{font-size:11px;color:#4a5568;margin-top:2px;font-weight:600}
 .card-body{border-top:1px solid #eef1f5;padding-top:9px;display:flex;flex-direction:column;gap:5px}
 .crow{display:flex;justify-content:space-between;font-size:12px}
 .ck{color:#4a5568;font-weight:600}.cv{color:var(--T);font-weight:700;text-align:right;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-
-/* BIRTHDAY */
 .ulist{display:flex;flex-direction:column;gap:0}
-.month-divider{display:flex;align-items:center;gap:10px;padding:14px 0 8px;margin-top:4px}
-.month-divider-label{font-size:12px;font-weight:800;color:var(--Bd);background:var(--Bl);padding:4px 14px;border-radius:99px;white-space:nowrap;border:1.5px solid rgba(41,171,226,.3)}
-.month-divider-line{flex:1;height:1.5px;background:var(--BOR)}
-.ui{display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--BG);border-radius:10px;border:1px solid var(--BOR);cursor:pointer;transition:all .15s;margin-bottom:8px}
-.ui:hover{background:var(--Bl);border-color:var(--B)}
-.ui.today{background:var(--Yl);border-color:var(--Yd)}
-.ui.today .ud{color:var(--Yd)}
-.ud{font-weight:800;color:var(--Bd);min-width:90px;font-size:13px}
-.un{font-size:13px;font-weight:800;color:var(--T)}.us{font-size:12px;color:#4a5568;margin-top:2px;font-weight:600}
-
-/* DRILL PANEL */
-.drill-panel{background:var(--W);border-radius:14px;border:1px solid var(--BOR);overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06)}
-.drill-ph{background:linear-gradient(135deg,var(--B),var(--Bd));padding:16px 22px;display:flex;align-items:center;gap:12px}
-.drill-pt{font-size:17px;font-weight:800;color:#fff}
-.drill-pc{font-size:13px;color:rgba(255,255,255,.8);margin-left:4px;font-weight:600}
-.drill-back{margin-left:auto;padding:7px 16px;background:rgba(255,255,255,.2);border:1.5px solid rgba(255,255,255,.4);border-radius:9px;color:#fff;cursor:pointer;font-size:13px;font-family:inherit;font-weight:800;transition:background .15s}
+.mo-div{display:flex;align-items:center;gap:10px;padding:14px 0 8px;margin-top:4px}
+.mo-lbl{font-size:12px;font-weight:800;color:var(--Bd);background:var(--Bl);padding:4px 14px;border-radius:99px;white-space:nowrap;border:1.5px solid rgba(41,171,226,.3)}
+.mo-line{flex:1;height:1.5px;background:var(--BOR)}
+.bday-row{display:flex;align-items:flex-start;gap:12px;padding:11px 14px;background:var(--BG);border-radius:10px;border:1px solid var(--BOR);cursor:pointer;transition:all .15s;margin-bottom:8px}
+.bday-row:hover{background:var(--Bl);border-color:var(--B)}
+.bday-row.today{background:var(--Yl);border-color:var(--Yd)}
+.bday-lbl{font-weight:800;color:var(--Bd);min-width:90px;font-size:13px}
+.bday-row.today .bday-lbl{color:var(--Yd)}
+.drill-panel{background:var(--W);border-radius:14px;border:1px solid var(--BOR);overflow:hidden}
+.drill-head{background:linear-gradient(135deg,var(--B),var(--Bd));padding:16px 22px;display:flex;align-items:center;gap:12px}
+.drill-title{font-size:17px;font-weight:800;color:#fff}
+.drill-cnt{font-size:13px;color:rgba(255,255,255,.8);font-weight:600}
+.drill-back{margin-left:auto;padding:7px 16px;background:rgba(255,255,255,.2);border:1.5px solid rgba(255,255,255,.4);border-radius:9px;color:#fff;cursor:pointer;font-size:13px;font-family:inherit;font-weight:800}
 .drill-back:hover{background:rgba(255,255,255,.35)}
-.drill-tb{padding:16px}
-
-/* sticky table inside drill */
-.drill-tb .tw{max-height:calc(100vh - 300px)}
-
-/* PROFILE MODAL */
+.drill-tw{padding:16px}.drill-tw .tw{max-height:calc(100vh - 300px)}
 .overlay{position:fixed;inset:0;background:rgba(10,10,10,.55);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
 .modal{background:var(--W);border-radius:20px;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3);animation:popIn .2s cubic-bezier(.34,1.56,.64,1)}
 @keyframes popIn{from{opacity:0;transform:scale(.88)}to{opacity:1;transform:scale(1)}}
-.modal-hdr{background:linear-gradient(135deg,var(--B),var(--Bd));padding:24px;border-radius:20px 20px 0 0;position:relative}
-.modal-close{position:absolute;top:14px;right:14px;width:32px;height:32px;background:rgba(255,255,255,.2);border:none;border-radius:50%;color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:700}
-.modal-close:hover{background:rgba(255,255,255,.35)}
+.modal-head{background:linear-gradient(135deg,var(--B),var(--Bd));padding:24px;border-radius:20px 20px 0 0;position:relative}
+.modal-x{position:absolute;top:14px;right:14px;width:32px;height:32px;background:rgba(255,255,255,.2);border:none;border-radius:50%;color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:700}
+.modal-x:hover{background:rgba(255,255,255,.35)}
 .modal-av{width:66px;height:66px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:23px;font-weight:800;border:3px solid rgba(255,255,255,.4);margin-bottom:12px;background:rgba(255,255,255,.18)}
-.modal-name{font-size:20px;font-weight:800;color:#fff}
-.modal-nick{font-size:13px;color:rgba(255,255,255,.75);margin-top:3px;font-weight:600}
+.modal-name{font-size:20px;font-weight:800;color:#fff}.modal-nick{font-size:13px;color:rgba(255,255,255,.75);margin-top:3px;font-weight:600}
 .modal-pos{font-size:13px;color:rgba(255,255,255,.9);margin-top:7px;font-weight:700}
 .modal-body{padding:20px}
-.sec-title{font-size:11px;font-weight:800;color:#4a5568;text-transform:uppercase;letter-spacing:.07em;margin:16px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--BOR)}
-.sec-title:first-child{margin-top:0}
+.sec-h{font-size:11px;font-weight:800;color:#4a5568;text-transform:uppercase;letter-spacing:.07em;margin:16px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--BOR)}
+.sec-h:first-child{margin-top:0}
 .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.info-item{background:var(--BG);border-radius:10px;padding:10px 12px}
+.info-item{background:var(--BG);border-radius:10px;padding:10px 12px}.info-item.wide{grid-column:1/-1}
 .info-lbl{font-size:11px;color:#4a5568;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
-.info-val{font-size:14px;font-weight:800;color:var(--T)}.info-val.accent{color:var(--Bd)}
-.info-item.wide{grid-column:1/-1}
-
-/* BACK TO TOP */
-.btt{position:fixed;bottom:28px;right:28px;width:44px;height:44px;background:var(--B);color:#fff;border:none;border-radius:50%;font-size:20px;cursor:pointer;box-shadow:0 4px 16px rgba(41,171,226,.45);display:none;align-items:center;justify-content:center;z-index:400;transition:all .2s;font-weight:800}
-.btt:hover{background:var(--Bd);transform:translateY(-3px)}
-.btt.show{display:flex}
-
-/* MISC */
-.loading{text-align:center;padding:80px;color:#4a5568;font-size:15px;font-weight:700}
-.err{background:#fff5f5;color:#7a1a1a;padding:18px;border-radius:10px;font-size:14px;line-height:1.8;border:2px solid #fecaca;margin:20px 0;font-weight:600}
+.info-val{font-size:14px;font-weight:800;color:var(--T)}.info-val.ac{color:var(--Bd)}
+.btt{position:fixed;bottom:28px;right:28px;width:44px;height:44px;background:var(--B);color:#fff;border:none;border-radius:50%;font-size:20px;cursor:pointer;box-shadow:0 4px 16px rgba(41,171,226,.45);display:none;align-items:center;justify-content:center;z-index:400;font-weight:800}
+.btt:hover{background:var(--Bd)}.btt.show{display:flex}
+.loading-box{text-align:center;padding:80px;color:#4a5568;font-size:15px;font-weight:700}
+.err-box{background:#fff5f5;color:#7a1a1a;padding:18px;border-radius:10px;font-size:14px;line-height:1.8;border:2px solid #fecaca;margin:20px 0;font-weight:600}
 .empty{text-align:center;padding:40px;color:#4a5568;font-size:14px;font-weight:700}
-
-@media(max-width:768px){
-  .wrap{padding:12px}.header{padding:0 14px}
-  .cgrid{grid-template-columns:1fr}.mgrid{grid-template-columns:repeat(4,1fr)}
-  .cards-grid{grid-template-columns:1fr 1fr}.hmeta{display:none}.info-grid{grid-template-columns:1fr}
-  .tw{max-height:70vh}
-}
+@media(max-width:768px){.wrap{padding:12px}.header{padding:0 14px}.cgrid{grid-template-columns:1fr}.mgrid{grid-template-columns:repeat(4,1fr)}.cards-grid{grid-template-columns:1fr 1fr}.hmeta{display:none}.info-grid{grid-template-columns:1fr}.tw{max-height:70vh}}
 @media(max-width:480px){.cards-grid{grid-template-columns:1fr}.mgrid{grid-template-columns:repeat(3,1fr)}}
 </style>
 </head>
@@ -186,7 +130,7 @@ tr:hover td{background:var(--Bl);cursor:pointer}
   </div>
 </div>
 <div class="wrap">
-  <div id="loading" class="loading">⏳ กำลังโหลดข้อมูลพนักงาน...</div>
+  <div id="loading" class="loading-box">⏳ กำลังโหลดข้อมูลพนักงาน...</div>
   <div id="main" style="display:none">
     <div class="nav-wrap">
       <button class="nb active" onclick="show('dash',this)">📊 Dashboard</button>
@@ -201,9 +145,9 @@ tr:hover td{background:var(--Bl);cursor:pointer}
         <select id="fb"><option value="">ทุกสาขา</option></select>
         <select id="ff"><option value="">ทุกฝ่าย</option></select>
         <select id="fg"><option value="">ทุกเพศ</option><option value="ชาย">ชาย</option><option value="หญิง">หญิง</option></select>
-        <button class="vb active" onclick="setView('table',this)">☰</button>
-        <button class="vb" onclick="setView('card',this)">⊞</button>
-        <button class="export-btn" onclick="exportExcel()">⬇ Export Excel</button>
+        <button class="vbtn active" onclick="setView('table',this)">☰</button>
+        <button class="vbtn" onclick="setView('card',this)">⊞</button>
+        <button class="exp-btn" onclick="exportData(filtered,'Ecoseal_Staff')">⬇ Export Excel</button>
         <span id="rc"></span>
       </div>
       <div id="dc"></div>
@@ -216,519 +160,379 @@ tr:hover td{background:var(--Bl);cursor:pointer}
 </div>
 <button class="btt" id="bttBtn" onclick="backToTop()" title="Back to top">↑</button>
 <script>
-const C={
-  no:'ที่\nNo.',code:'รหัสพนักงาน\nEmp.Code',prefix:'คำนำหน้า\n(ไทย)',
-  name:'ชื่อ-สกุล\n(ไทย)',nick:'ชื่อเล่น\n(ไทย)',pos:'ตำแหน่ง\n(ไทย)',
-  dept:'แผนก\n(ไทย)',div:'ฝ่าย\n(ไทย)',branch:'สาขา\n(ไทย)',
-  tel:'เบอร์โทร',ext:'Ext.',mobile:'Mobile No.',email:'E-mail',
-  start:'วันเริ่มงาน\nStart Date',dob:'วันเกิด\nDOB',dobiso:'DOB (ISO)',
+// ── COLUMN MAP ───────────────────────────────────────────────
+const C = {
+  no:'ที่\nNo.', code:'รหัสพนักงาน\nEmp.Code', prefix:'คำนำหน้า\n(ไทย)',
+  name:'ชื่อ-สกุล\n(ไทย)', nick:'ชื่อเล่น\n(ไทย)', pos:'ตำแหน่ง\n(ไทย)',
+  dept:'แผนก\n(ไทย)', div:'ฝ่าย\n(ไทย)', branch:'สาขา\n(ไทย)',
+  tel:'เบอร์โทร', ext:'Ext.', mobile:'Mobile No.', email:'E-mail',
+  start:'วันเริ่มงาน\nStart Date', dob:'วันเกิด\nDOB', dobiso:'DOB (ISO)',
 };
-const SHEET_ID='1uAecDWgBjV3fbUiTocuPjW4lCX8N5w82SsuAbHWhV_U';
-// Google Visualization API - no CORS issues, works everywhere
-// ใช้ gid=0 (sheet แรก) — ไม่ต้องระบุชื่อ sheet เลยไม่มีปัญหา encoding
-const GVZ_URL=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=0`;
-const GVZ_URL2=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=0`;
-// Fallback CSV proxies
-const CSV_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vT8quBD-tiz47Dyqq9qZLwpwRh2Db0B9n0XJbJQ4sWXvMALL_G3FP78dntvyX7eGI5p3z-dpRoBdQPW/pub?output=csv';
-const PROXIES=[
-  u=>`https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
-  u=>`https://corsproxy.io/?${encodeURIComponent(u)}`,
+
+// ── DATA SOURCE ──────────────────────────────────────────────
+const SHEET_ID = '1uAecDWgBjV3fbUiTocuPjW4lCX8N5w82SsuAbHWhV_U';
+const URLS = [
+  `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=0`,
+  `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=0`,
+  `https://api.allorigins.win/raw?url=${encodeURIComponent('https://docs.google.com/spreadsheets/d/e/2PACX-1vT8quBD-tiz47Dyqq9qZLwpwRh2Db0B9n0XJbJQ4sWXvMALL_G3FP78dntvyX7eGI5p3z-dpRoBdQPW/pub?output=csv')}`,
+  `https://corsproxy.io/?${encodeURIComponent('https://docs.google.com/spreadsheets/d/e/2PACX-1vT8quBD-tiz47Dyqq9qZLwpwRh2Db0B9n0XJbJQ4sWXvMALL_G3FP78dntvyX7eGI5p3z-dpRoBdQPW/pub?output=csv')}`,
 ];
 
-const PAL=['#29ABE2','#1a8abf','#10b981','#7c3aed','#e11d48','#FFC107','#db2777','#0891b2','#65a30d','#9333ea','#0f766e','#dc2626'];
-const PALE=['#e3f4fc','#b3dff5','#d1fae5','#ede9fe','#fee2e2','#fff8e1','#fce7f3','#cffafe','#ecfccb','#f3e8ff','#ccfbf1','#fecaca'];
-const MO=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+const PAL  = ['#29ABE2','#1a8abf','#10b981','#7c3aed','#e11d48','#FFC107','#db2777','#0891b2','#65a30d','#9333ea','#0f766e','#dc2626'];
+const PALE = ['#e3f4fc','#b3dff5','#d1fae5','#ede9fe','#fee2e2','#fff8e1','#fce7f3','#cffafe','#ecfccb','#f3e8ff','#ccfbf1','#fecaca'];
+const MO   = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
 
-let rows=[],filtered=[],view='table',_sk=null,_sd=1,_dsk=null,_dsd=1,_drillData=[];
+let rows = [], filtered = [], currentView = 'table';
+let dirSK = null, dirSD = 1;
+let drillSK = null, drillSD = 1, drillRows = [];
 
-const g=(r,k)=>(r[C[k]]||'').trim();
-const isMale=r=>/^นาย$/.test(g(r,'prefix'));
-const isFem=r=>/^(นางสาว|นาง)$/.test(g(r,'prefix'));
-const genderOf=r=>isMale(r)?'ชาย':isFem(r)?'หญิง':'';
-const ini=n=>(n||'?').trim().split(/\s+/).map(w=>w[0]||'').join('').toUpperCase().slice(0,2);
-const avs=i=>`background:${PALE[i%PALE.length]};color:${PAL[i%PAL.length]}`;
-const freq=col=>{const c={};rows.forEach(r=>{const v=(r[col]||'').trim();if(v)c[v]=(c[v]||0)+1;});return Object.entries(c).sort((a,b)=>b[1]-a[1]);};
+// ── HELPERS ──────────────────────────────────────────────────
+const g    = (r,k) => (r[C[k]]||'').trim();
+const isMale = r => /^นาย$/.test(g(r,'prefix'));
+const isFem  = r => /^(นางสาว|นาง)$/.test(g(r,'prefix'));
+const gOf    = r => isMale(r)?'ชาย':isFem(r)?'หญิง':'';
+const ini    = n => (n||'?').trim().split(/\s+/).map(w=>w[0]||'').join('').toUpperCase().slice(0,2);
+const avCol  = i => `background:${PALE[i%PALE.length]};color:${PAL[i%PAL.length]}`;
+const freq   = col => { const c={}; rows.forEach(r=>{ const v=(r[col]||'').trim(); if(v) c[v]=(c[v]||0)+1; }); return Object.entries(c).sort((a,b)=>b[1]-a[1]); };
+const deptList = () => [...new Set(rows.map(r=>g(r,'dept')).filter(Boolean))];
 
 function pd(v){
-  if(!v)return null;v=String(v).trim();
-  let m=v.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
-  if(m){let y=+m[3];if(y>=2500)y-=543;return new Date(y,+m[2]-1,+m[1]);}
-  m=v.match(/^(\d{4})-(\d{2})-(\d{2})$/);
-  if(m){let y=+m[1];if(y>=2500)y-=543;return new Date(y,+m[2]-1,+m[3]);}
+  if(!v) return null; v = String(v).trim();
+  let m = v.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if(m){ let y=+m[3]; if(y>=2500)y-=543; return new Date(y,+m[2]-1,+m[1]); }
+  m = v.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if(m){ let y=+m[1]; if(y>=2500)y-=543; return new Date(y,+m[2]-1,+m[3]); }
   return null;
 }
-const yAgo=d=>d&&!isNaN(d)?(new Date()-d)/(365.25*864e5):null;
-const dobOf=r=>pd(g(r,'dobiso'))||pd(g(r,'dob'));
-const stOf=r=>pd(g(r,'start'));
-function tenureStr(r){const t=yAgo(stOf(r));if(t===null||t<0)return'';const y=Math.floor(t),mo=Math.floor((t-y)*12);if(y>0)return mo>0?`${y} ปี ${mo} เดือน`:`${y} ปี`;return mo>0?`${mo} เดือน`:'<1 เดือน';}
-function ageStr(r){const a=yAgo(dobOf(r));if(!a||a<0)return'';return `${Math.floor(a)} ปี`;}
-function fmtDate(d){if(!d||isNaN(d))return'-';return `${d.getDate()} ${MO[d.getMonth()]} ${d.getFullYear()+543}`;}
+const yAgo  = d => d&&!isNaN(d) ? (new Date()-d)/(365.25*864e5) : null;
+const dobOf = r => pd(g(r,'dobiso')) || pd(g(r,'dob'));
+const stOf  = r => pd(g(r,'start'));
+function tenureStr(r){ const t=yAgo(stOf(r)); if(t===null||t<0) return ''; const y=Math.floor(t),mo=Math.floor((t-y)*12); if(y>0) return mo>0?`${y} ปี ${mo} เดือน`:`${y} ปี`; return mo>0?`${mo} เดือน`:'<1 เดือน'; }
+function ageStr(r){ const a=yAgo(dobOf(r)); if(!a||a<0) return ''; return `${Math.floor(a)} ปี`; }
+function fmtDate(d){ if(!d||isNaN(d)) return '-'; return `${d.getDate()} ${MO[d.getMonth()]} ${d.getFullYear()+543}`; }
+function genBadge(gen){ const c=gen==='ชาย'?'#1a8abf':gen==='หญิง'?'#db2777':'#4a5568'; const bg=gen==='ชาย'?'#e3f4fc':gen==='หญิง'?'#fce7f3':'#f0f2f5'; return gen?`<span style="background:${bg};color:${c};padding:2px 8px;border-radius:99px;font-size:11px;font-weight:800">${gen}</span>`:''; }
+function deptBadge(dept){ const dl=deptList(); const ii=Math.max(0,dl.indexOf(dept))%PAL.length; return dept?`<span class="badge" style="background:${PALE[ii]};color:${PAL[ii]}">${dept}</span>`:''; }
 
-// ── BACK TO TOP ──────────────────────────────────────────────
-window.addEventListener('scroll',()=>{
-  const btn=document.getElementById('bttBtn');
-  if(btn)btn.classList.toggle('show',window.scrollY>300);
-});
-function backToTop(){window.scrollTo({top:0,behavior:'smooth'});}
+// Back to top
+window.addEventListener('scroll',()=>{ const b=document.getElementById('bttBtn'); if(b) b.classList.toggle('show',window.scrollY>300); });
+function backToTop(){ window.scrollTo({top:0,behavior:'smooth'}); }
 
 // ── PROFILE MODAL ────────────────────────────────────────────
-function openProfile(r){
-  if(!r)return;
-  const nm=g(r,'name'),nick=g(r,'nick'),dept=g(r,'dept'),br=g(r,'branch');
-  const dlist=[...new Set(rows.map(x=>g(x,'dept')).filter(Boolean))];
-  const ci=Math.max(0,dlist.indexOf(dept))%PAL.length;
-  const bd=dobOf(r),sd=stOf(r),gen=genderOf(r);
-  const genC=gen==='ชาย'?'#1a8abf':gen==='หญิง'?'#db2777':'#4a5568';
-  const genBg=gen==='ชาย'?'#e3f4fc':gen==='หญิง'?'#fce7f3':'#f0f2f5';
+function openProfile(code){
+  const r = rows.find(x=>(x[C.code]||'').trim()===code);
+  if(!r) return;
+  const nm=g(r,'name'), nick=g(r,'nick'), dept=g(r,'dept'), br=g(r,'branch');
+  const dl=deptList(); const ci=Math.max(0,dl.indexOf(dept))%PAL.length;
+  const gen=gOf(r); const genC=gen==='ชาย'?'#1a8abf':gen==='หญิง'?'#db2777':'#4a5568'; const genBg=gen==='ชาย'?'#e3f4fc':gen==='หญิง'?'#fce7f3':'#f0f2f5';
   document.getElementById('modal').innerHTML=`
-    <div class="modal-hdr">
-      <button class="modal-close" onclick="closeModal()">✕</button>
-      <div class="modal-av" style="${avs(ci)}">${ini(nm)}</div>
+    <div class="modal-head">
+      <button class="modal-x" onclick="closeModal()">✕</button>
+      <div class="modal-av" style="${avCol(ci)}">${ini(nm)}</div>
       <div class="modal-name">${nm||'-'}</div>
       ${nick?`<div class="modal-nick">"${nick}"</div>`:''}
       <div class="modal-pos">${g(r,'pos')||''}</div>
     </div>
     <div class="modal-body">
-      <div class="sec-title">ข้อมูลองค์กร</div>
+      <div class="sec-h">ข้อมูลองค์กร</div>
       <div class="info-grid">
-        <div class="info-item"><div class="info-lbl">รหัสพนักงาน</div><div class="info-val accent">${g(r,'code')||''}</div></div>
+        <div class="info-item"><div class="info-lbl">รหัสพนักงาน</div><div class="info-val ac">${g(r,'code')||''}</div></div>
         <div class="info-item"><div class="info-lbl">เพศ</div><div class="info-val"><span style="background:${genBg};color:${genC};padding:2px 10px;border-radius:99px;font-size:12px;font-weight:800">${gen||'-'}</span></div></div>
-        <div class="info-item wide"><div class="info-lbl">แผนก</div><div class="info-val"><span class="badge" style="background:${PALE[ci]};color:${PAL[ci]}">${dept||'-'}</span></div></div>
+        <div class="info-item wide"><div class="info-lbl">แผนก</div><div class="info-val">${deptBadge(dept)}</div></div>
         <div class="info-item"><div class="info-lbl">ฝ่าย</div><div class="info-val">${g(r,'div')||''}</div></div>
-        <div class="info-item"><div class="info-lbl">สาขา</div><div class="info-val accent">${br||''}</div></div>
+        <div class="info-item"><div class="info-lbl">สาขา</div><div class="info-val ac">${br||''}</div></div>
       </div>
-      <div class="sec-title">ข้อมูลส่วนตัว</div>
+      <div class="sec-h">ข้อมูลส่วนตัว</div>
       <div class="info-grid">
-        <div class="info-item"><div class="info-lbl">วันเกิด</div><div class="info-val">${fmtDate(bd)}</div></div>
+        <div class="info-item"><div class="info-lbl">วันเกิด</div><div class="info-val">${fmtDate(dobOf(r))}</div></div>
         <div class="info-item"><div class="info-lbl">อายุ</div><div class="info-val">${ageStr(r)||''}</div></div>
-        <div class="info-item"><div class="info-lbl">วันเริ่มงาน</div><div class="info-val">${fmtDate(sd)}</div></div>
-        <div class="info-item"><div class="info-lbl">อายุงาน</div><div class="info-val accent">${tenureStr(r)||''}</div></div>
+        <div class="info-item"><div class="info-lbl">วันเริ่มงาน</div><div class="info-val">${fmtDate(stOf(r))}</div></div>
+        <div class="info-item"><div class="info-lbl">อายุงาน</div><div class="info-val ac">${tenureStr(r)||''}</div></div>
       </div>
-      <div class="sec-title">ช่องทางติดต่อ</div>
+      <div class="sec-h">ช่องทางติดต่อ</div>
       <div class="info-grid">
         ${g(r,'mobile')?`<div class="info-item"><div class="info-lbl">มือถือ</div><div class="info-val">${g(r,'mobile')}</div></div>`:''}
         ${g(r,'tel')?`<div class="info-item"><div class="info-lbl">โทรศัพท์</div><div class="info-val">${g(r,'tel')}${g(r,'ext')?' ต่อ '+g(r,'ext'):''}</div></div>`:''}
-        ${g(r,'email')?`<div class="info-item wide"><div class="info-lbl">อีเมล</div><div class="info-val accent" style="font-size:13px">${g(r,'email')}</div></div>`:''}
+        ${g(r,'email')?`<div class="info-item wide"><div class="info-lbl">อีเมล</div><div class="info-val ac" style="font-size:13px">${g(r,'email')}</div></div>`:''}
       </div>
     </div>`;
   document.getElementById('overlay').style.display='flex';
 }
-function closeModal(e){if(!e||e.target===document.getElementById('overlay'))document.getElementById('overlay').style.display='none';}
-document.addEventListener('keydown',e=>e.key==='Escape'&&closeModal());
+function closeModal(e){ if(!e||e.target===document.getElementById('overlay')) document.getElementById('overlay').style.display='none'; }
+document.addEventListener('keydown', e => e.key==='Escape' && closeModal());
 
-// ── EXPORT EXCEL ─────────────────────────────────────────────
-let _dsk=null,_dsd=1,_drillDataCur=[];
-function drillSort(k){
-  if(_dsk===k)_dsd*=-1;else{_dsk=k;_dsd=1;}
-  _drillDataCur.sort((a,b)=>{
-    if(k==='t_')return((yAgo(stOf(a))||0)-(yAgo(stOf(b))||0))*_dsd;
-    if(k==='a_')return((yAgo(dobOf(a))||0)-(yAgo(dobOf(b))||0))*_dsd;
-    if(k==='s_'){const da=stOf(a)||new Date(0),db=stOf(b)||new Date(0);return(da-db)*_dsd;}
-    if(k==='d_'){const da=dobOf(a)||new Date(0),db=dobOf(b)||new Date(0);return(da-db)*_dsd;}
-    if(k==='g_')return genderOf(a).localeCompare(genderOf(b),'th')*_dsd;
-    const av=g(a,k)||'',bv=g(b,k)||'';
-    const n=Number(av)-Number(bv);return(isNaN(n)?av.localeCompare(bv,'th'):n)*_dsd;
-  });
-  const panel=document.querySelector('.drill-tb');
-  if(panel)panel.innerHTML=makeDrillTable(_drillDataCur);
-}
-function exportData(data,filename){
+// ── EXPORT ───────────────────────────────────────────────────
+function exportData(data, filename){
   const hdr=['No.','รหัส','คำนำหน้า','ชื่อ-สกุล','ชื่อเล่น','ตำแหน่ง','แผนก','ฝ่าย','สาขา','เพศ','อายุ','อายุงาน','วันเกิด','วันเริ่มงาน','มือถือ','Ext.','อีเมล'];
-  const d=(data||filtered).map(r=>[g(r,'no'),g(r,'code'),g(r,'prefix'),g(r,'name'),g(r,'nick'),g(r,'pos'),g(r,'dept'),g(r,'div'),g(r,'branch'),genderOf(r),ageStr(r),tenureStr(r),fmtDate(dobOf(r)),fmtDate(stOf(r)),g(r,'mobile'),g(r,'ext'),g(r,'email')]);
-  const csv='\uFEFF'+[hdr,...d].map(row=>row.map(c=>`"${String(c||'').replace(/"/g,'""')}"`).join(',')).join('\r\n');
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));
-  a.download=(filename||'Ecoseal_Staff')+`_${new Date().toLocaleDateString('th-TH').replace(/\//g,'-')}.csv`;
+  const body = (data||filtered).map(r=>[g(r,'no'),g(r,'code'),g(r,'prefix'),g(r,'name'),g(r,'nick'),g(r,'pos'),g(r,'dept'),g(r,'div'),g(r,'branch'),gOf(r),ageStr(r),tenureStr(r),fmtDate(dobOf(r)),fmtDate(stOf(r)),g(r,'mobile'),g(r,'ext'),g(r,'email')]);
+  const csv = '\uFEFF' + [hdr,...body].map(row=>row.map(c=>`"${String(c||'').replace(/"/g,'""')}"`).join(',')).join('\r\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));
+  a.download = (filename||'Ecoseal_Staff') + `_${new Date().toLocaleDateString('th-TH').replace(/\//g,'-')}.csv`;
   a.click();
 }
-function exportExcel(){exportData(filtered,'Ecoseal_Staff');}
 
 // ── DASHBOARD ────────────────────────────────────────────────
-function renderDrillRows(data,dlist){
-  let h='';
-  data.forEach((r,ri)=>{
-    const nm=g(r,'name'),dept=g(r,'dept');
-    const di=dlist.indexOf(dept),ci=di>=0?di:ri%PAL.length;
-    const gen=genderOf(r),genC=gen==='ชาย'?'#1a8abf':gen==='หญิง'?'#db2777':'#4a5568';
-    const genBg=gen==='ชาย'?'#e3f4fc':gen==='หญิง'?'#fce7f3':'#f0f2f5';
-    const code=g(r,'code').replace(/'/g,"\'");
-    h+=`<tr onclick="openProfile(rows.find(x=>(x[C.code]||'').trim()==='${code}'))">
-      <td><div class="av" style="width:30px;height:30px;font-size:11px;${avs(ci)}">${ini(nm)}</div></td>`;
-    DCOLS.forEach(({k})=>{
-      let v='';
-      if(k==='g_')v=gen?`<span style="background:${genBg};color:${genC};padding:2px 8px;border-radius:99px;font-size:11px;font-weight:800">${gen}</span>`:'';
-      else if(k==='a_')v=ageStr(r)||'';
-      else if(k==='t_')v=`<span style="color:#10b981;font-weight:700">${tenureStr(r)||''}</span>`;
-      else if(k==='d_')v=fmtDate(dobOf(r));
-      else if(k==='s_')v=fmtDate(stOf(r));
-      else{
-        v=g(r,k)||'';
-        if(k==='dept'&&v){const ii=Math.max(0,dlist.indexOf(v))%PAL.length;v=`<span class="badge" style="background:${PALE[ii]};color:${PAL[ii]}">${v}</span>`;}
-        else if(k==='branch'&&v)v=`<span style="color:#1a8abf;font-weight:700">${v}</span>`;
-        else if(k==='code'&&v)v=`<span style="color:#1a8abf;font-weight:800">${v}</span>`;
-        else if(k==='email'&&v)v=`<span style="color:#7c3aed">${v}</span>`;
-      }
-      h+=`<td>${v}</td>`;
-    });
-    h+='</tr>';
-  });
-  return h;
-}
-
-function sortDrillTable(k){
-  const dlist=[...new Set(rows.map(r=>g(r,'dept')).filter(Boolean))];
-  if(window._dsk===k)window._dsd*=-1;else{window._dsk=k;window._dsd=1;}
-  window._drillRaw.sort((a,b)=>{
-    if(k==='t_')return((yAgo(stOf(a))||0)-(yAgo(stOf(b))||0))*window._dsd;
-    if(k==='a_')return((yAgo(dobOf(a))||0)-(yAgo(dobOf(b))||0))*window._dsd;
-    if(k==='s_'){return((stOf(a)||new Date(0))-(stOf(b)||new Date(0)))*window._dsd;}
-    if(k==='d_'){return((dobOf(a)||new Date(0))-(dobOf(b)||new Date(0)))*window._dsd;}
-    if(k==='g_')return genderOf(a).localeCompare(genderOf(b),'th')*window._dsd;
-    const getv=(r)=>{
-      const map={code:'code',name:'name',nick:'nick',pos:'pos',dept:'dept',div:'div',branch:'branch',mobile:'mobile',email:'email'};
-      return map[k]?g(r,map[k]):'';
-    };
-    const av=getv(a)||'',bv=getv(b)||'';
-    const n=Number(av)-Number(bv);return(isNaN(n)?av.localeCompare(bv,'th'):n)*window._dsd;
-  });
-  const tbody=document.querySelector('.drill-tb table tbody');
-  if(tbody)tbody.innerHTML=renderDrillRows(window._drillRaw,dlist);
-  document.querySelectorAll('.dth').forEach(th=>{
-    const tk=th.dataset.k;
-    th.style.color=tk===window._dsk?'#1a8abf':'';
-    th.querySelector('.sa').textContent=tk===window._dsk?(window._dsd>0?' ▲':' ▼'):'';
-  });
-}
-
-function buildDash(drillData,drillLabel){
-  const data=drillData||rows,isDrill=!!drillData;
-  const ages=data.map(r=>yAgo(dobOf(r))).filter(a=>a>10&&a<75);
-  const tens=data.map(r=>yAgo(stOf(r))).filter(a=>a>=0&&a<60);
-  const avgAge=ages.length?Math.round(ages.reduce((s,v)=>s+v,0)/ages.length):'-';
-  const avgTen=tens.length?(tens.reduce((s,v)=>s+v,0)/tens.length).toFixed(1)+' ปี':'--';
-  const ndept=new Set(data.map(r=>g(r,'dept')).filter(Boolean)).size;
-  const nbr=new Set(data.map(r=>g(r,'branch')).filter(Boolean)).size;
-  const nM=data.filter(isMale).length,nF=data.filter(isFem).length;
+function buildDash(drillData, drillLabel){
+  const data = drillData || rows;
+  const isDrill = !!drillData;
 
   if(isDrill){
+    drillRows = [...data]; drillSK = null; drillSD = 1;
     document.getElementById('page-dash').innerHTML=`
-      <div class="breadcrumb"><a onclick="buildDash()">Dashboard</a><span class="sep">›</span><span>${drillLabel}</span></div>
+      <div class="breadcrumb"><a onclick="buildDash()">Dashboard</a> › <span>${drillLabel}</span></div>
       <div class="drill-panel">
-        <div class="drill-ph">
-          <div><div class="drill-pt">${drillLabel}</div><span class="drill-pc">${data.length} คน</span></div>
-          <div style="display:flex;gap:8px;align-items:center">
-            <button class="export-btn" style="border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.15);color:#fff" onclick="exportData(window._drillData,'${drillLabel.replace(/'/g,"\\'")}')">⬇ Export</button>
+        <div class="drill-head">
+          <div><div class="drill-title">${drillLabel}</div><span class="drill-cnt">${data.length} คน</span></div>
+          <div style="display:flex;gap:8px">
+            <button class="exp-btn" style="border-color:rgba(255,255,255,.4);background:rgba(255,255,255,.15);color:#fff" onclick="exportData(drillRows,'${drillLabel.replace(/'/g,"\\'")}')">⬇ Export</button>
             <button class="drill-back" onclick="buildDash()">← กลับ Dashboard</button>
           </div>
         </div>
-        <div class="drill-tb">${makeDrillTable(data,window._drillSortKey||'name',window._drillSortDir||1)}</div>
+        <div class="drill-tw">${makeDrillTable(drillRows)}</div>
       </div>`;
-    _drillData=data;_dsk=null;_dsd=1;_drillData=data;_dsk=null;_dsd=1;_drillDataCur=[...data];_dsk=null;_dsd=1;window._drillCurrentData=data;window._drillCurrentLabel=drillLabel;window._drillSortKey='name';window._drillSortDir=1;
     return;
   }
 
-  let h=`<div class="kpi-row">
+  const ages = data.map(r=>yAgo(dobOf(r))).filter(a=>a>10&&a<75);
+  const tens = data.map(r=>yAgo(stOf(r))).filter(a=>a>=0&&a<60);
+  const avgAge = ages.length ? Math.round(ages.reduce((s,v)=>s+v,0)/ages.length) : '-';
+  const avgTen = tens.length ? (tens.reduce((s,v)=>s+v,0)/tens.length).toFixed(1)+' ปี' : '--';
+  const ndept = new Set(data.map(r=>g(r,'dept')).filter(Boolean)).size;
+  const nbr   = new Set(data.map(r=>g(r,'branch')).filter(Boolean)).size;
+  const nM = data.filter(isMale).length, nF = data.filter(isFem).length;
+
+  let h = `<div class="kpi-row">
     <div class="kpi bkpi"><div class="kpi-lbl">พนักงานทั้งหมด</div><div class="kpi-val">${data.length}</div><div class="kpi-sub">คน</div></div>
-    <div class="kpi ykpi" onclick="drillCol('dept','')"><div class="kpi-lbl">แผนก</div><div class="kpi-val">${ndept}</div><div class="kpi-sub">แผนก</div><div class="kpi-hint">▼ ดูรายละเอียด</div></div>
-    <div class="kpi bkpi" onclick="drillCol('branch','')"><div class="kpi-lbl">สาขา</div><div class="kpi-val">${nbr}</div><div class="kpi-sub">สาขา</div><div class="kpi-hint">▼ ดูรายละเอียด</div></div>
+    <div class="kpi ykpi" onclick="drillByCol('dept','')"><div class="kpi-lbl">แผนก</div><div class="kpi-val">${ndept}</div><div class="kpi-sub">แผนก</div><div class="kpi-hint">▼ ดูรายละเอียด</div></div>
+    <div class="kpi bkpi" onclick="drillByCol('branch','')"><div class="kpi-lbl">สาขา</div><div class="kpi-val">${nbr}</div><div class="kpi-sub">สาขา</div><div class="kpi-hint">▼ ดูรายละเอียด</div></div>
     <div class="kpi gkpi"><div class="kpi-lbl">อายุเฉลี่ย</div><div class="kpi-val">${avgAge}</div><div class="kpi-sub">ปี</div></div>
     <div class="kpi gkpi"><div class="kpi-lbl">อายุงานเฉลี่ย</div><div class="kpi-val">${avgTen}</div><div class="kpi-sub"></div></div>
-    <div class="kpi bkpi" onclick="drillGender('ชาย')"><div class="kpi-lbl">เพศชาย</div><div class="kpi-val">${nM}</div><div class="kpi-sub">คน</div><div class="kpi-hint">▼ ดูรายละเอียด</div></div>
-    <div class="kpi pkpi" onclick="drillGender('หญิง')"><div class="kpi-lbl">เพศหญิง</div><div class="kpi-val">${nF}</div><div class="kpi-sub">คน</div><div class="kpi-hint">▼ ดูรายละเอียด</div></div>
+    <div class="kpi bkpi" onclick="drillByGender('ชาย')"><div class="kpi-lbl">เพศชาย</div><div class="kpi-val">${nM}</div><div class="kpi-sub">คน</div><div class="kpi-hint">▼ ดูรายละเอียด</div></div>
+    <div class="kpi pkpi" onclick="drillByGender('หญิง')"><div class="kpi-lbl">เพศหญิง</div><div class="kpi-val">${nF}</div><div class="kpi-sub">คน</div><div class="kpi-hint">▼ ดูรายละเอียด</div></div>
   </div>`;
 
-  h+='<div class="cgrid">';
-  h+=barChart('พนักงานตามแผนก',C.dept,data,999,0,true,'dept');
-  h+=barChart('พนักงานตามสาขา',C.branch,data,999,2,true,'branch');
-  h+=barChart('ตำแหน่งงาน',C.pos,data,999,4,true,'pos');
-  h+=barChart('ฝ่าย',C.div,data,999,6,true,'div');
-  h+=donutChart([['ชาย',nM,'#29ABE2','#e3f4fc'],['หญิง',nF,'#db2777','#fce7f3']].filter(([,n])=>n>0));
-  h+='</div><div class="cgrid">';
-
+  h += '<div class="cgrid">';
+  h += makeBarChart('พนักงานตามแผนก', C.dept, data, 'dept');
+  h += makeBarChart('พนักงานตามสาขา', C.branch, data, 'branch');
+  h += makeBarChart('ตำแหน่งงาน', C.pos, data, 'pos');
+  h += makeBarChart('ฝ่าย', C.div, data, 'div');
+  h += makeDonut([['ชาย',nM,'#29ABE2','#e3f4fc'],['หญิง',nF,'#db2777','#fce7f3']].filter(([,n])=>n>0));
+  h += '</div><div class="cgrid">';
   if(ages.length){
     const b=['<25','25-30','31-35','36-40','41-45','46-50','51+'],v=Array(7).fill(0);
     ages.forEach(a=>{if(a<25)v[0]++;else if(a<=30)v[1]++;else if(a<=35)v[2]++;else if(a<=40)v[3]++;else if(a<=45)v[4]++;else if(a<=50)v[5]++;else v[6]++;});
-    h+=histChart('การกระจายอายุ',b,v,[{a:0,b:25},{a:25,b:30},{a:30,b:35},{a:35,b:40},{a:40,b:45},{a:45,b:50},{a:50,b:200}],'age');
+    h += makeHist('การกระจายอายุ', b, v, [{a:0,b:25},{a:25,b:30},{a:30,b:35},{a:35,b:40},{a:40,b:45},{a:45,b:50},{a:50,b:200}], 'age');
   }
   if(tens.length){
     const b=['<1 ปี','1-3 ปี','3-5 ปี','5-10 ปี','10-15 ปี','15+ ปี'],v=Array(6).fill(0);
     tens.forEach(a=>{if(a<1)v[0]++;else if(a<=3)v[1]++;else if(a<=5)v[2]++;else if(a<=10)v[3]++;else if(a<=15)v[4]++;else v[5]++;});
-    h+=histChart('อายุงาน',b,v,[{a:0,b:1},{a:1,b:3},{a:3,b:5},{a:5,b:10},{a:10,b:15},{a:15,b:200}],'tenure');
+    h += makeHist('อายุงาน', b, v, [{a:0,b:1},{a:1,b:3},{a:3,b:5},{a:5,b:10},{a:10,b:15},{a:15,b:200}], 'tenure');
   }
-  h+='</div>';
-  document.getElementById('page-dash').innerHTML=h;
+  h += '</div>';
+  document.getElementById('page-dash').innerHTML = h;
 }
 
-function barChart(title,col,data,limit,off,clickable,key){
-  const cnt={};data.forEach(r=>{const v=(r[col]||'').trim();if(v)cnt[v]=(cnt[v]||0)+1;});
-  const entries=Object.entries(cnt).sort((a,b)=>b[1]-a[1]).slice(0,limit);
-  if(!entries.length)return'';
-  const max=entries[0][1]||1,total=data.length;
-  const hint=clickable?'<span class="drill-hint">คลิกเพื่อดูรายละเอียด</span>':'';
-  const bars=entries.map(([l,n],i)=>{
-    const safe=l.replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\n/g,' ');
-    const oc=clickable?`onclick="drillCol('${key}','${safe}')"`:''
-    return`<div class="br" ${oc}>
-      <div class="bl" title="${l}">${l}</div>
+function makeBarChart(title, col, data, key){
+  const cnt = {}; data.forEach(r=>{ const v=(r[col]||'').trim(); if(v) cnt[v]=(cnt[v]||0)+1; });
+  const entries = Object.entries(cnt).sort((a,b)=>b[1]-a[1]);
+  if(!entries.length) return '';
+  const max = entries[0][1]||1, total = data.length;
+  const bars = entries.map(([l,n],i)=>{
+    const safe = l.replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\n/g,' ');
+    return `<div class="bar-row" onclick="drillByCol('${key}','${safe}')">
+      <div class="bar-lbl" title="${l}">${l}</div>
       <div style="display:flex;align-items:center;gap:6px;flex:2;margin-top:3px">
-        <div class="bt"><div class="bf" style="width:${Math.round(n/max*100)}%;background:${PAL[(i+off)%PAL.length]}"></div></div>
-        <div class="bn">${n}</div><div class="bp">${Math.round(n/total*100)}%</div>
+        <div class="bar-track"><div class="bar-fill" style="width:${Math.round(n/max*100)}%;background:${PAL[i%PAL.length]}"></div></div>
+        <div class="bar-num">${n}</div><div class="bar-pct">${Math.round(n/total*100)}%</div>
       </div></div>`;
   }).join('');
-  return`<div class="cc"><div class="ctitle">${title}${hint}</div><div class="bar-list">${bars}</div></div>`;
+  return `<div class="cc"><div class="ctitle">${title}<span class="drill-hint">คลิกเพื่อดูรายละเอียด</span></div><div class="bar-list">${bars}</div></div>`;
 }
 
-function donutChart(data){
-  if(!data.length)return'';
-  const total=data.reduce((s,[,n])=>s+n,0)||1;
-  const r=42,cx=55,cy=55,ci=2*Math.PI*r;let off=0,ps='';
-  data.forEach(([,c,stroke])=>{const d=c/total*ci;ps+=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${stroke}" stroke-width="18" stroke-dasharray="${d} ${ci-d}" stroke-dashoffset="${-off*ci}" transform="rotate(-90 ${cx} ${cy})"/>`;off+=c/total;});
-  const leg=data.map(([l,c,stroke])=>`
-    <div class="lr" onclick="drillGender('${l}')">
-      <div class="ld" style="background:${stroke}"></div>${l}
-      <span style="color:#4a5568;font-size:12px;margin-left:4px;font-weight:700">${Math.round(c/total*100)}% (${c})</span>
-    </div>`).join('');
-  return`<div class="cc"><div class="ctitle">สัดส่วนเพศ <span class="drill-hint">คลิกเพื่อดูรายละเอียด</span></div>
-    <div class="donut-wrap">
-      <svg width="110" height="110"><circle cx="55" cy="55" r="42" fill="none" stroke="#e8edf2" stroke-width="18"/>${ps}
-        <text x="55" y="59" text-anchor="middle" font-size="15" font-weight="800" fill="#0a0a0a">${total}</text>
-      </svg><div class="leg">${leg}</div>
-    </div></div>`;
+function makeDonut(data){
+  if(!data.length) return '';
+  const total = data.reduce((s,[,n])=>s+n,0)||1;
+  const r=42,cx=55,cy=55,ci=2*Math.PI*r; let off=0,ps='';
+  data.forEach(([,c,stroke])=>{ const d=c/total*ci; ps+=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${stroke}" stroke-width="18" stroke-dasharray="${d} ${ci-d}" stroke-dashoffset="${-off*ci}" transform="rotate(-90 ${cx} ${cy})"/>`; off+=c/total; });
+  const leg = data.map(([l,c,stroke])=>`<div class="leg-row" onclick="drillByGender('${l}')"><div class="leg-dot" style="background:${stroke}"></div>${l}<span style="color:#4a5568;font-size:12px;margin-left:4px;font-weight:700">${Math.round(c/total*100)}% (${c})</span></div>`).join('');
+  return `<div class="cc"><div class="ctitle">สัดส่วนเพศ<span class="drill-hint">คลิกเพื่อดูรายละเอียด</span></div>
+    <div class="donut-wrap"><svg width="110" height="110"><circle cx="55" cy="55" r="42" fill="none" stroke="#e8edf2" stroke-width="18"/>${ps}
+      <text x="55" y="59" text-anchor="middle" font-size="15" font-weight="800" fill="#0a0a0a">${total}</text></svg>
+    <div class="leg">${leg}</div></div></div>`;
 }
 
-function histChart(title,bkts,vals,ranges,type){
-  const mx=Math.max(...vals)||1;
-  const bars=bkts.map((l,i)=>{
-    const fn=type==='age'?`drillAgeRange(${ranges[i].a},${ranges[i].b},'${l}')`:`drillTenureRange(${ranges[i].a},${ranges[i].b},'${l}')`;
-    return`<div class="hc" onclick="${fn}">
-      <div class="hn">${vals[i]||''}</div>
-      <div class="hb" style="height:${Math.round(vals[i]/mx*95)+5}px;background:${PAL[i%PAL.length]}"></div>
-      <div class="hl">${l}</div></div>`;
+function makeHist(title, bkts, vals, ranges, type){
+  const mx = Math.max(...vals)||1;
+  const cols = bkts.map((l,i)=>{
+    const fn = type==='age' ? `drillAge(${ranges[i].a},${ranges[i].b},'${l}')` : `drillTenure(${ranges[i].a},${ranges[i].b},'${l}')`;
+    return `<div class="hist-col" onclick="${fn}"><div class="hist-num">${vals[i]||''}</div><div class="hist-bar" style="height:${Math.round(vals[i]/mx*95)+5}px;background:${PAL[i%PAL.length]}"></div><div class="hist-lbl">${l}</div></div>`;
   }).join('');
-  return`<div class="cc"><div class="ctitle">${title} <span class="drill-hint">คลิกเพื่อดูรายละเอียด</span></div><div class="hist">${bars}</div></div>`;
+  return `<div class="cc"><div class="ctitle">${title}<span class="drill-hint">คลิกเพื่อดูรายละเอียด</span></div><div class="hist">${cols}</div></div>`;
 }
 
-// ── DRILL ────────────────────────────────────────────────────
-function sortDrill(colIdx){
-  if(_dsk===colIdx)_dsd*=-1;else{_dsk=colIdx;_dsd=1;}
-  const colKeys=['code','name','nick','pos','dept','div','branch','gender','age','tenure','dob','start','mobile','email'];
-  const k=colKeys[colIdx];
-  _drillData.sort((a,b)=>{
-    if(k==='tenure')return((yAgo(stOf(a))||0)-(yAgo(stOf(b))||0))*_dsd;
-    if(k==='age')return((yAgo(dobOf(a))||0)-(yAgo(dobOf(b))||0))*_dsd;
-    if(k==='dob'){const da=dobOf(a)||new Date(0),db=dobOf(b)||new Date(0);return(da-db)*_dsd;}
-    if(k==='start'){const da=stOf(a)||new Date(0),db=stOf(b)||new Date(0);return(da-db)*_dsd;}
-    if(k==='gender')return genderOf(a).localeCompare(genderOf(b),'th')*_dsd;
-    const av=k==='code'?g(a,'code'):k==='name'?g(a,'name'):k==='nick'?g(a,'nick'):k==='pos'?g(a,'pos'):k==='dept'?g(a,'dept'):k==='div'?g(a,'div'):k==='branch'?g(a,'branch'):k==='mobile'?g(a,'mobile'):k==='email'?g(a,'email'):'';
-    const bv=k==='code'?g(b,'code'):k==='name'?g(b,'name'):k==='nick'?g(b,'nick'):k==='pos'?g(b,'pos'):k==='dept'?g(b,'dept'):k==='div'?g(b,'div'):k==='branch'?g(b,'branch'):k==='mobile'?g(b,'mobile'):k==='email'?g(b,'email'):'';
-    const n=Number(av)-Number(bv);return(isNaN(n)?av.localeCompare(bv,'th'):n)*_dsd;
-  });
-  // re-render drill table
-  const panel=document.querySelector('.drill-tb');
-  if(panel)panel.innerHTML=makeDrillTable(_drillData);
+// ── DRILL FUNCTIONS ──────────────────────────────────────────
+function drillByCol(key, val){
+  const col = C[key];
+  const data = val ? rows.filter(r=>(r[col]||'').trim()===val) : rows;
+  const label = val || (key==='dept'?'ทุกแผนก':key==='branch'?'ทุกสาขา':'ทุกฝ่าย');
+  buildDash(data, label);
 }
-function drillCol(key,val){
-  const col=C[key];
-  const data=val?rows.filter(r=>(r[col]||'').trim()===val):rows;
-  buildDash(data,val||(key==='dept'?'ทุกแผนก':key==='branch'?'ทุกสาขา':key==='pos'?'ทุกตำแหน่ง':'ทุกฝ่าย'));
-}
-function drillGender(gen){buildDash(rows.filter(r=>gen==='ชาย'?isMale(r):isFem(r)),'เพศ'+gen);}
-function drillAgeRange(min,max,label){buildDash(rows.filter(r=>{const a=yAgo(dobOf(r));return a!==null&&a>=min&&a<max;}),'อายุ '+label);}
-function drillTenureRange(min,max,label){buildDash(rows.filter(r=>{const t=yAgo(stOf(r));return t!==null&&t>=min&&t<max;}),'อายุงาน '+label);}
-function drillBirthMonth(mi){
-  buildDash(rows.filter(r=>{const bd=dobOf(r);return bd&&!isNaN(bd)&&bd.getMonth()===mi;}),'เดือนเกิด '+MO[mi]);
-  show('dash',document.querySelectorAll('.nb')[0]);
-}
+function drillByGender(gen){ buildDash(rows.filter(r=>gen==='ชาย'?isMale(r):isFem(r)), 'เพศ'+gen); }
+function drillAge(min,max,lbl){ buildDash(rows.filter(r=>{ const a=yAgo(dobOf(r)); return a!==null&&a>=min&&a<max; }), 'อายุ '+lbl); }
+function drillTenure(min,max,lbl){ buildDash(rows.filter(r=>{ const t=yAgo(stOf(r)); return t!==null&&t>=min&&t<max; }), 'อายุงาน '+lbl); }
+function drillBirthMonth(mi){ buildDash(rows.filter(r=>{ const bd=dobOf(r); return bd&&!isNaN(bd)&&bd.getMonth()===mi; }), 'เดือนเกิด '+MO[mi]); show('dash',document.querySelectorAll('.nb')[0]); }
 
-function makeDrillTable(data,sortKey,sortDir){
-  if(!data.length)return'<div class="empty">ไม่พบข้อมูล</div>';
-  if(!sortKey)sortKey='name';if(!sortDir)sortDir=1;
-  const dlist=[...new Set(rows.map(r=>g(r,'dept')).filter(Boolean))];
-  const DCOLS=[
-    {k:'no',l:'No.'},{k:'code',l:'รหัส'},{k:'name',l:'ชื่อ-สกุล'},{k:'nick',l:'ชื่อเล่น'},
-    {k:'pos',l:'ตำแหน่ง'},{k:'dept',l:'แผนก'},{k:'div',l:'ฝ่าย'},{k:'branch',l:'สาขา'},
-    {k:'g_',l:'เพศ'},{k:'a_',l:'อายุ'},{k:'t_',l:'อายุงาน'},
-    {k:'d_',l:'วันเกิด'},{k:'s_',l:'วันเริ่มงาน'},{k:'mobile',l:'มือถือ'},{k:'email',l:'อีเมล'},
-  ];
-  // sort
-  const sorted=[...data].sort((a,b)=>{
-    if(sortKey==='t_')return((yAgo(stOf(a))||0)-(yAgo(stOf(b))||0))*sortDir;
-    if(sortKey==='a_')return((yAgo(dobOf(a))||0)-(yAgo(dobOf(b))||0))*sortDir;
-    if(sortKey==='s_'){const da=stOf(a)||new Date(0),db=stOf(b)||new Date(0);return(da-db)*sortDir;}
-    if(sortKey==='d_'){const da=dobOf(a)||new Date(0),db=dobOf(b)||new Date(0);return(da-db)*sortDir;}
-    if(sortKey==='g_')return genderOf(a).localeCompare(genderOf(b),'th')*sortDir;
-    const av=sortKey==='no'||sortKey==='code'?g(a,sortKey)||'':g(a,sortKey)||'';
-    const bv=sortKey==='no'||sortKey==='code'?g(b,sortKey)||'':g(b,sortKey)||'';
-    const n=Number(av)-Number(bv);return(isNaN(n)?av.localeCompare(bv,'th'):n)*sortDir;
-  });
-  const drillId='dt_'+Date.now();
-  let h=`<div class="tw" id="${drillId}"><table><thead><tr><th></th>`;
+// ── DRILL TABLE ──────────────────────────────────────────────
+const DCOLS = [
+  {k:'no',l:'No.'},{k:'code',l:'รหัส'},{k:'name',l:'ชื่อ-สกุล'},{k:'nick',l:'ชื่อเล่น'},
+  {k:'pos',l:'ตำแหน่ง'},{k:'dept',l:'แผนก'},{k:'div',l:'ฝ่าย'},{k:'branch',l:'สาขา'},
+  {k:'_gen',l:'เพศ'},{k:'_age',l:'อายุ'},{k:'_ten',l:'อายุงาน'},
+  {k:'_dob',l:'วันเกิด'},{k:'_sta',l:'วันเริ่มงาน'},{k:'mobile',l:'มือถือ'},{k:'email',l:'อีเมล'},
+];
+
+function makeDrillTable(data){
+  if(!data.length) return '<div class="empty">ไม่พบข้อมูล</div>';
+  let h = '<div class="tw"><table><thead><tr><th></th>';
   DCOLS.forEach(({k,l})=>{
-    const s=sortKey===k;
-    const nextDir=s?-sortDir:1;
-    h+=`<th onclick="window._drillSort('${k}',${nextDir})" class="${s?'sc':''}" style="cursor:pointer">${l}${s?(sortDir>0?' ▲':' ▼'):''}`;h+='</th>';
+    const s = drillSK===k;
+    h += `<th onclick="sortDrill('${k}')" class="${s?'sc':''}">${l}${s?(drillSD>0?' ▲':' ▼'):''}`;
+    h += '</th>';
   });
-  h+='</tr></thead><tbody>';
-  sorted.forEach((r,ri)=>{
-    const nm=g(r,'name'),dept=g(r,'dept');
-    const di=dlist.indexOf(dept),ci=di>=0?di:ri%PAL.length;
-    const gen=genderOf(r),genC=gen==='ชาย'?'#1a8abf':gen==='หญิง'?'#db2777':'#4a5568';
-    const genBg=gen==='ชาย'?'#e3f4fc':gen==='หญิง'?'#fce7f3':'#f0f2f5';
-    const code=g(r,'code').replace(/'/g,"\\'");
-    h+=`<tr onclick="openProfile(rows.find(x=>(x[C.code]||'').trim()==='${code}'))">
-      <td><div class="av" style="width:30px;height:30px;font-size:11px;${avs(ci)}">${ini(nm)}</div></td>`;
+  h += '</tr></thead><tbody>';
+  data.forEach((r,ri)=>{
+    const code = g(r,'code').replace(/'/g,"\\'");
+    const dept = g(r,'dept');
+    const dl = deptList(); const ci = Math.max(0,dl.indexOf(dept))%PAL.length;
+    h += `<tr class="tr-click" onclick="openProfile('${code}')"><td><div class="av" style="width:30px;height:30px;font-size:11px;${avCol(ci)}">${ini(g(r,'name'))}</div></td>`;
     DCOLS.forEach(({k})=>{
-      let v='';
-      if(k==='g_')v=gen?`<span style="background:${genBg};color:${genC};padding:2px 8px;border-radius:99px;font-size:11px;font-weight:800">${gen}</span>`:'';
-      else if(k==='a_')v=ageStr(r)||'';
-      else if(k==='t_')v=`<span style="color:#10b981;font-weight:700">${tenureStr(r)||''}</span>`;
-      else if(k==='d_')v=fmtDate(dobOf(r));
-      else if(k==='s_')v=fmtDate(stOf(r));
-      else{
-        v=g(r,k)||'';
-        if(k==='dept'&&v){const ii=Math.max(0,dlist.indexOf(v))%PAL.length;v=`<span class="badge" style="background:${PALE[ii]};color:${PAL[ii]}">${v}</span>`;}
-        else if(k==='branch'&&v)v=`<span style="color:#1a8abf;font-weight:700">${v}</span>`;
-        else if(k==='code'&&v)v=`<span style="color:#1a8abf;font-weight:800">${v}</span>`;
-        else if(k==='email'&&v)v=`<span style="color:#7c3aed">${v}</span>`;
+      let v = '';
+      if(k==='_gen') v = genBadge(gOf(r));
+      else if(k==='_age') v = ageStr(r)||'';
+      else if(k==='_ten') v = `<span style="color:#10b981;font-weight:700">${tenureStr(r)||''}</span>`;
+      else if(k==='_dob') v = fmtDate(dobOf(r));
+      else if(k==='_sta') v = fmtDate(stOf(r));
+      else {
+        v = g(r,k)||'';
+        if(k==='dept'&&v) v = deptBadge(v);
+        else if(k==='branch'&&v) v = `<span style="color:#1a8abf;font-weight:700">${v}</span>`;
+        else if(k==='code'&&v) v = `<span style="color:#1a8abf;font-weight:800">${v}</span>`;
+        else if(k==='email'&&v) v = `<span style="color:#7c3aed">${v}</span>`;
       }
-      h+=`<td>${v}</td>`;
+      h += `<td>${v}</td>`;
     });
-    h+='</tr>';
+    h += '</tr>';
   });
-  return h+'</tbody></table></div>';
+  return h + '</tbody></table></div>';
+}
+
+function sortDrill(k){
+  if(drillSK===k) drillSD*=-1; else { drillSK=k; drillSD=1; }
+  drillRows.sort((a,b)=>{
+    if(k==='_ten') return ((yAgo(stOf(a))||0)-(yAgo(stOf(b))||0))*drillSD;
+    if(k==='_age') return ((yAgo(dobOf(a))||0)-(yAgo(dobOf(b))||0))*drillSD;
+    if(k==='_sta'){ const da=stOf(a)||new Date(0),db=stOf(b)||new Date(0); return (da-db)*drillSD; }
+    if(k==='_dob'){ const da=dobOf(a)||new Date(0),db=dobOf(b)||new Date(0); return (da-db)*drillSD; }
+    if(k==='_gen') return gOf(a).localeCompare(gOf(b),'th')*drillSD;
+    const av=g(a,k)||'', bv=g(b,k)||'';
+    const n=Number(av)-Number(bv); return (isNaN(n)?av.localeCompare(bv,'th'):n)*drillSD;
+  });
+  document.querySelector('.drill-tw').innerHTML = makeDrillTable(drillRows);
 }
 
 // ── DIRECTORY ────────────────────────────────────────────────
+const TCOLS = [
+  {k:'no',l:'No.'},{k:'code',l:'รหัส'},{k:'name',l:'ชื่อ-สกุล'},{k:'nick',l:'ชื่อเล่น'},
+  {k:'pos',l:'ตำแหน่ง'},{k:'dept',l:'แผนก'},{k:'div',l:'ฝ่าย'},{k:'branch',l:'สาขา'},
+  {k:'_gen',l:'เพศ'},{k:'_age',l:'อายุ'},{k:'_ten',l:'อายุงาน'},
+  {k:'_dob',l:'วันเกิด'},{k:'_sta',l:'วันเริ่มงาน'},{k:'mobile',l:'มือถือ'},{k:'ext',l:'Ext.'},{k:'email',l:'อีเมล'},
+];
 
-function drillSort(k,data){
-  if(!data)return;
-  if(window._dsk===k)window._dsd*=-1;else{window._dsk=k;window._dsd=1;}
-  data.sort((a,b)=>{
-    if(k==='t_')return((yAgo(stOf(a))||0)-(yAgo(stOf(b))||0))*window._dsd;
-    if(k==='a_')return((yAgo(dobOf(a))||0)-(yAgo(dobOf(b))||0))*window._dsd;
-    if(k==='s_'){const da=stOf(a)||new Date(0),db=stOf(b)||new Date(0);return(da-db)*window._dsd;}
-    if(k==='d_'){const da=dobOf(a)||new Date(0),db=dobOf(b)||new Date(0);return(da-db)*window._dsd;}
-    if(k==='g_')return genderOf(a).localeCompare(genderOf(b),'th')*window._dsd;
-    const av=g(a,k)||'',bv=g(b,k)||'';
-    const n=Number(av)-Number(bv);return(isNaN(n)?av.localeCompare(bv,'th'):n)*window._dsd;
-  });
-  const panel=document.querySelector('.drill-tb');
-  if(panel)panel.innerHTML=makeDrillTable(data);
-}
-
-
-function drillSortK(k){
-  if(_dsk===k)_dsd*=-1;else{_dsk=k;_dsd=1;}
-  _drillData.sort((a,b)=>{
-    if(k==='t_')return((yAgo(stOf(a))||0)-(yAgo(stOf(b))||0))*_dsd;
-    if(k==='a_')return((yAgo(dobOf(a))||0)-(yAgo(dobOf(b))||0))*_dsd;
-    if(k==='s_'){const da=stOf(a)||new Date(0),db=stOf(b)||new Date(0);return(da-db)*_dsd;}
-    if(k==='d_'){const da=dobOf(a)||new Date(0),db=dobOf(b)||new Date(0);return(da-db)*_dsd;}
-    if(k==='g_')return genderOf(a).localeCompare(genderOf(b),'th')*_dsd;
-    const av=g(a,k)||'',bv=g(b,k)||'';
-    const n=Number(av)-Number(bv);return(isNaN(n)?av.localeCompare(bv,'th'):n)*_dsd;
-  });
-  // re-render drill table in place
-  const tb=document.querySelector('.drill-tb');
-  if(tb)tb.innerHTML=makeDrillTable(_drillData);
-}
 function buildDir(){
-  const depts=[...new Set(rows.map(r=>g(r,'dept')).filter(Boolean))].sort();
-  const brs=[...new Set(rows.map(r=>g(r,'branch')).filter(Boolean))].sort();
-  const divs=[...new Set(rows.map(r=>g(r,'div')).filter(Boolean))].sort();
+  const depts = [...new Set(rows.map(r=>g(r,'dept')).filter(Boolean))].sort();
+  const brs   = [...new Set(rows.map(r=>g(r,'branch')).filter(Boolean))].sort();
+  const divs  = [...new Set(rows.map(r=>g(r,'div')).filter(Boolean))].sort();
   depts.forEach(v=>document.getElementById('fd').add(new Option(v,v)));
   brs.forEach(v=>document.getElementById('fb').add(new Option(v,v)));
   divs.forEach(v=>document.getElementById('ff').add(new Option(v,v)));
-  filtered=[...rows];renderDir();
-  ['sch','fd','fb','ff','fg'].forEach(id=>{
-    document.getElementById(id).addEventListener(id==='sch'?'input':'change',filt);
-  });
+  filtered = [...rows]; renderDir();
+  ['sch','fd','fb','ff','fg'].forEach(id=>{ document.getElementById(id).addEventListener(id==='sch'?'input':'change', doFilter); });
 }
-function filt(){
-  const q=(document.getElementById('sch').value||'').toLowerCase();
-  const dept=document.getElementById('fd').value;
-  const br=document.getElementById('fb').value;
-  const div=document.getElementById('ff').value;
-  const gen=document.getElementById('fg').value;
-  filtered=rows.filter(r=>{
-    const mq=!q||Object.values(r).some(v=>(v||'').toLowerCase().includes(q));
-    return mq&&(!dept||g(r,'dept')===dept)&&(!br||g(r,'branch')===br)&&(!div||g(r,'div')===div)&&(!gen||(gen==='ชาย'?isMale(r):isFem(r)));
+
+function doFilter(){
+  const q = (document.getElementById('sch').value||'').toLowerCase();
+  const dept = document.getElementById('fd').value;
+  const br   = document.getElementById('fb').value;
+  const div  = document.getElementById('ff').value;
+  const gen  = document.getElementById('fg').value;
+  filtered = rows.filter(r=>{
+    const mq = !q || Object.values(r).some(v=>(v||'').toLowerCase().includes(q));
+    return mq && (!dept||g(r,'dept')===dept) && (!br||g(r,'branch')===br) && (!div||g(r,'div')===div) && (!gen||(gen==='ชาย'?isMale(r):isFem(r)));
   });
-  document.getElementById('rc').textContent=`${filtered.length} / ${rows.length} รายการ`;
+  document.getElementById('rc').textContent = `${filtered.length} / ${rows.length} รายการ`;
   renderDir();
 }
-function setView(v,btn){view=v;document.querySelectorAll('.vb').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderDir();}
-function renderDir(){document.getElementById('rc').textContent=`${filtered.length} / ${rows.length} รายการ`;view==='card'?renderCards():renderTable();}
 
-const TCOLS=[
-  {k:'no',l:'No.'},{k:'code',l:'รหัส'},{k:'name',l:'ชื่อ-สกุล'},{k:'nick',l:'ชื่อเล่น'},
-  {k:'pos',l:'ตำแหน่ง'},{k:'dept',l:'แผนก'},{k:'div',l:'ฝ่าย'},{k:'branch',l:'สาขา'},
-  {k:'g_',l:'เพศ'},{k:'a_',l:'อายุ'},{k:'t_',l:'อายุงาน'},
-  {k:'d_',l:'วันเกิด'},{k:'s_',l:'วันเริ่มงาน'},
-  {k:'mobile',l:'มือถือ'},{k:'ext',l:'Ext.'},{k:'email',l:'อีเมล'},
-];
+function setView(v,btn){ currentView=v; document.querySelectorAll('.vbtn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); renderDir(); }
+function renderDir(){ document.getElementById('rc').textContent=`${filtered.length} / ${rows.length} รายการ`; currentView==='card' ? renderCards() : renderTable(); }
+
 function renderTable(){
-  if(!filtered.length){document.getElementById('dc').innerHTML='<div class="empty">ไม่พบข้อมูล</div>';return;}
-  const dlist=[...new Set(rows.map(r=>g(r,'dept')).filter(Boolean))];
-  let h='<div class="tw"><table><thead><tr><th style="width:36px"></th>';
-  TCOLS.forEach(({k,l})=>{const s=_sk===k;h+=`<th onclick="srtK('${k}')" class="${s?'sc':''}">${l}${s?(_sd>0?' ▲':' ▼'):''}`;h+='</th>';});
-  h+='</tr></thead><tbody>';
+  if(!filtered.length){ document.getElementById('dc').innerHTML='<div class="empty">ไม่พบข้อมูล</div>'; return; }
+  let h = '<div class="tw"><table><thead><tr><th style="width:36px"></th>';
+  TCOLS.forEach(({k,l})=>{ const s=dirSK===k; h+=`<th onclick="sortDir('${k}')" class="${s?'sc':''}">${l}${s?(dirSD>0?' ▲':' ▼'):''}`;h+='</th>'; });
+  h += '</tr></thead><tbody>';
   filtered.forEach((r,ri)=>{
-    const nm=g(r,'name'),dept=g(r,'dept');
-    const di=dlist.indexOf(dept),ci=di>=0?di:ri%PAL.length;
-    const gen=genderOf(r),genC=gen==='ชาย'?'#1a8abf':gen==='หญิง'?'#db2777':'#4a5568';
-    const genBg=gen==='ชาย'?'#e3f4fc':gen==='หญิง'?'#fce7f3':'#f0f2f5';
-    const code=g(r,'code').replace(/'/g,"\\'");
-    h+=`<tr onclick="openProfile(rows.find(x=>(x[C.code]||'').trim()==='${code}'))">
-      <td><div class="av" style="width:28px;height:28px;font-size:11px;${avs(ci)}">${ini(nm)}</div></td>`;
+    const code = g(r,'code').replace(/'/g,"\\'");
+    const dept = g(r,'dept'); const dl=deptList(); const ci=Math.max(0,dl.indexOf(dept))%PAL.length;
+    h += `<tr class="tr-click" onclick="openProfile('${code}')"><td><div class="av" style="width:28px;height:28px;font-size:11px;${avCol(ci)}">${ini(g(r,'name'))}</div></td>`;
     TCOLS.forEach(({k})=>{
-      let v='';
-      if(k==='g_')v=gen?`<span style="background:${genBg};color:${genC};padding:2px 8px;border-radius:99px;font-size:11px;font-weight:800">${gen}</span>`:'';
-      else if(k==='a_')v=ageStr(r)||'';
-      else if(k==='t_')v=`<span style="color:#10b981;font-weight:700">${tenureStr(r)||''}</span>`;
-      else if(k==='d_')v=fmtDate(dobOf(r));
-      else if(k==='s_')v=fmtDate(stOf(r));
-      else{
-        v=g(r,k)||'';
-        if(k==='dept'&&v){const ii=Math.max(0,dlist.indexOf(v))%PAL.length;v=`<span class="badge" style="background:${PALE[ii]};color:${PAL[ii]}">${v}</span>`;}
-        else if(k==='branch'&&v)v=`<span style="color:#1a8abf;font-weight:700">${v}</span>`;
-        else if(k==='code'&&v)v=`<span style="color:#1a8abf;font-weight:800">${v}</span>`;
-        else if(k==='email'&&v)v=`<span style="color:#7c3aed">${v}</span>`;
+      let v = '';
+      if(k==='_gen') v = genBadge(gOf(r));
+      else if(k==='_age') v = ageStr(r)||'';
+      else if(k==='_ten') v = `<span style="color:#10b981;font-weight:700">${tenureStr(r)||''}</span>`;
+      else if(k==='_dob') v = fmtDate(dobOf(r));
+      else if(k==='_sta') v = fmtDate(stOf(r));
+      else {
+        v = g(r,k)||'';
+        if(k==='dept'&&v) v = deptBadge(v);
+        else if(k==='branch'&&v) v = `<span style="color:#1a8abf;font-weight:700">${v}</span>`;
+        else if(k==='code'&&v) v = `<span style="color:#1a8abf;font-weight:800">${v}</span>`;
+        else if(k==='email'&&v) v = `<span style="color:#7c3aed">${v}</span>`;
       }
-      h+=`<td>${v}</td>`;
+      h += `<td>${v}</td>`;
     });
-    h+='</tr>';
+    h += '</tr>';
   });
-  document.getElementById('dc').innerHTML=h+'</tbody></table></div>';
+  document.getElementById('dc').innerHTML = h + '</tbody></table></div>';
 }
-function srtK(k){
-  if(_sk===k)_sd*=-1;else{_sk=k;_sd=1;}
+
+function sortDir(k){
+  if(dirSK===k) dirSD*=-1; else { dirSK=k; dirSD=1; }
   filtered.sort((a,b)=>{
-    if(k==='t_')return((yAgo(stOf(a))||0)-(yAgo(stOf(b))||0))*_sd;
-    if(k==='a_')return((yAgo(dobOf(a))||0)-(yAgo(dobOf(b))||0))*_sd;
-    if(k==='s_'){const da=stOf(a)||new Date(0),db=stOf(b)||new Date(0);return(da-db)*_sd;}
-    if(k==='d_'){const da=dobOf(a)||new Date(0),db=dobOf(b)||new Date(0);return(da-db)*_sd;}
-    if(k==='g_')return genderOf(a).localeCompare(genderOf(b),'th')*_sd;
-    const av=g(a,k)||'',bv=g(b,k)||'';
-    const n=Number(av)-Number(bv);return(isNaN(n)?av.localeCompare(bv,'th'):n)*_sd;
+    if(k==='_ten') return ((yAgo(stOf(a))||0)-(yAgo(stOf(b))||0))*dirSD;
+    if(k==='_age') return ((yAgo(dobOf(a))||0)-(yAgo(dobOf(b))||0))*dirSD;
+    if(k==='_sta'){ const da=stOf(a)||new Date(0),db=stOf(b)||new Date(0); return (da-db)*dirSD; }
+    if(k==='_dob'){ const da=dobOf(a)||new Date(0),db=dobOf(b)||new Date(0); return (da-db)*dirSD; }
+    if(k==='_gen') return gOf(a).localeCompare(gOf(b),'th')*dirSD;
+    const av=g(a,k)||'', bv=g(b,k)||'';
+    const n=Number(av)-Number(bv); return (isNaN(n)?av.localeCompare(bv,'th'):n)*dirSD;
   });
   renderTable();
 }
+
 function renderCards(){
-  if(!filtered.length){document.getElementById('dc').innerHTML='<div class="empty">ไม่พบข้อมูล</div>';return;}
-  const dlist=[...new Set(rows.map(r=>g(r,'dept')).filter(Boolean))];
-  let h='<div class="cards-grid">';
+  if(!filtered.length){ document.getElementById('dc').innerHTML='<div class="empty">ไม่พบข้อมูล</div>'; return; }
+  const dl = deptList();
+  let h = '<div class="cards-grid">';
   filtered.forEach((r,ri)=>{
     const nm=g(r,'name'),nick=g(r,'nick'),dept=g(r,'dept'),br=g(r,'branch'),pos=g(r,'pos');
-    const di=dlist.indexOf(dept),ci=di>=0?di:ri%PAL.length;
-    const gen=genderOf(r),genC=gen==='ชาย'?'#1a8abf':gen==='หญิง'?'#db2777':'#4a5568';
-    const genBg=gen==='ชาย'?'#e3f4fc':gen==='หญิง'?'#fce7f3':'#f0f2f5';
-    const code=g(r,'code').replace(/'/g,"\\'");
-    h+=`<div class="card" onclick="openProfile(rows.find(x=>(x[C.code]||'').trim()==='${code}'))">
-      <div class="card-top"><div class="av" style="width:42px;height:42px;font-size:14px;${avs(ci)}">${ini(nm)}</div>
+    const ci = Math.max(0,dl.indexOf(dept))%PAL.length;
+    const gen=gOf(r); const genC=gen==='ชาย'?'#1a8abf':gen==='หญิง'?'#db2777':'#4a5568'; const genBg=gen==='ชาย'?'#e3f4fc':gen==='หญิง'?'#fce7f3':'#f0f2f5';
+    const code = g(r,'code').replace(/'/g,"\\'");
+    h += `<div class="card" onclick="openProfile('${code}')">
+      <div class="card-top"><div class="av" style="width:42px;height:42px;font-size:14px;${avCol(ci)}">${ini(nm)}</div>
         <div><div class="card-name">${nm||''}</div><div class="card-sub">${nick?`"${nick}" · `:''}${g(r,'code')||''}</div></div></div>
       <div class="card-body">
-        ${dept?`<div class="crow"><span class="ck">แผนก</span><span class="cv"><span class="badge" style="background:${PALE[ci]};color:${PAL[ci]}">${dept}</span></span></div>`:''}
+        ${dept?`<div class="crow"><span class="ck">แผนก</span><span class="cv">${deptBadge(dept)}</span></div>`:''}
         ${br?`<div class="crow"><span class="ck">สาขา</span><span class="cv" style="color:#1a8abf">${br}</span></div>`:''}
         ${pos?`<div class="crow"><span class="ck">ตำแหน่ง</span><span class="cv">${pos}</span></div>`:''}
         ${gen?`<div class="crow"><span class="ck">เพศ</span><span class="cv"><span style="background:${genBg};color:${genC};padding:1px 8px;border-radius:99px;font-size:11px;font-weight:800">${gen}</span></span></div>`:''}
@@ -736,142 +540,114 @@ function renderCards(){
         ${tenureStr(r)?`<div class="crow"><span class="ck">อายุงาน</span><span class="cv" style="color:#10b981">${tenureStr(r)}</span></div>`:''}
       </div></div>`;
   });
-  document.getElementById('dc').innerHTML=h+'</div>';
+  document.getElementById('dc').innerHTML = h + '</div>';
 }
 
 // ── BIRTHDAY ─────────────────────────────────────────────────
 function buildBday(){
-  const now=new Date(),mc=Array(12).fill(0),up=[];
+  const now=new Date(), mc=Array(12).fill(0), up=[];
   rows.forEach(r=>{
-    const bd=dobOf(r);if(!bd||isNaN(bd))return;
+    const bd=dobOf(r); if(!bd||isNaN(bd)) return;
     mc[bd.getMonth()]++;
     const ty=new Date(now.getFullYear(),bd.getMonth(),bd.getDate());
     let diff=Math.round((ty-now)/(24*3600*1000));
-    if(diff<-1)diff+=365;
-    if(diff>=-1&&diff<=90)up.push({r,bd,diff,age:now.getFullYear()-bd.getFullYear()});
+    if(diff<-1) diff+=365;
+    if(diff>=-1&&diff<=90) up.push({r,bd,diff,age:now.getFullYear()-bd.getFullYear()});
   });
   up.sort((a,b)=>a.diff-b.diff);
-  const maxM=Math.max(...mc)||1;
-  const mg=MO.map((m,i)=>`<div class="mbox" onclick="drillBirthMonth(${i})"><div class="mname">${m}</div><div class="mval">${mc[i]}</div><div class="mbar" style="width:${Math.round(mc[i]/maxM*100)}%"></div></div>`).join('');
-  const bmH=MO.map((m,i)=>`<div class="hc" onclick="drillBirthMonth(${i})"><div class="hn">${mc[i]||''}</div><div class="hb" style="height:${Math.round(mc[i]/maxM*95)+5}px;background:${PAL[i%PAL.length]}"></div><div class="hl">${m}</div></div>`).join('');
+  const maxM = Math.max(...mc)||1;
+  const mg = MO.map((m,i)=>`<div class="mbox" onclick="drillBirthMonth(${i})"><div class="mname">${m}</div><div class="mval">${mc[i]}</div><div class="mbar" style="width:${Math.round(mc[i]/maxM*100)}%"></div></div>`).join('');
+  const bmH = MO.map((m,i)=>`<div class="hist-col" onclick="drillBirthMonth(${i})"><div class="hist-num">${mc[i]||''}</div><div class="hist-bar" style="height:${Math.round(mc[i]/maxM*95)+5}px;background:${PAL[i%PAL.length]}"></div><div class="hist-lbl">${m}</div></div>`).join('');
 
-  // upcoming list with month dividers
-  let uhtml='',lastMo=-1;
+  let uhtml = '', lastMo = -1;
   if(up.length){
     up.forEach((u,i)=>{
-      const mo=u.bd.getMonth();
-      if(mo!==lastMo){
-        if(lastMo!==-1)uhtml+='</div>';
-        const nowMo=now.getMonth(),nowYr=now.getFullYear();
-        const dispYr=(mo<nowMo||(mo===nowMo&&u.diff>0))?nowYr+1:nowYr;
-        uhtml+=`<div class="month-divider"><span class="month-divider-label">🗓 ${MO[mo]} ${dispYr+543}</span><div class="month-divider-line"></div></div><div>`;
-        lastMo=mo;
+      const mo = u.bd.getMonth();
+      if(mo !== lastMo){
+        if(lastMo !== -1) uhtml += '</div>';
+        const yr = (mo < now.getMonth()) ? now.getFullYear()+1 : now.getFullYear();
+        uhtml += `<div class="mo-div"><span class="mo-lbl">🗓 ${MO[mo]} ${yr+543}</span><div class="mo-line"></div></div><div>`;
+        lastMo = mo;
       }
-      const lbl=u.diff===0?'🎂 วันนี้!':u.diff===1?'พรุ่งนี้':`ใน ${u.diff} วัน`;
-      const nm=g(u.r,'name'),nick=g(u.r,'nick'),dept=g(u.r,'dept'),br=g(u.r,'branch'),pos=g(u.r,'pos');
-      const code=g(u.r,'code').replace(/'/g,"\\'");
-      const dateStr=fmtDate(u.bd);
-      uhtml+=`<div class="ui${u.diff===0?' today':''}" onclick="openProfile(rows.find(x=>(x[C.code]||'').trim()==='${code}'))">
-        <div class="ud">${lbl}</div>
-        <div style="min-width:110px;font-size:12px;font-weight:700;color:#1a8abf;background:#e3f4fc;padding:3px 10px;border-radius:8px;text-align:center">${dateStr}</div>
-        <div class="av" style="width:38px;height:38px;font-size:13px;${avs(i)}">${ini(nm)}</div>
+      const lbl = u.diff===0?'🎂 วันนี้!':u.diff===1?'พรุ่งนี้':`ใน ${u.diff} วัน`;
+      const code = g(u.r,'code').replace(/'/g,"\\'");
+      const nm=g(u.r,'name'), nick=g(u.r,'nick'), dept=g(u.r,'dept'), br=g(u.r,'branch'), pos=g(u.r,'pos');
+      const bdStr = `${u.bd.getDate()} ${MO[u.bd.getMonth()]}`;
+      uhtml += `<div class="bday-row${u.diff===0?' today':''}" onclick="openProfile('${code}')">
+        <div class="bday-lbl">${lbl}</div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;min-width:52px">
+          <div style="font-size:14px;font-weight:800;color:#1a8abf;text-align:center">${bdStr}</div>
+          <div class="av" style="width:36px;height:36px;font-size:12px;${avCol(i)}">${ini(nm)}</div>
+        </div>
         <div style="flex:1">
-          <div class="un">${nm||''}${nick?` <span style="font-weight:600;color:#4a5568">"${nick}"</span>`:''}</div>
-          <div class="us">${[dept,br,pos].filter(Boolean).join(' · ')} · อายุ ${u.age} ปี</div>
-          <div style="font-size:12px;color:#db2777;font-weight:700;margin-top:4px">🎂 สุขสันต์วันเกิด สุขภาพแข็งแรง คิดหวังสิ่งใดให้สมปรารถนา 🎂🌹🥰</div>
+          <div style="font-size:13px;font-weight:800;color:#0a0a0a">${nm||''}${nick?` <span style="font-weight:600;color:#4a5568">"${nick}"</span>`:''}</div>
+          <div style="font-size:12px;color:#4a5568;margin-top:2px;font-weight:600">${[dept,br,pos].filter(Boolean).join(' · ')} · อายุ ${u.age} ปี</div>
+          <div style="font-size:12px;color:#db2777;font-weight:700;margin-top:3px">สุขสันต์วันเกิด สุขภาพแข็งแรง คิดหวังสิ่งใดให้สมปรารถนา 🎂🌹🥰</div>
         </div></div>`;
     });
-    if(lastMo!==-1)uhtml+='</div>';
-  } else uhtml='<div class="empty">ไม่มีวันเกิดใน 90 วันข้างหน้า</div>';
+    if(lastMo !== -1) uhtml += '</div>';
+  } else {
+    uhtml = '<div class="empty">ไม่มีวันเกิดใน 90 วันข้างหน้า</div>';
+  }
 
-  // birthday export button
-  const bdExportBtn=`<button class="export-btn" onclick="exportData(rows.filter(r=>{const bd=dobOf(r);return bd&&!isNaN(bd)}),'Ecoseal_Birthday')">⬇ Export วันเกิดทั้งหมด</button>`;
-
-  document.getElementById('page-bday').innerHTML=`<div style="display:grid;gap:14px">
-    <div style="display:flex;justify-content:flex-end;margin-bottom:-6px">${bdExportBtn}</div>
-    <div class="cc"><div class="ctitle">จำนวนพนักงานแต่ละเดือนเกิด <span class="drill-hint">คลิกเพื่อดูรายละเอียด</span></div><div class="mgrid">${mg}</div></div>
-    <div class="cc"><div class="ctitle">กราฟเดือนเกิด <span class="drill-hint">คลิกเพื่อดูรายละเอียด</span></div><div class="hist">${bmH}</div></div>
+  document.getElementById('page-bday').innerHTML = `<div style="display:grid;gap:14px">
+    <div style="display:flex;justify-content:flex-end"><button class="exp-btn" onclick="exportData(rows.filter(r=>{const bd=dobOf(r);return bd&&!isNaN(bd)}),'Ecoseal_Birthday')">⬇ Export วันเกิดทั้งหมด</button></div>
+    <div class="cc"><div class="ctitle">จำนวนพนักงานแต่ละเดือนเกิด<span class="drill-hint">คลิกเพื่อดูรายละเอียด</span></div><div class="mgrid">${mg}</div></div>
+    <div class="cc"><div class="ctitle">กราฟเดือนเกิด<span class="drill-hint">คลิกเพื่อดูรายละเอียด</span></div><div class="hist">${bmH}</div></div>
     <div class="cc"><div class="ctitle">วันเกิดใน 90 วันข้างหน้า — ${up.length} คน <span style="font-size:11px;color:#4a5568;font-weight:600;text-transform:none">(คลิกเพื่อดูข้อมูล)</span></div><div class="ulist">${uhtml}</div></div>
   </div>`;
 }
 
-
-function sortDrill(k){
-  if(_dsk===k)_dsd*=-1;else{_dsk=k;_dsd=1;}
-  const data=window._drillSortData;
-  if(!data)return;
-  data.sort((a,b)=>{
-    if(k==='t_')return((yAgo(stOf(a))||0)-(yAgo(stOf(b))||0))*_dsd;
-    if(k==='a_')return((yAgo(dobOf(a))||0)-(yAgo(dobOf(b))||0))*_dsd;
-    if(k==='s_'){const da=stOf(a)||new Date(0),db=stOf(b)||new Date(0);return(da-db)*_dsd;}
-    if(k==='d_'){const da=dobOf(a)||new Date(0),db=dobOf(b)||new Date(0);return(da-db)*_dsd;}
-    if(k==='g_')return genderOf(a).localeCompare(genderOf(b),'th')*_dsd;
-    const av=g(a,k)||'',bv=g(b,k)||'';
-    const n=Number(av)-Number(bv);return(isNaN(n)?av.localeCompare(bv,'th'):n)*_dsd;
-  });
-  const tb=document.getElementById('drillTw');
-  if(tb){const parent=tb.parentNode;parent.innerHTML=makeDrillTable(data);}
-}
-
+// ── NAV ──────────────────────────────────────────────────────
 function show(p,btn){
   document.querySelectorAll('.pg').forEach(e=>e.classList.remove('active'));
   document.querySelectorAll('.nb').forEach(e=>e.classList.remove('active'));
-  document.getElementById('page-'+p).classList.add('active');btn.classList.add('active');
-  if(p==='bday'&&!document.getElementById('page-bday').innerHTML.trim())buildBday();
+  document.getElementById('page-'+p).classList.add('active'); btn.classList.add('active');
+  if(p==='bday' && !document.getElementById('page-bday').innerHTML.trim()) buildBday();
 }
 
+// ── INIT & LOAD ──────────────────────────────────────────────
 function initApp(rawText){
-  const result=Papa.parse(rawText,{header:true,skipEmptyLines:true});
-  if(!result.data||!result.data.length){document.getElementById('loading').innerHTML='<div class="err">⚠️ ไม่พบข้อมูล</div>';return;}
-  const sheetCols=result.meta.fields;
-  const norm=s=>s.replace(/\s+/g,' ').trim().toLowerCase();
-  Object.keys(C).forEach(k=>{const t=norm(C[k]);const f=sheetCols.find(sc=>norm(sc)===t);if(f)C[k]=f;});
-  rows=result.data.map(r=>{const o={};sheetCols.forEach(c=>o[c]=(r[c]||'').trim());return o;}).filter(r=>sheetCols.some(c=>r[c]));
-  document.getElementById('hm').textContent=`พนักงาน ${rows.length} คน · ${new Date().toLocaleTimeString('th-TH')}`;
-  document.getElementById('loading').style.display='none';
-  document.getElementById('main').style.display='block';
-  buildDash();buildDir();
+  const result = Papa.parse(rawText, {header:true, skipEmptyLines:true});
+  if(!result.data||!result.data.length){ document.getElementById('loading').innerHTML='<div class="err-box">⚠️ ได้รับข้อมูลแต่ไม่มีแถว</div>'; return; }
+  const sheetCols = result.meta.fields;
+  const norm = s => s.replace(/\s+/g,' ').trim().toLowerCase();
+  Object.keys(C).forEach(k=>{ const t=norm(C[k]); const f=sheetCols.find(sc=>norm(sc)===t); if(f) C[k]=f; });
+  rows = result.data.map(r=>{ const o={}; sheetCols.forEach(c=>o[c]=(r[c]||'').trim()); return o; }).filter(r=>sheetCols.some(c=>r[c]));
+  document.getElementById('hm').textContent = `พนักงาน ${rows.length} คน · ${new Date().toLocaleTimeString('th-TH')}`;
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('main').style.display = 'block';
+  buildDash(); buildDir();
 }
-async function tryLoad(urls,idx){
-  if(idx>=urls.length){
-    document.getElementById('loading').innerHTML='<div class="err">❌ โหลดข้อมูลไม่ได้<br><br>กรุณาตรวจสอบ:<br>1. การเชื่อมต่ออินเทอร์เน็ต<br>2. Google Sheets ยังคง Publish อยู่<br><br><button onclick="tryLoad(allURLs,0)" style="padding:8px 16px;background:#29ABE2;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:14px;font-weight:700">🔄 ลองใหม่</button></div>';
+
+async function tryLoad(urls, idx){
+  if(idx >= urls.length){
+    document.getElementById('loading').innerHTML = `<div class="err-box">❌ โหลดข้อมูลไม่ได้ทุก source<br><br>
+      <button onclick="tryLoad(URLS,0)" style="padding:8px 16px;background:#29ABE2;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:14px;font-weight:700;margin-top:8px">🔄 ลองใหม่</button></div>`;
     return;
   }
-  const label=['Google API (CSV)','Google API (CSV2)','ตรงจาก Google','Proxy 1','Proxy 2'];
-  document.getElementById('loading').innerHTML=`<div style="text-align:center;padding:60px;color:#4a5568"><div style="font-size:40px;margin-bottom:16px">⏳</div><div style="font-size:15px;font-weight:700;margin-bottom:8px">กำลังโหลดข้อมูลพนักงาน...</div><div style="font-size:13px;color:#9aa0ab">กำลังลอง: ${label[idx]||'Proxy '+idx} (${idx+1}/${urls.length})</div></div>`;
+  document.getElementById('loading').innerHTML = `<div style="text-align:center;padding:60px"><div style="font-size:40px;margin-bottom:16px">⏳</div><div style="font-size:15px;font-weight:700;color:#4a5568;margin-bottom:6px">กำลังโหลดข้อมูลพนักงาน...</div><div style="font-size:13px;color:#9aa0ab">(${idx+1}/${urls.length})</div></div>`;
   try{
-    const ctrl=new AbortController();
-    const tid=setTimeout(()=>ctrl.abort(),8000);
-    const res=await fetch(urls[idx],{cache:'no-cache',signal:ctrl.signal});
+    const ctrl = new AbortController();
+    const tid = setTimeout(()=>ctrl.abort(), 8000);
+    const res = await fetch(urls[idx], {cache:'no-cache', signal:ctrl.signal});
     clearTimeout(tid);
-    if(!res.ok)throw new Error('HTTP '+res.status);
-    const text=await res.text();
-    if(text.trim().length<10)throw new Error('empty response');
-    if(text.includes('<!DOCTYPE')||text.includes('<html'))throw new Error('got HTML not CSV');
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const text = await res.text();
+    if(text.trim().length < 20) throw new Error('empty');
+    if(text.trim().startsWith('<!')) throw new Error('got HTML');
     initApp(text);
-  }catch(e){
-    console.warn('Source',idx,'failed:',e.message);
-    tryLoad(urls,idx+1);
+  } catch(e){
+    console.warn(`URL ${idx} failed:`, e.message);
+    tryLoad(urls, idx+1);
   }
 }
-const allURLs=[GVZ_URL, GVZ_URL2, CSV_URL, ...PROXIES.map(fn=>fn(CSV_URL))];
-const s=document.createElement('script');
-s.src='https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.0/papaparse.min.js';
-s.onload=()=>tryLoad(allURLs,0);
-s.onerror=()=>{document.getElementById('loading').innerHTML='<div class="err">❌ โหลด PapaParse ไม่ได้ กรุณาตรวจสอบอินเทอร์เน็ต</div>';};
-document.head.appendChild(s);
 
-// drill sort state
-window._drillSortKey='name';
-window._drillSortDir=1;
-window._drillCurrentData=null;
-window._drillCurrentLabel='';
-window._drillSort=function(k,d){
-  window._drillSortKey=k;window._drillSortDir=d;
-  const panel=document.querySelector('.drill-tb');
-  if(panel&&window._drillCurrentData)
-    panel.innerHTML=makeDrillTable(window._drillCurrentData,k,d);
-};
+const s = document.createElement('script');
+s.src = 'https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.0/papaparse.min.js';
+s.onload = () => tryLoad(URLS, 0);
+s.onerror = () => { document.getElementById('loading').innerHTML = '<div class="err-box">❌ โหลด library ไม่ได้ กรุณาตรวจสอบอินเทอร์เน็ต</div>'; };
+document.head.appendChild(s);
 </script>
 </body>
 </html>
