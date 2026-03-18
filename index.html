@@ -12,7 +12,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,sans-seri
 /* HEADER */
 .header{background:var(--Y);padding:0 28px;position:sticky;top:0;z-index:300;box-shadow:0 2px 10px rgba(0,0,0,.15)}
 .header-inner{max-width:100%;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:64px;padding:0 4px}
-.logo-img{height:46px;object-fit:contain}
+.logo-img{height:52px;object-fit:contain;max-width:200px}
 .hmeta{font-size:13px;color:#1a1a18;font-weight:700}
 
 /* WRAP — Full HD full width */
@@ -224,7 +224,12 @@ const C={
   start:'วันเริ่มงาน\nStart Date',dob:'วันเกิด\nDOB',dobiso:'DOB (ISO)',
 };
 const CSV_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vT8quBD-tiz47Dyqq9qZLwpwRh2Db0B9n0XJbJQ4sWXvMALL_G3FP78dntvyX7eGI5p3z-dpRoBdQPW/pub?output=csv';
-const PROXIES=[u=>`https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,u=>`https://corsproxy.io/?${encodeURIComponent(u)}`];
+const PROXIES=[
+  u=>`https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
+  u=>`https://corsproxy.io/?${encodeURIComponent(u)}`,
+  u=>`https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(u)}`,
+  u=>`https://thingproxy.freeboard.io/fetch/${u}`,
+];
 
 const PAL=['#29ABE2','#1a8abf','#10b981','#7c3aed','#e11d48','#FFC107','#db2777','#0891b2','#65a30d','#9333ea','#0f766e','#dc2626'];
 const PALE=['#e3f4fc','#b3dff5','#d1fae5','#ede9fe','#fee2e2','#fff8e1','#fce7f3','#cffafe','#ecfccb','#f3e8ff','#ccfbf1','#fecaca'];
@@ -824,14 +829,32 @@ function initApp(rawText){
   buildDash();buildDir();
 }
 async function tryLoad(urls,idx){
-  if(idx>=urls.length){document.getElementById('loading').innerHTML='<div class="err">❌ โหลดข้อมูลไม่ได้</div>';return;}
-  document.getElementById('loading').textContent=`⏳ กำลังโหลด... (${idx+1}/${urls.length})`;
-  try{const res=await fetch(urls[idx],{cache:'no-cache'});if(!res.ok)throw new Error('HTTP '+res.status);const text=await res.text();if(text.trim().length<10)throw new Error('empty');initApp(text);}
-  catch(e){console.warn('Source',idx,'failed:',e.message);tryLoad(urls,idx+1);}
+  if(idx>=urls.length){
+    document.getElementById('loading').innerHTML='<div class="err">❌ โหลดข้อมูลไม่ได้<br><br>กรุณาตรวจสอบ:<br>1. การเชื่อมต่ออินเทอร์เน็ต<br>2. Google Sheets ยังคง Publish อยู่<br><br><button onclick="tryLoad(allURLs,0)" style="padding:8px 16px;background:#29ABE2;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:14px;font-weight:700">🔄 ลองใหม่</button></div>';
+    return;
+  }
+  const label=['ตรงจาก Google','Proxy 1','Proxy 2','Proxy 3','Proxy 4'];
+  document.getElementById('loading').innerHTML=`<div style="text-align:center;padding:60px;color:#4a5568"><div style="font-size:40px;margin-bottom:16px">⏳</div><div style="font-size:15px;font-weight:700;margin-bottom:8px">กำลังโหลดข้อมูลพนักงาน...</div><div style="font-size:13px;color:#9aa0ab">กำลังลอง: ${label[idx]||'Proxy '+idx} (${idx+1}/${urls.length})</div></div>`;
+  try{
+    const ctrl=new AbortController();
+    const tid=setTimeout(()=>ctrl.abort(),8000);
+    const res=await fetch(urls[idx],{cache:'no-cache',signal:ctrl.signal});
+    clearTimeout(tid);
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    const text=await res.text();
+    if(text.trim().length<10)throw new Error('empty response');
+    if(text.includes('<!DOCTYPE')||text.includes('<html'))throw new Error('got HTML not CSV');
+    initApp(text);
+  }catch(e){
+    console.warn('Source',idx,'failed:',e.message);
+    tryLoad(urls,idx+1);
+  }
 }
+const allURLs=[CSV_URL,...PROXIES.map(fn=>fn(CSV_URL))];
 const s=document.createElement('script');
 s.src='https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.0/papaparse.min.js';
-s.onload=()=>tryLoad([CSV_URL,...PROXIES.map(fn=>fn(CSV_URL))],0);
+s.onload=()=>tryLoad(allURLs,0);
+s.onerror=()=>{document.getElementById('loading').innerHTML='<div class="err">❌ โหลด PapaParse ไม่ได้ กรุณาตรวจสอบอินเทอร์เน็ต</div>';};
 document.head.appendChild(s);
 
 // drill sort state
