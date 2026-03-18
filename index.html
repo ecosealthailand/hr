@@ -161,8 +161,10 @@ tr:last-child td{border-bottom:none}.tr-click:hover td{background:var(--Bl);curs
 <button class="btt" id="bttBtn" onclick="backToTop()" title="Back to top">↑</button>
 <script>
 // ── COLUMN MAP ───────────────────────────────────────────────
+// Column names from actual sheet (row 2 of CSV)
+// Col 0 = No. (empty header), Col 1 = Emp.Code (empty header), Col 2+ = named
 const C = {
-  no:'ที่\nNo.', code:'รหัสพนักงาน\nEmp.Code', prefix:'คำนำหน้า\n(ไทย)',
+  no:'', code:'', prefix:'คำนำหน้า\n(ไทย)',
   name:'ชื่อ-สกุล\n(ไทย)', nick:'ชื่อเล่น\n(ไทย)', pos:'ตำแหน่ง\n(ไทย)',
   dept:'แผนก\n(ไทย)', div:'ฝ่าย\n(ไทย)', branch:'สาขา\n(ไทย)',
   tel:'เบอร์โทร', ext:'Ext.', mobile:'Mobile No.', email:'E-mail',
@@ -187,13 +189,27 @@ let dirSK = null, dirSD = 1;
 let drillSK = null, drillSD = 1, drillRows = [];
 
 // ── HELPERS ──────────────────────────────────────────────────
-const g    = (r,k) => (r[C[k]]||'').trim();
+// Column index map — confirmed from actual CSV (col 0-1 have no header name)
+const IDX = {
+  no:0, code:1, prefix:2, name:3, nick:4,
+  pos:5, dept:6, div:7, branch:8,
+  tel:9, ext:19, mobile:18, email:20,
+  start:21, dob:22, dobiso:23
+};
+
+const g = (r,k) => {
+  const idx = IDX[k];
+  if(idx !== undefined && r._r) return (r._r[idx]||'').trim();
+  return '';
+};
+
+// เพศจากคำนำหน้า: นาย=ชาย, นาง/นางสาว=หญิง
 const isMale = r => /^นาย$/.test(g(r,'prefix'));
 const isFem  = r => /^(นางสาว|นาง)$/.test(g(r,'prefix'));
 const gOf    = r => isMale(r)?'ชาย':isFem(r)?'หญิง':'';
 const ini    = n => (n||'?').trim().split(/\s+/).map(w=>w[0]||'').join('').toUpperCase().slice(0,2);
 const avCol  = i => `background:${PALE[i%PALE.length]};color:${PAL[i%PAL.length]}`;
-const freq   = col => { const c={}; rows.forEach(r=>{ const v=(r[col]||'').trim(); if(v) c[v]=(c[v]||0)+1; }); return Object.entries(c).sort((a,b)=>b[1]-a[1]); };
+const freq   = col => { const c={}; rows.forEach(r=>{ const v=g(r,col); if(v) c[v]=(c[v]||0)+1; }); return Object.entries(c).sort((a,b)=>b[1]-a[1]); };
 const deptList = () => [...new Set(rows.map(r=>g(r,'dept')).filter(Boolean))];
 
 function pd(v){
@@ -219,7 +235,7 @@ function backToTop(){ window.scrollTo({top:0,behavior:'smooth'}); }
 
 // ── PROFILE MODAL ────────────────────────────────────────────
 function openProfile(code){
-  const r = rows.find(x=>(x[C.code]||'').trim()===code);
+  const r = rows.find(x=>g(x,'code')===code);
   if(!r) return;
   const nm=g(r,'name'), nick=g(r,'nick'), dept=g(r,'dept'), br=g(r,'branch');
   const dl=deptList(); const ci=Math.max(0,dl.indexOf(dept))%PAL.length;
@@ -312,10 +328,10 @@ function buildDash(drillData, drillLabel){
   </div>`;
 
   h += '<div class="cgrid">';
-  h += makeBarChart('พนักงานตามแผนก', C.dept, data, 'dept');
-  h += makeBarChart('พนักงานตามสาขา', C.branch, data, 'branch');
-  h += makeBarChart('ตำแหน่งงาน', C.pos, data, 'pos');
-  h += makeBarChart('ฝ่าย', C.div, data, 'div');
+  h += makeBarChart('พนักงานตามแผนก', 'dept', data, 'dept');
+  h += makeBarChart('พนักงานตามสาขา', 'branch', data, 'branch');
+  h += makeBarChart('ตำแหน่งงาน', 'pos', data, 'pos');
+  h += makeBarChart('ฝ่าย', 'div', data, 'div');
   h += makeDonut([['ชาย',nM,'#29ABE2','#e3f4fc'],['หญิง',nF,'#db2777','#fce7f3']].filter(([,n])=>n>0));
   h += '</div><div class="cgrid">';
   if(ages.length){
@@ -333,7 +349,7 @@ function buildDash(drillData, drillLabel){
 }
 
 function makeBarChart(title, col, data, key){
-  const cnt = {}; data.forEach(r=>{ const v=(r[col]||'').trim(); if(v) cnt[v]=(cnt[v]||0)+1; });
+  const cnt = {}; data.forEach(r=>{ const v=g(r,col); if(v) cnt[v]=(cnt[v]||0)+1; });
   const entries = Object.entries(cnt).sort((a,b)=>b[1]-a[1]);
   if(!entries.length) return '';
   const max = entries[0][1]||1, total = data.length;
@@ -372,8 +388,7 @@ function makeHist(title, bkts, vals, ranges, type){
 
 // ── DRILL FUNCTIONS ──────────────────────────────────────────
 function drillByCol(key, val){
-  const col = C[key];
-  const data = val ? rows.filter(r=>(r[col]||'').trim()===val) : rows;
+  const data = val ? rows.filter(r=>g(r,key)===val) : rows;
   const label = val || (key==='dept'?'ทุกแผนก':key==='branch'?'ทุกสาขา':'ทุกฝ่าย');
   buildDash(data, label);
 }
@@ -465,7 +480,8 @@ function doFilter(){
   const div  = document.getElementById('ff').value;
   const gen  = document.getElementById('fg').value;
   filtered = rows.filter(r=>{
-    const mq = !q || Object.values(r).some(v=>(v||'').toLowerCase().includes(q));
+    const allVals = r._r ? r._r.join(' ') : '';
+    const mq = !q || allVals.toLowerCase().includes(q);
     return mq && (!dept||g(r,'dept')===dept) && (!br||g(r,'branch')===br) && (!div||g(r,'div')===div) && (!gen||(gen==='ชาย'?isMale(r):isFem(r)));
   });
   document.getElementById('rc').textContent = `${filtered.length} / ${rows.length} รายการ`;
@@ -608,12 +624,26 @@ function show(p,btn){
 
 // ── INIT & LOAD ──────────────────────────────────────────────
 function initApp(rawText){
-  const result = Papa.parse(rawText, {header:true, skipEmptyLines:true});
-  if(!result.data||!result.data.length){ document.getElementById('loading').innerHTML='<div class="err-box">⚠️ ได้รับข้อมูลแต่ไม่มีแถว</div>'; return; }
-  const sheetCols = result.meta.fields;
-  const norm = s => s.replace(/\s+/g,' ').trim().toLowerCase();
-  Object.keys(C).forEach(k=>{ const t=norm(C[k]); const f=sheetCols.find(sc=>norm(sc)===t); if(f) C[k]=f; });
-  rows = result.data.map(r=>{ const o={}; sheetCols.forEach(c=>o[c]=(r[c]||'').trim()); return o; }).filter(r=>sheetCols.some(c=>r[c]));
+  // Parse CSV without header — use index-based column access
+  // Sheet structure: row 0-1 = metadata, row 2 = headers, row 3+ = data
+  const result = Papa.parse(rawText, {header:false, skipEmptyLines:false});
+  const allRows = result.data;
+  
+  // Find data start row (after header row 2)
+  // Header row = row with 'ชื่อ' or 'DOB' keywords
+  let dataStart = 3; // default: skip 2 metadata + 1 header
+  for(let i=0; i<Math.min(8,allRows.length); i++){
+    const rowStr = allRows[i].join(',');
+    if(rowStr.includes('ชื่อ-สกุล') || rowStr.includes('DOB (ISO)')){
+      dataStart = i+1; break;
+    }
+  }
+  
+  // Build rows using global IDX constant
+  rows = allRows.slice(dataStart)
+    .map(r=>({_r:r}))
+    .filter(({_r:r})=> r.length>4 && (r[1]||r[3]||'').trim());
+  
   document.getElementById('hm').textContent = `พนักงาน ${rows.length} คน · ${new Date().toLocaleTimeString('th-TH')}`;
   document.getElementById('loading').style.display = 'none';
   document.getElementById('main').style.display = 'block';
