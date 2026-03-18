@@ -223,12 +223,15 @@ const C={
   tel:'เบอร์โทร',ext:'Ext.',mobile:'Mobile No.',email:'E-mail',
   start:'วันเริ่มงาน\nStart Date',dob:'วันเกิด\nDOB',dobiso:'DOB (ISO)',
 };
+const SHEET_ID='1uAecDWgBjV3fbUiTocuPjW4lCX8N5w82SsuAbHWhV_U';
+// Google Visualization API - no CORS issues, works everywhere
+const GVZ_URL=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=ชีต1`;
+const GVZ_URL2=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv`;
+// Fallback CSV proxies
 const CSV_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vT8quBD-tiz47Dyqq9qZLwpwRh2Db0B9n0XJbJQ4sWXvMALL_G3FP78dntvyX7eGI5p3z-dpRoBdQPW/pub?output=csv';
 const PROXIES=[
   u=>`https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
   u=>`https://corsproxy.io/?${encodeURIComponent(u)}`,
-  u=>`https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(u)}`,
-  u=>`https://thingproxy.freeboard.io/fetch/${u}`,
 ];
 
 const PAL=['#29ABE2','#1a8abf','#10b981','#7c3aed','#e11d48','#FFC107','#db2777','#0891b2','#65a30d','#9333ea','#0f766e','#dc2626'];
@@ -833,7 +836,7 @@ async function tryLoad(urls,idx){
     document.getElementById('loading').innerHTML='<div class="err">❌ โหลดข้อมูลไม่ได้<br><br>กรุณาตรวจสอบ:<br>1. การเชื่อมต่ออินเทอร์เน็ต<br>2. Google Sheets ยังคง Publish อยู่<br><br><button onclick="tryLoad(allURLs,0)" style="padding:8px 16px;background:#29ABE2;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:14px;font-weight:700">🔄 ลองใหม่</button></div>';
     return;
   }
-  const label=['ตรงจาก Google','Proxy 1','Proxy 2','Proxy 3','Proxy 4'];
+  const label=['Google API (CSV)','Google API (CSV2)','ตรงจาก Google','Proxy 1','Proxy 2'];
   document.getElementById('loading').innerHTML=`<div style="text-align:center;padding:60px;color:#4a5568"><div style="font-size:40px;margin-bottom:16px">⏳</div><div style="font-size:15px;font-weight:700;margin-bottom:8px">กำลังโหลดข้อมูลพนักงาน...</div><div style="font-size:13px;color:#9aa0ab">กำลังลอง: ${label[idx]||'Proxy '+idx} (${idx+1}/${urls.length})</div></div>`;
   try{
     const ctrl=new AbortController();
@@ -850,7 +853,7 @@ async function tryLoad(urls,idx){
     tryLoad(urls,idx+1);
   }
 }
-const allURLs=[CSV_URL,...PROXIES.map(fn=>fn(CSV_URL))];
+const allURLs=[GVZ_URL, GVZ_URL2, CSV_URL, ...PROXIES.map(fn=>fn(CSV_URL))];
 const s=document.createElement('script');
 s.src='https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.0/papaparse.min.js';
 s.onload=()=>tryLoad(allURLs,0);
