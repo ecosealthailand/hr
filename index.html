@@ -198,13 +198,18 @@ let drillSK = null, drillSD = 1, drillRows = [];
 const IDX = {
   no:0, code:1, prefix:2, name:3, nick:4,
   pos:5, dept:6, div:7, branch:8,
-  tel:9, ext:19, mobile:18, email:20,
+  tel:9, ext:10, mobile:18, email:20,
   start:21, dob:22, dobiso:23
 };
 
 const g = (r,k) => {
   const idx = IDX[k];
-  if(idx !== undefined && r._r) return (r._r[idx]||'').trim();
+  if(idx !== undefined && r._r){
+    const val = (r._r[idx]||'').trim();
+    // ถ้า mobile ว่าง ให้ใช้ เบอร์โทร (tel) แทน
+    if(k==='mobile' && !val) return (r._r[IDX.tel]||'').trim();
+    return val;
+  }
   return '';
 };
 
