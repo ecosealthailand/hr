@@ -225,8 +225,9 @@ const C={
 };
 const SHEET_ID='1uAecDWgBjV3fbUiTocuPjW4lCX8N5w82SsuAbHWhV_U';
 // Google Visualization API - no CORS issues, works everywhere
-const GVZ_URL=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=ชีต1`;
-const GVZ_URL2=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv`;
+// ใช้ gid=0 (sheet แรก) — ไม่ต้องระบุชื่อ sheet เลยไม่มีปัญหา encoding
+const GVZ_URL=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=0`;
+const GVZ_URL2=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=0`;
 // Fallback CSV proxies
 const CSV_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vT8quBD-tiz47Dyqq9qZLwpwRh2Db0B9n0XJbJQ4sWXvMALL_G3FP78dntvyX7eGI5p3z-dpRoBdQPW/pub?output=csv';
 const PROXIES=[
