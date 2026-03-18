@@ -327,13 +327,8 @@ function buildDash(drillData, drillLabel){
     <div class="kpi pkpi" onclick="drillByGender('หญิง')"><div class="kpi-lbl">เพศหญิง</div><div class="kpi-val">${nF}</div><div class="kpi-sub">คน</div><div class="kpi-hint">▼ ดูรายละเอียด</div></div>
   </div>`;
 
+  // Row 1: การกระจายอายุ + อายุงาน (ก่อนแผนก)
   h += '<div class="cgrid">';
-  h += makeBarChart('พนักงานตามแผนก', 'dept', data, 'dept');
-  h += makeBarChart('พนักงานตามสาขา', 'branch', data, 'branch');
-  h += makeBarChart('ตำแหน่งงาน', 'pos', data, 'pos');
-  h += makeBarChart('ฝ่าย', 'div', data, 'div');
-  h += makeDonut([['ชาย',nM,'#29ABE2','#e3f4fc'],['หญิง',nF,'#db2777','#fce7f3']].filter(([,n])=>n>0));
-  h += '</div><div class="cgrid">';
   if(ages.length){
     const b=['<25','25-30','31-35','36-40','41-45','46-50','51+'],v=Array(7).fill(0);
     ages.forEach(a=>{if(a<25)v[0]++;else if(a<=30)v[1]++;else if(a<=35)v[2]++;else if(a<=40)v[3]++;else if(a<=45)v[4]++;else if(a<=50)v[5]++;else v[6]++;});
@@ -344,6 +339,14 @@ function buildDash(drillData, drillLabel){
     tens.forEach(a=>{if(a<1)v[0]++;else if(a<=3)v[1]++;else if(a<=5)v[2]++;else if(a<=10)v[3]++;else if(a<=15)v[4]++;else v[5]++;});
     h += makeHist('อายุงาน', b, v, [{a:0,b:1},{a:1,b:3},{a:3,b:5},{a:5,b:10},{a:10,b:15},{a:15,b:200}], 'tenure');
   }
+  h += makeDonut([['ชาย',nM,'#29ABE2','#e3f4fc'],['หญิง',nF,'#db2777','#fce7f3']].filter(([,n])=>n>0));
+  h += '</div>';
+  // Row 2: แผนก สาขา ตำแหน่ง ฝ่าย
+  h += '<div class="cgrid">';
+  h += makeBarChart('พนักงานตามแผนก', 'dept', data, 'dept');
+  h += makeBarChart('พนักงานตามสาขา', 'branch', data, 'branch');
+  h += makeBarChart('ตำแหน่งงาน', 'pos', data, 'pos');
+  h += makeBarChart('ฝ่าย', 'div', data, 'div');
   h += '</div>';
   document.getElementById('page-dash').innerHTML = h;
 }
