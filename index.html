@@ -113,6 +113,41 @@ tr:last-child td{border-bottom:none}.tr-click:hover td{background:var(--Bl);curs
 .info-item{background:var(--BG);border-radius:10px;padding:10px 12px}.info-item.wide{grid-column:1/-1}
 .info-lbl{font-size:11px;color:#4a5568;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
 .info-val{font-size:14px;font-weight:800;color:var(--T)}.info-val.ac{color:var(--Bd)}
+.org-wrap{width:100%;overflow-x:auto;padding:10px 0}
+.org-tree{display:flex;flex-direction:column;align-items:center;gap:0;min-width:max-content}
+.org-div-row{display:flex;gap:24px;justify-content:center;align-items:flex-start;flex-wrap:nowrap}
+.org-div-col{display:flex;flex-direction:column;align-items:center;gap:0}
+.org-div-box{background:linear-gradient(135deg,var(--B),var(--Bd));color:#fff;border-radius:12px;padding:10px 20px;font-size:13px;font-weight:800;text-align:center;min-width:160px;cursor:pointer;transition:all .2s;position:relative;box-shadow:0 3px 12px rgba(41,171,226,.35)}
+.org-div-box:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(41,171,226,.45)}
+.org-div-cnt{font-size:11px;color:rgba(255,255,255,.8);font-weight:600;margin-top:2px}
+.org-connector-v{width:2px;height:20px;background:var(--BOR);margin:0 auto}
+.org-connector-h{height:2px;background:var(--BOR);position:absolute;top:0}
+.org-dept-row{display:flex;gap:16px;justify-content:center;align-items:flex-start;position:relative}
+.org-dept-row::before{content:'';position:absolute;top:0;left:50%;right:50%;height:2px;background:var(--BOR)}
+.org-dept-row-line{height:2px;background:var(--BOR);position:absolute;top:0}
+.org-dept-col{display:flex;flex-direction:column;align-items:center;gap:0}
+.org-dept-box{border-radius:10px;padding:8px 14px;font-size:12px;font-weight:700;text-align:center;min-width:130px;cursor:pointer;transition:all .2s;border:2px solid}
+.org-dept-box:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.12)}
+.org-dept-cnt{font-size:11px;font-weight:600;margin-top:2px;opacity:.8}
+.org-person-row{display:flex;gap:8px;justify-content:center;align-items:flex-start;flex-wrap:wrap;max-width:480px;padding:0 4px}
+.org-person{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;padding:6px;border-radius:10px;transition:all .15s;width:72px}
+.org-person:hover{background:var(--Bl);transform:translateY(-2px)}
+.org-person-photo{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid var(--BOR);flex-shrink:0}
+.org-person-av{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex-shrink:0}
+.org-person-name{font-size:10px;font-weight:700;color:var(--T);text-align:center;line-height:1.3;max-width:68px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.org-person-pos{font-size:9px;color:#4a5568;text-align:center;line-height:1.2;max-width:68px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.org-filter-bar{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;align-items:center}
+.org-filter-bar select{padding:8px 12px;border:1.5px solid var(--BOR);border-radius:9px;background:var(--W);color:var(--T);font-size:13px;font-family:inherit;outline:none;font-weight:600}
+.org-filter-bar select:focus{border-color:var(--B)}
+.org-legend{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.org-legend-item{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:var(--T)}
+.org-legend-dot{width:12px;height:12px;border-radius:3px}
+.org-section{margin-bottom:32px}
+.org-section-title{font-size:11px;font-weight:800;color:#4a5568;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;padding:6px 14px;background:var(--BG);border-radius:8px;display:inline-block}
+.org-zoom-bar{display:flex;gap:8px;align-items:center;margin-bottom:12px}
+.org-zoom-btn{padding:5px 12px;border:1.5px solid var(--BOR);border-radius:7px;background:var(--W);cursor:pointer;font-size:14px;font-weight:700;color:var(--T);transition:all .15s}
+.org-zoom-btn:hover{background:var(--Bl);border-color:var(--B)}
+.org-zoom-label{font-size:13px;font-weight:600;color:#4a5568;min-width:40px;text-align:center}
 .btt{position:fixed;bottom:28px;right:28px;width:44px;height:44px;background:var(--B);color:#fff;border:none;border-radius:50%;font-size:20px;cursor:pointer;box-shadow:0 4px 16px rgba(41,171,226,.45);display:none;align-items:center;justify-content:center;z-index:400;font-weight:800}
 .btt:hover{background:var(--Bd)}.btt.show{display:flex}
 .loading-box{text-align:center;padding:80px;color:#4a5568;font-size:15px;font-weight:700}
@@ -136,6 +171,7 @@ tr:last-child td{border-bottom:none}.tr-click:hover td{background:var(--Bl);curs
       <button class="nb active" onclick="show('dash',this)">📊 Dashboard</button>
       <button class="nb" onclick="show('dir',this)">👥 รายชื่อพนักงาน</button>
       <button class="nb" onclick="show('bday',this)">🎂 วันเกิด</button>
+      <button class="nb" onclick="show('org',this)">🏢 Org Chart</button>
       <div style="margin-left:auto;display:flex;gap:8px;align-items:center;margin-right:8px">
         <a href="https://github.com/ecosealthailand/hr/upload/main/photos" target="_blank"
            style="padding:8px 16px;background:#29ABE2;color:#fff;border-radius:9px;font-size:13px;font-weight:700;text-decoration:none;display:flex;align-items:center;gap:6px;white-space:nowrap;border:1.5px solid #1a8abf;transition:all .15s"
@@ -165,6 +201,7 @@ tr:last-child td{border-bottom:none}.tr-click:hover td{background:var(--Bl);curs
       <div id="dc"></div>
     </div>
     <div id="page-bday" class="pg"></div>
+    <div id="page-org" class="pg"></div>
   </div>
 </div>
 <div id="overlay" class="overlay" style="display:none" onclick="closeModal(event)">
@@ -755,6 +792,146 @@ function show(p,btn){
   document.querySelectorAll('.nb').forEach(e=>e.classList.remove('active'));
   document.getElementById('page-'+p).classList.add('active'); btn.classList.add('active');
   if(p==='bday' && !document.getElementById('page-bday').innerHTML.trim()) buildBday();
+  if(p==='org' && !document.getElementById('page-org').innerHTML.trim()) buildOrg();
+}
+
+// ── ORG CHART ─────────────────────────────────────────────────
+let orgZoom = 1;
+let orgFilterDiv = '';
+
+function buildOrg(filterDiv){
+  orgFilterDiv = filterDiv || '';
+  // จัดเรียงฝ่ายตามที่กำหนด
+  const DIV_ORDER = [
+    'สำนักบริหาร',          // สำนักกรรมการผู้จัดการ — อยู่บนสุด
+    'ขายและผลิต',           // ขาย วิศว ผลิต
+    'ธุรกิจระหว่างประเทศ',  // จัดซื้อ ต่างประเทศ
+    'การเงินและบริหาร',     // บัญชี HR IT คลังสินค้า
+  ];
+  // แผนกในแต่ละฝ่าย — เรียงตามกลุ่ม
+  const DEPT_ORDER = {
+    'ขายและผลิต': [
+      'ขายหน้าร้าน','ขายและการตลาด','ขาย HS / PK','ขาย - มาบตาพุด',
+      'ขาย - พลาสติกอุตสหกรรม','ขาย - โคราช','ขาย - น่าน',
+      'วิศวอุตสาหการ','ผลิต - วิศวอุตสาหการ','ผลิต','ผลิต - ปะเก็น',
+      'ผลิต - มาบตาพุด','ผลิต - อมตะ','ผลิต - โคราช',
+      'สนับสนุนด้านเทคนิค - มาบตาพุด','สนับสนุนด้านเทคนิค -  ปะเก็น',
+    ],
+    'ธุรกิจระหว่างประเทศ': [
+      'จัดซื้อ','ขายต่างประเทศและสินค้าพิเศษ','ขาย - น่าน',
+    ],
+    'การเงินและบริหาร': [
+      'บัญชี','บัญชี - มาบตาพุด','บัญชี - พระยาสุเรนทร์',
+      'เทคโนโลยีสารสนเทศ','ทรัพยากรบุคคล','ทรัพยากรบุคคล - มาบตาพุด',
+      'คลังสินค้าและจัดส่ง','คลังสินค้าและจัดส่ง / คลังสินค้า',
+      'คลังสินค้าและจัดส่ง / คลังสินค้าออยซีล',
+      'คลังสินค้าและจัดส่ง / คลังสินค้าโอริง',
+      'คลังสินค้าและจัดส่ง / คลังสินค้ามาบตาพุด',
+      'คลังสินค้าและจัดส่ง / คลังสินค้าปะเก็น',
+      'คลังสินค้าและจัดส่ง / คลังสินค้าโคราช',
+      'คลังสินค้าและจัดส่ง / พระยาสุเรนทร์',
+      'คลังสินค้าและจัดส่ง / จัดส่งและเก็บเงิน',
+      'คลังสินค้าและจัดส่ง / จัดส่งมาบตาพุด',
+      'คลังสินค้าและจัดส่ง /ขับรถจัดส่งและเก็บเงิน',
+      'คลังสินค้าและจัดส่ง / โรงงานปะเก็น',
+      'คลังสินค้าและจัดส่ง - โรงงาน',
+    ],
+  };
+
+  const allDivs = [...new Set(rows.map(r=>g(r,'div')).filter(Boolean))];
+  // เรียงตาม DIV_ORDER ก่อน แล้วที่เหลือต่อท้าย
+  const divList = [
+    ...DIV_ORDER.filter(d=>allDivs.includes(d)),
+    ...allDivs.filter(d=>!DIV_ORDER.includes(d)).sort(),
+  ];
+  const deptList2 = [...new Set(rows.map(r=>g(r,'dept')).filter(Boolean))];
+
+  // Filter options
+  let filterOpts = '<option value="">ทุกฝ่าย</option>';
+  divList.forEach(d=> filterOpts += `<option value="${d}" ${orgFilterDiv===d?'selected':''}>${d}</option>`);
+
+  const filtDivs = orgFilterDiv ? divList.filter(d=>d===orgFilterDiv) : divList;
+
+  let orgHtml = '';
+  filtDivs.forEach((div, di) => {
+    const isTop = div==='สำนักบริหาร';
+    const divColor = isTop ? '#c8830a' : PAL[di % PAL.length];
+    const divPale  = isTop ? '#fff8e1' : PALE[di % PALE.length];
+    const divEmps  = rows.filter(r=>g(r,'div')===div);
+    const allDepts2 = [...new Set(divEmps.map(r=>g(r,'dept')).filter(Boolean))];
+    const deptOrderForDiv = DEPT_ORDER[div] || [];
+    const depts = [
+      ...deptOrderForDiv.filter(d=>allDepts2.includes(d)),
+      ...allDepts2.filter(d=>!deptOrderForDiv.includes(d)).sort(),
+    ];
+
+    orgHtml += `<div class="org-section">
+      <div class="org-section-title" style="background:${divPale};color:${divColor};border:1.5px solid ${divColor}40;${isTop?'font-size:13px;padding:8px 18px;':''}">
+        ${isTop?'👑 ':''}${div} · ${divEmps.length} คน
+      </div>
+      <div class="org-wrap">
+        <div style="display:flex;gap:16px;flex-wrap:wrap;padding:4px 2px">`;
+
+    depts.forEach((dept, deptI) => {
+      const deptEmps = divEmps.filter(r=>g(r,'dept')===dept);
+      const di2 = deptList2.indexOf(dept);
+      const deptColor = PAL[Math.max(0,di2) % PAL.length];
+      const deptPale  = PALE[Math.max(0,di2) % PALE.length];
+
+      orgHtml += `<div class="org-dept-col">
+        <div class="org-dept-box" style="background:${deptPale};color:${deptColor};border-color:${deptColor}50"
+             onclick="drillByCol('dept','${dept.replace(/'/g,"\'")}')">
+          <div>${dept}</div>
+          <div class="org-dept-cnt">${deptEmps.length} คน</div>
+        </div>
+        <div class="org-connector-v"></div>
+        <div class="org-person-row">`;
+
+      deptEmps.forEach((r, pi) => {
+        const nm    = g(r,'name');
+        const nick  = g(r,'nick');
+        const pos   = g(r,'pos');
+        const code  = g(r,'code').replace(/'/g,"\'");
+        const ci    = Math.max(0,deptList2.indexOf(g(r,'dept')))%PAL.length;
+        const photo = photoUrl(r);
+        orgHtml += `<div class="org-person" onclick="openProfile('${code}')">
+          <img src="${photo}" class="org-person-photo"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="org-person-av" style="${avCol(ci)};display:none">${ini(nm)}</div>
+          <div class="org-person-name">${nm}</div>
+          <div class="org-person-pos">${nick ? '"'+nick+'"' : pos}</div>
+        </div>`;
+      });
+
+      orgHtml += `</div></div>`;
+    });
+
+    orgHtml += `</div></div></div>`;
+  });
+
+  document.getElementById('page-org').innerHTML = `
+    <div class="org-filter-bar">
+      <select onchange="buildOrg(this.value)">${filterOpts}</select>
+      <span style="font-size:13px;color:#4a5568;font-weight:600">แสดง ${filtDivs.length} ฝ่าย · ${rows.filter(r=>filtDivs.includes(g(r,'div'))).length} คน</span>
+      <div style="margin-left:auto;display:flex;gap:6px;align-items:center">
+        <button class="org-zoom-btn" onclick="zoomOrg(-0.1)">−</button>
+        <span class="org-zoom-label" id="zoomLbl">${Math.round(orgZoom*100)}%</span>
+        <button class="org-zoom-btn" onclick="zoomOrg(0.1)">+</button>
+        <button class="org-zoom-btn" onclick="zoomOrg(0)" style="font-size:12px">Reset</button>
+      </div>
+    </div>
+    <div id="orgContent" style="transform:scale(${orgZoom});transform-origin:top left;transition:transform .2s">
+      ${orgHtml}
+    </div>`;
+}
+
+function zoomOrg(delta){
+  if(delta===0) orgZoom=1;
+  else orgZoom = Math.max(0.4, Math.min(1.5, orgZoom+delta));
+  const el = document.getElementById('orgContent');
+  if(el) el.style.transform = `scale(${orgZoom})`;
+  const lbl = document.getElementById('zoomLbl');
+  if(lbl) lbl.textContent = Math.round(orgZoom*100)+'%';
 }
 
 // ── INIT & LOAD ──────────────────────────────────────────────
