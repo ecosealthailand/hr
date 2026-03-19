@@ -20,7 +20,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .pg{display:none}.pg.active{display:block}
 .breadcrumb{display:flex;align-items:center;gap:6px;font-size:13px;color:#4a5568;margin-bottom:14px}
 .breadcrumb a{color:var(--Bd);cursor:pointer;font-weight:700}.breadcrumb a:hover{text-decoration:underline}
-.kpi-row{display:grid;grid-template-columns:repeat(7,1fr);gap:12px;margin-bottom:20px}
+.kpi-row{display:grid;grid-template-columns:repeat(8,1fr);gap:12px;margin-bottom:20px}
 @media(max-width:1400px){.kpi-row{grid-template-columns:repeat(4,1fr)}}
 @media(max-width:768px){.kpi-row{grid-template-columns:repeat(2,1fr)}}
 .kpi{background:var(--W);border-radius:12px;padding:16px;border:1px solid var(--BOR);cursor:pointer;transition:all .2s;position:relative;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.05)}
@@ -47,15 +47,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .leg{display:flex;flex-direction:column;gap:10px}
 .leg-row{display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;padding:5px 10px;border-radius:8px;font-weight:700;color:var(--T);transition:background .15s}
 .leg-row:hover{background:var(--Bl)}.leg-dot{width:12px;height:12px;border-radius:3px;flex-shrink:0}
-.hist{display:flex;align-items:flex-end;gap:6px;height:110px;padding:0 4px}
-.hist-col{display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;cursor:pointer}
+.hist{display:flex;align-items:flex-end;gap:6px;height:120px;padding:0 4px;width:100%}
+.hist-col{display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;cursor:pointer;min-width:0;overflow:hidden}
 .hist-col:hover .hist-bar{opacity:.75}.hist-bar{width:100%;border-radius:5px 5px 0 0;min-height:4px}
-.hist-lbl{font-size:10px;color:#4a5568;text-align:center;white-space:nowrap;line-height:1.4;font-weight:600}
+.hist-lbl{font-size:10px;color:#4a5568;text-align:center;white-space:nowrap;line-height:1.4;font-weight:600;overflow:hidden;text-overflow:ellipsis;max-width:100%}
 .hist-num{font-size:11px;color:var(--T);font-weight:800}
-.mgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
-.mbox{background:var(--BG);border-radius:10px;padding:10px 6px;text-align:center;cursor:pointer;transition:all .15s;border:1.5px solid var(--BOR)}
+.mgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;width:100%}
+.mbox{background:var(--BG);border-radius:10px;padding:10px 6px;text-align:center;cursor:pointer;transition:all .15s;border:1.5px solid var(--BOR);min-width:0;overflow:hidden}
 .mbox:hover{background:var(--Bl);border-color:var(--B)}
-.mname{font-size:11px;color:#4a5568;margin-bottom:4px;font-weight:700}.mval{font-size:20px;font-weight:800;color:var(--T)}.mbar{height:4px;border-radius:2px;background:var(--B);margin-top:6px}
+.mname{font-size:11px;color:#4a5568;margin-bottom:4px;font-weight:700}.mval{font-size:20px;font-weight:800;color:var(--T)}.mbar{height:4px;border-radius:2px;background:var(--B);margin-top:6px;max-width:100%}
 .toolbar{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center}
 .toolbar input,.toolbar select{padding:8px 12px;border:1.5px solid var(--BOR);border-radius:9px;background:var(--W);color:var(--T);font-size:13px;font-family:inherit;outline:none;font-weight:600}
 .toolbar input:focus,.toolbar select:focus{border-color:var(--B)}.toolbar input{flex:1;min-width:200px}
@@ -136,11 +136,18 @@ tr:last-child td{border-bottom:none}.tr-click:hover td{background:var(--Bl);curs
       <button class="nb active" onclick="show('dash',this)">📊 Dashboard</button>
       <button class="nb" onclick="show('dir',this)">👥 รายชื่อพนักงาน</button>
       <button class="nb" onclick="show('bday',this)">🎂 วันเกิด</button>
-      <a href="https://docs.google.com/spreadsheets/d/14kmY8-Jm0NppCKhmRD-o7chzWdQJuhO-h1LRd2n5p-o/edit?usp=sharing" target="_blank"
-         style="margin-left:auto;margin-right:8px;padding:8px 16px;background:#FFC107;color:#1a1a18;border-radius:9px;font-size:13px;font-weight:700;text-decoration:none;display:flex;align-items:center;gap:6px;white-space:nowrap;border:1.5px solid #e6ac00;transition:all .15s"
-         onmouseover="this.style.background='#e6ac00'" onmouseout="this.style.background='#FFC107'">
-        ✏️ Link Update รายชื่อ
-      </a>
+      <div style="margin-left:auto;display:flex;gap:8px;align-items:center;margin-right:8px">
+        <a href="https://github.com/ecosealthailand/hr/upload/main/photos" target="_blank"
+           style="padding:8px 16px;background:#29ABE2;color:#fff;border-radius:9px;font-size:13px;font-weight:700;text-decoration:none;display:flex;align-items:center;gap:6px;white-space:nowrap;border:1.5px solid #1a8abf;transition:all .15s"
+           onmouseover="this.style.background='#1a8abf'" onmouseout="this.style.background='#29ABE2'">
+          📷 Upload รูปพนง.
+        </a>
+        <a href="https://docs.google.com/spreadsheets/d/14kmY8-Jm0NppCKhmRD-o7chzWdQJuhO-h1LRd2n5p-o/edit?usp=sharing" target="_blank"
+           style="padding:8px 16px;background:#FFC107;color:#1a1a18;border-radius:9px;font-size:13px;font-weight:700;text-decoration:none;display:flex;align-items:center;gap:6px;white-space:nowrap;border:1.5px solid #e6ac00;transition:all .15s"
+           onmouseover="this.style.background='#e6ac00'" onmouseout="this.style.background='#FFC107'">
+          ✏️ Link Update รายชื่อ
+        </a>
+      </div>
     </div>
     <div id="page-dash" class="pg active"></div>
     <div id="page-dir" class="pg">
@@ -178,11 +185,19 @@ const C = {
 
 // ── DATA SOURCE ──────────────────────────────────────────────
 const SHEET_ID = '14kmY8-Jm0NppCKhmRD-o7chzWdQJuhO-h1LRd2n5p-o';
+
+// ===== ตั้งค่ารูปพนักงาน =====
+const GH_USER  = 'ecosealthailand'; // ← GitHub username
+const GH_REPO  = 'hr';              // ← ชื่อ repo
+const PHOTO_BASE = `https://${GH_USER}.github.io/${GH_REPO}/photos/`;
+// ชื่อไฟล์รูป = รหัสพนักงาน.jpg เช่น photos/2.jpg, photos/6.jpg
+
+const PUB_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT8quBD-tiz47Dyqq9qZLwpwRh2Db0B9n0XJbJQ4sWXvMALL_G3FP78dntvyX7eGI5p3z-dpRoBdQPW/pub?gid=0&single=true&output=csv';
 const URLS = [
+  PUB_CSV,
   `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=0`,
-  `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=0`,
-  `https://api.allorigins.win/raw?url=${encodeURIComponent('https://docs.google.com/spreadsheets/d/14kmY8-Jm0NppCKhmRD-o7chzWdQJuhO-h1LRd2n5p-o/export?format=csv&gid=0')}`,
-  `https://corsproxy.io/?${encodeURIComponent('https://docs.google.com/spreadsheets/d/14kmY8-Jm0NppCKhmRD-o7chzWdQJuhO-h1LRd2n5p-o/export?format=csv&gid=0')}`,
+  `https://api.allorigins.win/raw?url=${encodeURIComponent('https://docs.google.com/spreadsheets/d/e/2PACX-1vT8quBD-tiz47Dyqq9qZLwpwRh2Db0B9n0XJbJQ4sWXvMALL_G3FP78dntvyX7eGI5p3z-dpRoBdQPW/pub?gid=0&single=true&output=csv')}`,
+  `https://corsproxy.io/?${encodeURIComponent('https://docs.google.com/spreadsheets/d/e/2PACX-1vT8quBD-tiz47Dyqq9qZLwpwRh2Db0B9n0XJbJQ4sWXvMALL_G3FP78dntvyX7eGI5p3z-dpRoBdQPW/pub?gid=0&single=true&output=csv')}`,
 ];
 
 const PAL  = ['#29ABE2','#1a8abf','#10b981','#7c3aed','#e11d48','#FFC107','#db2777','#0891b2','#65a30d','#9333ea','#0f766e','#dc2626'];
@@ -199,7 +214,8 @@ const IDX = {
   no:0, code:1, prefix:2, name:3, nick:4,
   pos:5, dept:6, div:7, branch:8,
   tel:9, ext:10, mobile:18, email:20,
-  start:21, dob:22, dobiso:23
+  start:21, dob:22, dobiso:23,
+  status:24, effdate:25
 };
 
 const g = (r,k) => {
@@ -219,6 +235,15 @@ const isFem  = r => /^(นางสาว|นาง)$/.test(g(r,'prefix'));
 const gOf    = r => isMale(r)?'ชาย':isFem(r)?'หญิง':'';
 const ini    = n => (n||'?').trim().split(/\s+/).map(w=>w[0]||'').join('').toUpperCase().slice(0,2);
 const avCol  = i => `background:${PALE[i%PALE.length]};color:${PAL[i%PAL.length]}`;
+const avs    = avCol;
+
+// ── รูปพนักงาน ───────────────────────────────────────────────
+function photoUrl(r){ return PHOTO_BASE + (g(r,'code')||'0') + '.jpg'; }
+function photoImg(r, size=40){
+  const code = g(r,'code');
+  if(!code) return '';
+  return `<img src="${photoUrl(r)}" style="width:${size}px;height:${size}px;border-radius:50%;object-fit:cover;border:2px solid #e8edf2;flex-shrink:0" onerror="this.style.display='none';this.nextElementSibling && (this.nextElementSibling.style.display='inline-flex')" loading="lazy">`;
+}
 const freq   = col => { const c={}; rows.forEach(r=>{ const v=g(r,col); if(v) c[v]=(c[v]||0)+1; }); return Object.entries(c).sort((a,b)=>b[1]-a[1]); };
 const deptList = () => [...new Set(rows.map(r=>g(r,'dept')).filter(Boolean))];
 
@@ -247,15 +272,26 @@ function backToTop(){ window.scrollTo({top:0,behavior:'smooth'}); }
 
 // ── PROFILE MODAL ────────────────────────────────────────────
 function openProfile(code){
-  const r = rows.find(x=>g(x,'code')===code);
+  // ค้นหาจาก rows (ทำงานอยู่) และ resignedRows (ลาออก)
+  const allRows = [...rows, ...(window.resignedRows||[])];
+  const r = allRows.find(x=>g(x,'code')===code);
   if(!r) return;
   const nm=g(r,'name'), nick=g(r,'nick'), dept=g(r,'dept'), br=g(r,'branch');
   const dl=deptList(); const ci=Math.max(0,dl.indexOf(dept))%PAL.length;
   const gen=gOf(r); const genC=gen==='ชาย'?'#1a8abf':gen==='หญิง'?'#db2777':'#4a5568'; const genBg=gen==='ชาย'?'#e3f4fc':gen==='หญิง'?'#fce7f3':'#f0f2f5';
+  const isResigned = g(r,'status')==='ลาออก';
+  const headGrad = isResigned
+    ? 'background:linear-gradient(135deg,#e11d48,#be123c)'
+    : 'background:linear-gradient(135deg,var(--B),var(--Bd))';
   document.getElementById('modal').innerHTML=`
-    <div class="modal-head">
+    <div class="modal-head" style="${headGrad}">
       <button class="modal-x" onclick="closeModal()">✕</button>
-      <div class="modal-av" style="${avCol(ci)}">${ini(nm)}</div>
+      ${isResigned?'<div style="position:absolute;top:14px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,.2);color:#fff;font-size:11px;font-weight:800;padding:2px 12px;border-radius:99px">👋 ลาออกแล้ว</div>':''}
+      <div style="margin-bottom:12px;margin-top:${isResigned?'20px':'0'}">
+        <img src="${photoUrl(r)}" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid rgba(255,255,255,.5)"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" loading="lazy">
+        <div class="modal-av" style="${avCol(ci)};display:none">${ini(nm)}</div>
+      </div>
       <div class="modal-name">${nm||'-'}</div>
       ${nick?`<div class="modal-nick">"${nick}"</div>`:''}
       <div class="modal-pos">${g(r,'pos')||''}</div>
@@ -268,6 +304,8 @@ function openProfile(code){
         <div class="info-item wide"><div class="info-lbl">แผนก</div><div class="info-val">${deptBadge(dept)}</div></div>
         <div class="info-item"><div class="info-lbl">ฝ่าย</div><div class="info-val">${g(r,'div')||''}</div></div>
         <div class="info-item"><div class="info-lbl">สาขา</div><div class="info-val ac">${br||''}</div></div>
+        ${g(r,'status')?`<div class="info-item"><div class="info-lbl">สถานะ</div><div class="info-val"><span style="background:${g(r,'status')==='ลาออก'?'#fee2e2':'#d1fae5'};color:${g(r,'status')==='ลาออก'?'#e11d48':'#059669'};padding:2px 12px;border-radius:99px;font-size:12px;font-weight:800">${g(r,'status')}</span></div></div>`:''}
+        ${g(r,'effdate')?`<div class="info-item"><div class="info-lbl">วันที่ลาออก</div><div class="info-val" style="color:#e11d48">${fmtDate(pd(g(r,'effdate')))}</div></div>`:''}
       </div>
       <div class="sec-h">ข้อมูลส่วนตัว</div>
       <div class="info-grid">
@@ -298,6 +336,69 @@ function exportData(data, filename){
   a.download = (filename||'Ecoseal_Staff') + `_${new Date().toLocaleDateString('th-TH').replace(/\//g,'-')}.csv`;
   a.click();
 }
+
+// ── พนักงานลาออก ─────────────────────────────────────────────
+function showResigned(){
+  const data = window.resignedRows || [];
+  document.querySelectorAll('.pg').forEach(e=>e.classList.remove('active'));
+  document.querySelectorAll('.nb').forEach(e=>e.classList.remove('active'));
+  document.getElementById('page-dash').classList.add('active');
+  document.querySelectorAll('.nb')[0].classList.add('active');
+  const dl = deptList();
+  let rows_r = [...data];
+  let sk_r = null, sd_r = 1;
+  
+  const renderResigned = () => {
+    let h2 = '<div class="tw"><table><thead><tr><th></th><th onclick="sortR(\'code\')">รหัส</th><th onclick="sortR(\'name\')">ชื่อ-สกุล</th><th>ชื่อเล่น</th><th>ตำแหน่ง</th><th>แผนก</th><th>ฝ่าย</th><th>สาขา</th><th>เพศ</th><th onclick="sortR(\'_age\')">อายุ</th><th onclick="sortR(\'_ten\')">อายุงาน</th><th onclick="sortR(\'_eff\')" style="color:#e11d48">วันที่ลาออก</th><th>มือถือ</th><th>อีเมล</th></tr></thead><tbody>';
+    rows_r.forEach((r)=>{
+      const nm=g(r,'name'),dept=g(r,'dept');
+      const ci=Math.max(0,dl.indexOf(dept))%PAL.length;
+      const code=g(r,'code').replace(/'/g,"\'");
+      const effRaw=g(r,'effdate'); const effD=pd(effRaw); const effStr=effD&&!isNaN(effD)?fmtDate(effD):effRaw||'-';
+      h2+=`<tr class="tr-click" onclick="openProfile('${code}')">
+        <td>${photoImg(r,30)}<div class="av" style="width:30px;height:30px;font-size:11px;${avCol(ci)};display:none">${ini(nm)}</div></td>
+        <td style="color:#1a8abf;font-weight:800">${g(r,'code')}</td>
+        <td style="font-weight:800">${nm}</td><td>${g(r,'nick')||''}</td>
+        <td>${g(r,'pos')||''}</td>
+        <td>${dept?`<span class="badge" style="background:${PALE[ci]};color:${PAL[ci]}">${dept}</span>`:''}</td>
+        <td>${g(r,'div')||''}</td><td style="color:#1a8abf;font-weight:700">${g(r,'branch')||''}</td>
+        <td>${genBadge(gOf(r))}</td><td>${ageStr(r)||''}</td>
+        <td style="color:#10b981;font-weight:700">${tenureStr(r)||''}</td>
+        <td style="color:#e11d48;font-weight:800">${effStr}</td>
+        <td>${g(r,'mobile')||g(r,'tel')||''}</td>
+        <td style="color:#7c3aed">${g(r,'email')||''}</td>
+      </tr>`;
+    });
+    document.querySelector('.resigned-tw').innerHTML = h2+'</tbody></table></div>';
+  };
+  
+  window._sortResigned = (k)=>{
+    if(sk_r===k)sd_r*=-1;else{sk_r=k;sd_r=1;}
+    rows_r.sort((a,b)=>{
+      if(k==='_age')return((yAgo(dobOf(a))||0)-(yAgo(dobOf(b))||0))*sd_r;
+      if(k==='_ten')return((yAgo(stOf(a))||0)-(yAgo(stOf(b))||0))*sd_r;
+      if(k==='_eff'){const da=pd(g(a,'effdate'))||new Date(0),db=pd(g(b,'effdate'))||new Date(0);return(da-db)*sd_r;}
+      const av=g(a,k)||'',bv=g(b,k)||'';
+      const n=Number(av)-Number(bv);return(isNaN(n)?av.localeCompare(bv,'th'):n)*sd_r;
+    });
+    renderResigned();
+  };
+  
+  document.getElementById('page-dash').innerHTML=`
+    <div class="breadcrumb"><a onclick="buildDash()">Dashboard</a> › <span>พนักงานลาออก</span></div>
+    <div class="drill-panel">
+      <div class="drill-head" style="background:linear-gradient(135deg,#e11d48,#be123c)">
+        <div><div class="drill-title">👋 พนักงานที่ลาออก</div><span class="drill-cnt">${data.length} คน</span></div>
+        <div style="display:flex;gap:8px">
+          <button class="exp-btn" style="border-color:rgba(255,255,255,.4);background:rgba(255,255,255,.15);color:#fff" onclick="exportData(window.resignedRows,'พนักงานลาออก')">⬇ Export</button>
+          <button class="drill-back" onclick="buildDash()">← กลับ Dashboard</button>
+        </div>
+      </div>
+      <div class="drill-tw resigned-tw"></div>
+    </div>`;
+  renderResigned();
+}
+function sortR(k){if(window._sortResigned)window._sortResigned(k);}
 
 // ── DASHBOARD ────────────────────────────────────────────────
 function buildDash(drillData, drillLabel){
@@ -330,7 +431,8 @@ function buildDash(drillData, drillLabel){
   const nM = data.filter(isMale).length, nF = data.filter(isFem).length;
 
   let h = `<div class="kpi-row">
-    <div class="kpi bkpi"><div class="kpi-lbl">พนักงานทั้งหมด</div><div class="kpi-val">${data.length}</div><div class="kpi-sub">คน</div></div>
+    <div class="kpi bkpi" onclick="buildDash(rows,'พนักงานทั้งหมด (ทำงานอยู่)')" style="cursor:pointer"><div class="kpi-lbl">พนักงานทั้งหมด</div><div class="kpi-val">${data.length}</div><div class="kpi-sub">คน (ทำงานอยู่)</div><div class="kpi-hint">▼ ดูรายละเอียด</div></div>
+    <div class="kpi" style="cursor:pointer" onclick="showResigned()"><div class="kpi-lbl">ลาออก</div><div class="kpi-val" style="color:#e11d48">${window.resignedRows?window.resignedRows.length:0}</div><div class="kpi-sub">คน</div><div class="kpi-hint">▼ ดูรายชื่อ</div></div>
     <div class="kpi ykpi" onclick="drillByCol('dept','')"><div class="kpi-lbl">แผนก</div><div class="kpi-val">${ndept}</div><div class="kpi-sub">แผนก</div><div class="kpi-hint">▼ ดูรายละเอียด</div></div>
     <div class="kpi bkpi" onclick="drillByCol('branch','')"><div class="kpi-lbl">สาขา</div><div class="kpi-val">${nbr}</div><div class="kpi-sub">สาขา</div><div class="kpi-hint">▼ ดูรายละเอียด</div></div>
     <div class="kpi gkpi"><div class="kpi-lbl">อายุเฉลี่ย</div><div class="kpi-val">${avgAge}</div><div class="kpi-sub">ปี</div></div>
@@ -433,7 +535,8 @@ function makeDrillTable(data){
     const code = g(r,'code').replace(/'/g,"\\'");
     const dept = g(r,'dept');
     const dl = deptList(); const ci = Math.max(0,dl.indexOf(dept))%PAL.length;
-    h += `<tr class="tr-click" onclick="openProfile('${code}')"><td><div class="av" style="width:30px;height:30px;font-size:11px;${avCol(ci)}">${ini(g(r,'name'))}</div></td>`;
+    h += `<tr class="tr-click" onclick="openProfile('${code}')"><td style="width:44px">
+      ${photoImg(r,34)}<div class="av" style="width:34px;height:34px;font-size:11px;${avCol(ci)};display:none">${ini(g(r,'name'))}</div></td>`;
     DCOLS.forEach(({k})=>{
       let v = '';
       if(k==='_gen') v = genBadge(gOf(r));
@@ -514,7 +617,8 @@ function renderTable(){
   filtered.forEach((r,ri)=>{
     const code = g(r,'code').replace(/'/g,"\\'");
     const dept = g(r,'dept'); const dl=deptList(); const ci=Math.max(0,dl.indexOf(dept))%PAL.length;
-    h += `<tr class="tr-click" onclick="openProfile('${code}')"><td><div class="av" style="width:28px;height:28px;font-size:11px;${avCol(ci)}">${ini(g(r,'name'))}</div></td>`;
+    h += `<tr class="tr-click" onclick="openProfile('${code}')"><td style="width:44px">
+      ${photoImg(r,32)}<div class="av" style="width:32px;height:32px;font-size:11px;${avCol(ci)};display:none">${ini(g(r,'name'))}</div></td>`;
     TCOLS.forEach(({k})=>{
       let v = '';
       if(k==='_gen') v = genBadge(gOf(r));
@@ -560,7 +664,8 @@ function renderCards(){
     const gen=gOf(r); const genC=gen==='ชาย'?'#1a8abf':gen==='หญิง'?'#db2777':'#4a5568'; const genBg=gen==='ชาย'?'#e3f4fc':gen==='หญิง'?'#fce7f3':'#f0f2f5';
     const code = g(r,'code').replace(/'/g,"\\'");
     h += `<div class="card" onclick="openProfile('${code}')">
-      <div class="card-top"><div class="av" style="width:42px;height:42px;font-size:14px;${avCol(ci)}">${ini(nm)}</div>
+      <div class="card-top">
+        ${photoImg(r,44)}<div class="av" style="width:44px;height:44px;font-size:14px;${avCol(ci)};display:none">${ini(nm)}</div>
         <div><div class="card-name">${nm||''}</div><div class="card-sub">${nick?`"${nick}" · `:''}${g(r,'code')||''}</div></div></div>
       <div class="card-body">
         ${dept?`<div class="crow"><span class="ck">แผนก</span><span class="cv">${deptBadge(dept)}</span></div>`:''}
@@ -605,15 +710,18 @@ function buildBday(){
       const nm=g(u.r,'name'), nick=g(u.r,'nick'), dept=g(u.r,'dept'), br=g(u.r,'branch'), pos=g(u.r,'pos');
       const bdFull = fmtDateWithDay(u.bd);
       const bdStr = `${u.bd.getDate()} ${MO[u.bd.getMonth()]}`;
+      const dayOfWeek = DAYS[new Date(now.getFullYear(),u.bd.getMonth(),u.bd.getDate()).getDay()];
+      const photoHtml = photoImg(u.r, 36);
+      const avHtml = `<div class="av" style="width:36px;height:36px;font-size:12px;${avCol(i)};${photoHtml?'display:none':''}">${ini(nm)}</div>`;
       uhtml += `<div class="bday-row${u.diff===0?' today':''}" onclick="openProfile('${code}')">
         <div class="bday-lbl">${lbl}</div>
-        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;min-width:52px">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;min-width:56px">
           <div style="font-size:13px;font-weight:800;color:#1a8abf;text-align:center;line-height:1.4">${bdStr}</div>
-          <div style="font-size:10px;font-weight:600;color:#4a5568;text-align:center">${DAYS[new Date(now.getFullYear(),u.bd.getMonth(),u.bd.getDate()).getDay()]}</div>
-          <div class="av" style="width:36px;height:36px;font-size:12px;${avCol(i)}">${ini(nm)}</div>
+          <div style="font-size:10px;font-weight:600;color:#4a5568;text-align:center">${dayOfWeek}</div>
+          ${photoHtml}${avHtml}
         </div>
         <div style="flex:1">
-          <div style="font-size:13px;font-weight:800;color:#0a0a0a">${nm||''}${nick?` <span style="font-weight:600;color:#4a5568">"${nick}"</span>`:''}</div>
+          <div style="font-size:13px;font-weight:800;color:#0a0a0a">${nm||''}${nick?' <span style="font-weight:600;color:#4a5568">"'+nick+'"</span>':''}</div>
           <div style="font-size:12px;color:#4a5568;margin-top:2px;font-weight:600">${[dept,br,pos].filter(Boolean).join(' · ')} · อายุ ${u.age} ปี</div>
           <div style="font-size:12px;color:#db2777;font-weight:700;margin-top:3px">สุขสันต์วันเกิด สุขภาพแข็งแรง คิดหวังสิ่งใดให้สมปรารถนา 🎂🌹🥰</div>
         </div></div>`;
@@ -623,12 +731,22 @@ function buildBday(){
     uhtml = '<div class="empty">ไม่มีวันเกิดใน 90 วันข้างหน้า</div>';
   }
 
-  document.getElementById('page-bday').innerHTML = `<div style="display:grid;gap:14px">
-    <div style="display:flex;justify-content:flex-end"><button class="exp-btn" onclick="exportData(rows.filter(r=>{const bd=dobOf(r);return bd&&!isNaN(bd)}),'Ecoseal_Birthday')">⬇ Export วันเกิดทั้งหมด</button></div>
-    <div class="cc"><div class="ctitle">จำนวนพนักงานแต่ละเดือนเกิด<span class="drill-hint">คลิกเพื่อดูรายละเอียด</span></div><div class="mgrid">${mg}</div></div>
-    <div class="cc"><div class="ctitle">กราฟเดือนเกิด<span class="drill-hint">คลิกเพื่อดูรายละเอียด</span></div><div class="hist">${bmH}</div></div>
-    <div class="cc"><div class="ctitle">วันเกิดใน 90 วันข้างหน้า — ${up.length} คน <span style="font-size:11px;color:#4a5568;font-weight:600;text-transform:none">(คลิกเพื่อดูข้อมูล)</span></div><div class="ulist">${uhtml}</div></div>
-  </div>`;
+  document.getElementById('page-bday').innerHTML = `
+    <div style="display:flex;justify-content:flex-end;margin-bottom:8px">
+      <button class="exp-btn" onclick="exportData(rows.filter(r=>{const bd=dobOf(r);return bd&&!isNaN(bd)}),'Ecoseal_Birthday')">⬇ Export วันเกิดทั้งหมด</button>
+    </div>
+    <div class="cc" style="margin-bottom:14px">
+      <div class="ctitle">จำนวนพนักงานแต่ละเดือนเกิด <span class="drill-hint">คลิกเพื่อดูรายละเอียด</span></div>
+      <div class="mgrid">${mg}</div>
+    </div>
+    <div class="cc" style="margin-bottom:14px">
+      <div class="ctitle">กราฟเดือนเกิด <span class="drill-hint">คลิกเพื่อดูรายละเอียด</span></div>
+      <div class="hist">${bmH}</div>
+    </div>
+    <div class="cc">
+      <div class="ctitle">วันเกิดใน 90 วันข้างหน้า — ${up.length} คน <span style="font-size:11px;color:#4a5568;font-weight:600;text-transform:none">(คลิกเพื่อดูข้อมูล)</span></div>
+      <div class="ulist">${uhtml}</div>
+    </div>`;
 }
 
 // ── NAV ──────────────────────────────────────────────────────
@@ -646,9 +764,8 @@ function initApp(rawText){
   const result = Papa.parse(rawText, {header:false, skipEmptyLines:false});
   const allRows = result.data;
   
-  // Find data start row (after header row 2)
-  // Header row = row with 'ชื่อ' or 'DOB' keywords
-  let dataStart = 3; // default: skip 2 metadata + 1 header
+  // Find header row — works for both formats (row 0 or row 2+)
+  let dataStart = 1; // default: header at row 0
   for(let i=0; i<Math.min(8,allRows.length); i++){
     const rowStr = allRows[i].join(',');
     if(rowStr.includes('ชื่อ-สกุล') || rowStr.includes('DOB (ISO)')){
@@ -656,10 +773,22 @@ function initApp(rawText){
     }
   }
   
-  // Build rows using global IDX constant
-  rows = allRows.slice(dataStart)
+  // Build rows — all employees
+  const allEmps = allRows.slice(dataStart)
     .map(r=>({_r:r}))
     .filter(({_r:r})=> r.length>4 && (r[1]||r[3]||'').trim());
+  
+  // rows = เฉพาะพนักงานที่ทำงานอยู่ (Work Status = ทำงานอยู่ หรือว่าง)
+  rows = allEmps.filter(r=>{
+    const st = (r._r[24]||'').trim();
+    return st==='' || st==='ทำงานอยู่';
+  });
+  
+  // resignedRows = พนักงานที่ลาออก
+  window.resignedRows = allEmps.filter(r=>{
+    const st = (r._r[24]||'').trim();
+    return st==='ลาออก';
+  });
   
   document.getElementById('hm').textContent = `พนักงาน ${rows.length} คน · ${new Date().toLocaleTimeString('th-TH')}`;
   document.getElementById('loading').style.display = 'none';
