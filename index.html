@@ -329,6 +329,7 @@ function openProfile(code){
              onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" loading="lazy">
         <div class="modal-av" style="${avCol(ci)};display:none">${ini(nm)}</div>
       </div>
+      <div style="font-size:13px;color:rgba(255,255,255,.75);font-weight:600;margin-bottom:4px">${g(r,'prefix')||''}</div>
       <div class="modal-name">${nm||'-'}</div>
       ${nick?`<div class="modal-nick">"${nick}"</div>`:''}
       <div class="modal-pos">${g(r,'pos')||''}</div>
