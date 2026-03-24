@@ -250,7 +250,10 @@ let drillSK = null, drillSD = 1, drillRows = [];
 const IDX = {
   no:0, code:1, prefix:2, name:3, nick:4,
   pos:5, dept:6, div:7, branch:8,
-  tel:9, ext:10, mobile:18, email:20,
+  tel:9, ext:10,
+  prefixEN:11, nameEN:12, nickEN:13, posEN:14,
+  deptEN:15, divEN:16, branchEN:17,
+  mobile:18, email:20,
   start:21, dob:22, dobiso:23,
   status:24, effdate:25
 };
@@ -358,6 +361,15 @@ function openProfile(code){
         ${g(r,'tel')?`<div class="info-item"><div class="info-lbl">โทรศัพท์</div><div class="info-val">${g(r,'tel')}${g(r,'ext')?' ต่อ '+g(r,'ext'):''}</div></div>`:''}
         ${g(r,'email')?`<div class="info-item wide"><div class="info-lbl">อีเมล</div><div class="info-val ac" style="font-size:13px">${g(r,'email')}</div></div>`:''}
       </div>
+      ${g(r,'nameEN')?`<div class="sec-h">🇬🇧 English Information</div>
+      <div class="info-grid">
+        <div class="info-item wide"><div class="info-lbl">Full Name</div><div class="info-val" style="font-size:15px">${(g(r,'prefixEN')||'')+' '+(g(r,'nameEN')||'')}</div></div>
+        ${g(r,'nickEN')?`<div class="info-item"><div class="info-lbl">Nickname</div><div class="info-val">${g(r,'nickEN')}</div></div>`:''}
+        ${g(r,'posEN')?`<div class="info-item wide"><div class="info-lbl">Position</div><div class="info-val">${g(r,'posEN')}</div></div>`:''}
+        ${g(r,'deptEN')?`<div class="info-item"><div class="info-lbl">Department</div><div class="info-val">${g(r,'deptEN')}</div></div>`:''}
+        ${g(r,'divEN')?`<div class="info-item"><div class="info-lbl">Division</div><div class="info-val">${g(r,'divEN')}</div></div>`:''}
+        ${g(r,'branchEN')?`<div class="info-item"><div class="info-lbl">Branch</div><div class="info-val ac">${g(r,'branchEN')}</div></div>`:''}
+      </div>`:''}
     </div>`;
   document.getElementById('overlay').style.display='flex';
 }
@@ -649,15 +661,21 @@ function renderDir(){ document.getElementById('rc').textContent=`${filtered.leng
 
 function renderTable(){
   if(!filtered.length){ document.getElementById('dc').innerHTML='<div class="empty">ไม่พบข้อมูล</div>'; return; }
-  let h = '<div class="tw"><table><thead><tr><th style="width:36px"></th>';
-  TCOLS.forEach(({k,l})=>{ const s=dirSK===k; h+=`<th onclick="sortDir('${k}')" class="${s?'sc':''}">${l}${s?(dirSD>0?' ▲':' ▼'):''}`;h+='</th>'; });
+  let h = '<div class="tw"><table><thead><tr>';
+  TCOLS.forEach(({k,l})=>{
+    if(k==='no'){h+=`<th onclick="sortDir('no')" class="${dirSK==='no'?'sc':''}" style="width:52px;text-align:center">No.${dirSK==='no'?(dirSD>0?' ▲':' ▼'):''}`;h+='</th>';}
+  });
+  h += '<th style="width:40px"></th>';
+  TCOLS.forEach(({k,l})=>{ if(k==='no')return; const s=dirSK===k; h+=`<th onclick="sortDir('${k}')" class="${s?'sc':''}">${l}${s?(dirSD>0?' ▲':' ▼'):''}`;h+='</th>'; });
   h += '</tr></thead><tbody>';
   filtered.forEach((r,ri)=>{
     const code = g(r,'code').replace(/'/g,"\\'");
     const dept = g(r,'dept'); const dl=deptList(); const ci=Math.max(0,dl.indexOf(dept))%PAL.length;
-    h += `<tr class="tr-click" onclick="openProfile('${code}')"><td style="width:44px">
-      ${photoImg(r,32)}<div class="av" style="width:32px;height:32px;font-size:11px;${avCol(ci)};display:none">${ini(g(r,'name'))}</div></td>`;
+    h += `<tr class="tr-click" onclick="openProfile('${code}')">
+      <td style="font-weight:800;color:#4a5568;text-align:center;font-size:13px;width:48px">${g(r,'no')||''}</td>
+      <td style="width:44px">${photoImg(r,32)}<div class="av" style="width:32px;height:32px;font-size:11px;${avCol(ci)};display:none">${ini(g(r,'name'))}</div></td>`;
     TCOLS.forEach(({k})=>{
+      if(k==='no') return; // already rendered as first cell
       let v = '';
       if(k==='_gen') v = genBadge(gOf(r));
       else if(k==='_age') v = ageStr(r)||'';
