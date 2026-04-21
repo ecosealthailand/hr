@@ -398,9 +398,25 @@ function showResigned(){
   let rows_r = [...data];
   let sk_r = null, sd_r = 1;
   
+  let showAll = false; // ซ่อนคนที่ลาออกเกิน 3 เดือน
+
   const renderResigned = () => {
+    const now = new Date();
+    const cutoff = new Date(now.getFullYear(), now.getMonth()-3, now.getDate()); // 3 เดือนที่แล้ว
+
+    const recentRows = rows_r.filter(r=>{
+      const effD = pd(g(r,'effdate'));
+      return effD && effD >= cutoff; // ลาออกใน 3 เดือน
+    });
+    const oldRows = rows_r.filter(r=>{
+      const effD = pd(g(r,'effdate'));
+      return !effD || effD < cutoff; // ลาออกเกิน 3 เดือน หรือไม่มีวันที่
+    });
+
+    const displayRows = showAll ? rows_r : recentRows;
+
     let h2 = '<div class="tw"><table><thead><tr><th></th><th onclick="sortR(\'code\')">รหัส</th><th onclick="sortR(\'name\')">ชื่อ-สกุล</th><th>ชื่อเล่น</th><th>ตำแหน่ง</th><th>แผนก</th><th>ฝ่าย</th><th>สาขา</th><th>เพศ</th><th onclick="sortR(\'_age\')">อายุ</th><th onclick="sortR(\'_ten\')">อายุงาน</th><th onclick="sortR(\'_eff\')" style="color:#e11d48">วันที่ลาออก</th><th>มือถือ</th><th>อีเมล</th></tr></thead><tbody>';
-    rows_r.forEach((r)=>{
+    displayRows.forEach((r)=>{
       const nm=g(r,'name'),dept=g(r,'dept');
       const ci=Math.max(0,dl.indexOf(dept))%PAL.length;
       const code=g(r,'code').replace(/'/g,"\'");
@@ -419,7 +435,35 @@ function showResigned(){
         <td style="color:#7c3aed">${g(r,'email')||''}</td>
       </tr>`;
     });
-    document.querySelector('.resigned-tw').innerHTML = h2+'</tbody></table></div>';
+    // Add hidden section toggle
+    let toggleHtml = '';
+    if(oldRows.length > 0){
+      if(!showAll){
+        toggleHtml = `<div style="margin-top:12px;padding:12px 16px;background:#fff8e1;border-radius:10px;border:1.5px solid #e6ac00;display:flex;align-items:center;justify-content:space-between">
+          <div style="font-size:13px;font-weight:600;color:#7a5900">
+            🔒 ซ่อน <strong>${oldRows.length} คน</strong> ที่ลาออกเกิน 3 เดือน
+          </div>
+          <button onclick="toggleOldResigned()" style="padding:7px 16px;background:#FFC107;color:#1a1a18;border:1.5px solid #e6ac00;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer">
+            👁 แสดงทั้งหมด ${rows_r.length} คน
+          </button>
+        </div>`;
+      } else {
+        toggleHtml = `<div style="margin-top:12px;padding:12px 16px;background:#f0fdf4;border-radius:10px;border:1.5px solid #16a34a;display:flex;align-items:center;justify-content:space-between">
+          <div style="font-size:13px;font-weight:600;color:#15803d">
+            👁 แสดงทั้งหมด <strong>${rows_r.length} คน</strong> (รวมลาออกเกิน 3 เดือน)
+          </div>
+          <button onclick="toggleOldResigned()" style="padding:7px 16px;background:#fff;color:#15803d;border:1.5px solid #16a34a;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer">
+            🔒 ซ่อนคนที่ลาออกเกิน 3 เดือน
+          </button>
+        </div>`;
+      }
+    }
+    document.querySelector('.resigned-tw').innerHTML = h2+'</tbody></table></div>' + toggleHtml;
+  };
+
+  window.toggleOldResigned = () => {
+    showAll = !showAll;
+    renderResigned();
   };
   
   window._sortResigned = (k)=>{
@@ -438,7 +482,11 @@ function showResigned(){
     <div class="breadcrumb"><a onclick="buildDash()">Dashboard</a> › <span>พนักงานลาออก</span></div>
     <div class="drill-panel">
       <div class="drill-head" style="background:linear-gradient(135deg,#e11d48,#be123c)">
-        <div><div class="drill-title">👋 พนักงานที่ลาออก</div><span class="drill-cnt">${data.length} คน</span></div>
+        <div>
+          <div class="drill-title">👋 พนักงานที่ลาออก</div>
+          <span class="drill-cnt">${data.length} คน</span>
+          <span style="font-size:11px;color:rgba(255,255,255,.65);margin-left:6px">(ล่าสุด 3 เดือน จะแสดงอัตโนมัติ)</span>
+        </div>
         <div style="display:flex;gap:8px">
           <button class="exp-btn" style="border-color:rgba(255,255,255,.4);background:rgba(255,255,255,.15);color:#fff" onclick="exportData(window.resignedRows,'พนักงานลาออก')">⬇ Export</button>
           <button class="drill-back" onclick="buildDash()">← กลับ Dashboard</button>
@@ -818,8 +866,9 @@ function show(p,btn){
 let orgZoom = 1;
 let orgFilterDiv = '';
 
-function buildOrg(filterDiv){
+function buildOrg(filterDiv, filterBranch){
   orgFilterDiv = filterDiv || '';
+  window.orgFilterBranch = filterBranch || '';
   // จัดเรียงฝ่ายตามที่กำหนด
   const DIV_ORDER = [
     'สำนักบริหาร',          // สำนักกรรมการผู้จัดการ — อยู่บนสุด
@@ -828,20 +877,25 @@ function buildOrg(filterDiv){
     'การเงินและบริหาร',     // บัญชี HR IT คลังสินค้า
   ];
   // แผนกในแต่ละฝ่าย — เรียงตามกลุ่ม
+  // ลำดับแผนก: ขาย→ประสานงานขาย→จัดซื้อ→ผลิต→บัญชี→คลังสินค้า→จัดส่ง→อื่นๆ
   const DEPT_ORDER = {
     'ขายและผลิต': [
+      // ขาย & ประสานงานขาย
       'ขายหน้าร้าน','ขายและการตลาด','ขาย HS / PK','ขาย - มาบตาพุด',
       'ขาย - พลาสติกอุตสหกรรม','ขาย - โคราช','ขาย - น่าน',
-      'วิศวอุตสาหการ','ผลิต - วิศวอุตสาหการ','ผลิต','ผลิต - ปะเก็น',
-      'ผลิต - มาบตาพุด','ผลิต - อมตะ','ผลิต - โคราช',
+      'ประสานงานขาย','ประสานงานขาย - มาบตาพุด',
+      // ผลิต
+      'ผลิต','ผลิต - ปะเก็น','ผลิต - มาบตาพุด','ผลิต - อมตะ','ผลิต - โคราช',
+      'ผลิต - วิศวอุตสาหการ','วิศวอุตสาหการ',
       'สนับสนุนด้านเทคนิค - มาบตาพุด','สนับสนุนด้านเทคนิค -  ปะเก็น',
     ],
     'ธุรกิจระหว่างประเทศ': [
       'จัดซื้อ','ขายต่างประเทศและสินค้าพิเศษ','ขาย - น่าน',
     ],
     'การเงินและบริหาร': [
+      // บัญชี
       'บัญชี','บัญชี - มาบตาพุด','บัญชี - พระยาสุเรนทร์',
-      'เทคโนโลยีสารสนเทศ','ทรัพยากรบุคคล','ทรัพยากรบุคคล - มาบตาพุด',
+      // คลังสินค้า
       'คลังสินค้าและจัดส่ง','คลังสินค้าและจัดส่ง / คลังสินค้า',
       'คลังสินค้าและจัดส่ง / คลังสินค้าออยซีล',
       'คลังสินค้าและจัดส่ง / คลังสินค้าโอริง',
@@ -849,11 +903,14 @@ function buildOrg(filterDiv){
       'คลังสินค้าและจัดส่ง / คลังสินค้าปะเก็น',
       'คลังสินค้าและจัดส่ง / คลังสินค้าโคราช',
       'คลังสินค้าและจัดส่ง / พระยาสุเรนทร์',
+      // จัดส่ง
       'คลังสินค้าและจัดส่ง / จัดส่งและเก็บเงิน',
       'คลังสินค้าและจัดส่ง / จัดส่งมาบตาพุด',
       'คลังสินค้าและจัดส่ง /ขับรถจัดส่งและเก็บเงิน',
       'คลังสินค้าและจัดส่ง / โรงงานปะเก็น',
       'คลังสินค้าและจัดส่ง - โรงงาน',
+      // อื่นๆ
+      'เทคโนโลยีสารสนเทศ','ทรัพยากรบุคคล','ทรัพยากรบุคคล - มาบตาพุด',
     ],
   };
 
@@ -865,18 +922,34 @@ function buildOrg(filterDiv){
   ];
   const deptList2 = [...new Set(rows.map(r=>g(r,'dept')).filter(Boolean))];
 
-  // Filter options
+  // สาขา filter
+  const allBranches = [...new Set(rows.map(r=>g(r,'branch')).filter(Boolean))];
+  const BRANCH_ORDER = ['สำนักงานใหญ่','พระยาสุเรนทร์','มาบตาพุด','โรงงานปะเก็น','โคราช','อมตะ','น่าน'];
+  const sortedBranches = [...BRANCH_ORDER.filter(b=>allBranches.includes(b)), ...allBranches.filter(b=>!BRANCH_ORDER.includes(b)).sort()];
+
+  // Filter employees by branch first
+  const branchFiltered = window.orgFilterBranch ? rows.filter(r=>g(r,'branch')===window.orgFilterBranch) : rows;
+
+  // Filter options — ฝ่าย
   let filterOpts = '<option value="">ทุกฝ่าย</option>';
   divList.forEach(d=> filterOpts += `<option value="${d}" ${orgFilterDiv===d?'selected':''}>${d}</option>`);
+
+  // Filter options — สาขา
+  let branchOpts = '<option value="">ทุกสาขา</option>';
+  sortedBranches.forEach(b=>{
+    const cnt = rows.filter(r=>g(r,'branch')===b).length;
+    branchOpts += `<option value="${b}" ${window.orgFilterBranch===b?'selected':''}>${b} (${cnt})</option>`;
+  });
 
   const filtDivs = orgFilterDiv ? divList.filter(d=>d===orgFilterDiv) : divList;
 
   let orgHtml = '';
   filtDivs.forEach((div, di) => {
+    if(branchFiltered.filter(r=>g(r,'div')===div).length===0) return; // skip empty
     const isTop = div==='สำนักบริหาร';
     const divColor = isTop ? '#c8830a' : PAL[di % PAL.length];
     const divPale  = isTop ? '#fff8e1' : PALE[di % PALE.length];
-    const divEmps  = rows.filter(r=>g(r,'div')===div);
+    const divEmps  = branchFiltered.filter(r=>g(r,'div')===div);
     const allDepts2 = [...new Set(divEmps.map(r=>g(r,'dept')).filter(Boolean))];
     const deptOrderForDiv = DEPT_ORDER[div] || [];
     const depts = [
@@ -928,10 +1001,12 @@ function buildOrg(filterDiv){
     orgHtml += `</div></div></div>`;
   });
 
+  const totalShown = branchFiltered.filter(r=>filtDivs.includes(g(r,'div'))).length;
   document.getElementById('page-org').innerHTML = `
     <div class="org-filter-bar">
-      <select onchange="buildOrg(this.value)">${filterOpts}</select>
-      <span style="font-size:13px;color:#4a5568;font-weight:600">แสดง ${filtDivs.length} ฝ่าย · ${rows.filter(r=>filtDivs.includes(g(r,'div'))).length} คน</span>
+      <select onchange="buildOrg(this.value, window.orgFilterBranch)">${filterOpts}</select>
+      <select onchange="buildOrg(orgFilterDiv, this.value)">${branchOpts}</select>
+      <span style="font-size:13px;color:#4a5568;font-weight:600">แสดง ${filtDivs.length} ฝ่าย · ${totalShown} คน</span>
       <div style="margin-left:auto;display:flex;gap:6px;align-items:center">
         <button class="org-zoom-btn" onclick="zoomOrg(-0.1)">−</button>
         <span class="org-zoom-label" id="zoomLbl">${Math.round(orgZoom*100)}%</span>
