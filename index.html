@@ -20,8 +20,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .pg{display:none}.pg.active{display:block}
 .breadcrumb{display:flex;align-items:center;gap:6px;font-size:13px;color:#4a5568;margin-bottom:14px}
 .breadcrumb a{color:var(--Bd);cursor:pointer;font-weight:700}.breadcrumb a:hover{text-decoration:underline}
-.kpi-row{display:grid;grid-template-columns:repeat(8,1fr);gap:12px;margin-bottom:20px}
-@media(max-width:1400px){.kpi-row{grid-template-columns:repeat(4,1fr)}}
+.kpi-row{display:grid;grid-template-columns:repeat(9,1fr);gap:12px;margin-bottom:20px}
+@media(max-width:1400px){.kpi-row{grid-template-columns:repeat(5,1fr)}}
 @media(max-width:768px){.kpi-row{grid-template-columns:repeat(2,1fr)}}
 .kpi{background:var(--W);border-radius:12px;padding:16px;border:1px solid var(--BOR);cursor:pointer;transition:all .2s;position:relative;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.05)}
 .kpi::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px}
@@ -387,6 +387,71 @@ function exportData(data, filename){
   a.click();
 }
 
+// ── พนักงานใหม่ (อายุงาน < 120 วัน) ────────────────────────────
+function showNewEmployees(){
+  const now = new Date();
+  const newEmps = rows.filter(r=>{
+    const t = yAgo(stOf(r));
+    return t !== null && t * 365 < 120;
+  }).sort((a,b)=>{
+    // เรียงจากใหม่สุด (วันเริ่มงานล่าสุด) ก่อน
+    const da = stOf(a)||new Date(0), db = stOf(b)||new Date(0);
+    return db - da;
+  });
+
+  document.querySelectorAll('.pg').forEach(e=>e.classList.remove('active'));
+  document.querySelectorAll('.nb').forEach(e=>e.classList.remove('active'));
+  document.getElementById('page-dash').classList.add('active');
+  document.querySelectorAll('.nb')[0].classList.add('active');
+
+  const dl = deptList();
+  let tableHtml = '<div class="tw"><table><thead><tr>';
+  tableHtml += '<th style="width:44px"></th><th>รหัส</th><th>ชื่อ-สกุล</th><th>ชื่อเล่น</th>';
+  tableHtml += '<th>ตำแหน่ง</th><th>แผนก</th><th>สาขา</th><th>เพศ</th>';
+  tableHtml += '<th style="color:#d97706">วันเริ่มงาน</th><th style="color:#d97706">อายุงาน</th>';
+  tableHtml += '<th>มือถือ</th><th>อีเมล</th>';
+  tableHtml += '</tr></thead><tbody>';
+
+  newEmps.forEach((r,ri)=>{
+    const nm=g(r,'name'), dept=g(r,'dept');
+    const ci = Math.max(0,dl.indexOf(dept))%PAL.length;
+    const code = g(r,'code').replace(/'/g,"\'");
+    const days = Math.floor((yAgo(stOf(r))||0)*365);
+    tableHtml += `<tr class="tr-click" onclick="openProfile('${code}')">
+      <td>${photoImg(r,32)}<div class="av" style="width:32px;height:32px;font-size:11px;${avCol(ci)};display:none">${ini(nm)}</div></td>
+      <td style="color:#1a8abf;font-weight:800">${g(r,'code')}</td>
+      <td style="font-weight:800">${nm}</td>
+      <td>${g(r,'nick')||''}</td>
+      <td>${g(r,'pos')||''}</td>
+      <td>${dept?`<span class="badge" style="background:${PALE[ci]};color:${PAL[ci]}">${dept}</span>`:''}</td>
+      <td style="color:#1a8abf;font-weight:700">${g(r,'branch')||''}</td>
+      <td>${genBadge(gOf(r))}</td>
+      <td style="color:#d97706;font-weight:700">${fmtDate(stOf(r))}</td>
+      <td style="color:#d97706;font-weight:800">${days} วัน</td>
+      <td>${g(r,'mobile')||g(r,'tel')||''}</td>
+      <td style="color:#7c3aed">${g(r,'email')||''}</td>
+    </tr>`;
+  });
+  tableHtml += '</tbody></table></div>';
+
+  document.getElementById('page-dash').innerHTML = `
+    <div class="breadcrumb"><a onclick="buildDash()">Dashboard</a> › <span>พนักงานใหม่</span></div>
+    <div class="drill-panel">
+      <div class="drill-head" style="background:linear-gradient(135deg,#f59e0b,#d97706)">
+        <div>
+          <div class="drill-title">🌟 พนักงานใหม่ (อายุงาน &lt; 120 วัน)</div>
+          <span class="drill-cnt">${newEmps.length} คน · เรียงจากใหม่สุด</span>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="exp-btn" style="border-color:rgba(255,255,255,.4);background:rgba(255,255,255,.15);color:#fff"
+            onclick="exportData(rows.filter(r=>{const t=yAgo(stOf(r));return t!==null&&t*365<120;}),'พนักงานใหม่')">⬇ Export</button>
+          <button class="drill-back" onclick="buildDash()">← กลับ Dashboard</button>
+        </div>
+      </div>
+      <div class="drill-tw">${tableHtml}</div>
+    </div>`;
+}
+
 // ── พนักงานลาออก ─────────────────────────────────────────────
 function showResigned(){
   const data = window.resignedRows || [];
@@ -530,6 +595,12 @@ function buildDash(drillData, drillLabel){
 
   let h = `<div class="kpi-row">
     <div class="kpi bkpi" onclick="buildDash(rows,'พนักงานทั้งหมด (ทำงานอยู่)')" style="cursor:pointer"><div class="kpi-lbl">พนักงานทั้งหมด</div><div class="kpi-val">${data.length}</div><div class="kpi-sub">คน (ทำงานอยู่)</div><div class="kpi-hint">▼ ดูรายละเอียด</div></div>
+    <div class="kpi" style="cursor:pointer;border-bottom:3px solid #f59e0b" onclick="showNewEmployees()">
+      <div class="kpi-lbl" style="color:#92400e">🌟 พนักงานใหม่</div>
+      <div class="kpi-val" style="color:#d97706">${rows.filter(r=>{const t=yAgo(stOf(r));return t!==null&&t*365<120;}).length}</div>
+      <div class="kpi-sub">อายุงาน &lt; 120 วัน</div>
+      <div class="kpi-hint" style="color:#d97706">▼ ดูรายชื่อ</div>
+    </div>
     <div class="kpi" style="cursor:pointer" onclick="showResigned()"><div class="kpi-lbl">ลาออก</div><div class="kpi-val" style="color:#e11d48">${window.resignedRows?window.resignedRows.length:0}</div><div class="kpi-sub">คน</div><div class="kpi-hint">▼ ดูรายชื่อ</div></div>
     <div class="kpi ykpi" onclick="drillByCol('dept','')"><div class="kpi-lbl">แผนก</div><div class="kpi-val">${ndept}</div><div class="kpi-sub">แผนก</div><div class="kpi-hint">▼ ดูรายละเอียด</div></div>
     <div class="kpi bkpi" onclick="drillByCol('branch','')"><div class="kpi-lbl">สาขา</div><div class="kpi-val">${nbr}</div><div class="kpi-sub">สาขา</div><div class="kpi-hint">▼ ดูรายละเอียด</div></div>
