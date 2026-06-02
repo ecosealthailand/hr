@@ -62,7 +62,7 @@ const el = {
     subTotalDisplay: document.getElementById('subTotalDisplay'),
     vatDisplay: document.getElementById('vatDisplay'),
     grandTotalDisplay: document.getElementById('grandTotalDisplay'),
-    voucherStatus: document.getElementById('voucherStatus'),
+    voucherStatus: null,
     
     // Signatures
     signRequestBy: document.getElementById('signRequestBy'),
@@ -294,7 +294,6 @@ function generateVoucherNumber() {
 function renderDashboard() {
     const searchQuery = el.filterSearch.value.toLowerCase().trim();
     const typeFilter = el.filterType.value;
-    const statusFilter = el.filterStatus.value;
     const dateFilter = el.filterDate.value;
     
     let filtered = vouchers;
@@ -312,10 +311,6 @@ function renderDashboard() {
     
     if (typeFilter !== 'All') {
         filtered = filtered.filter(v => v.voucherType === typeFilter);
-    }
-    
-    if (statusFilter !== 'All') {
-        filtered = filtered.filter(v => v.status === statusFilter);
     }
     
     if (dateFilter !== 'All') {
@@ -345,22 +340,17 @@ function renderDashboard() {
     
     // Render Stats
     let totalAmt = 0;
-    let pendingCount = 0;
-    let approvedCount = 0;
-    let paidCount = 0;
-    
     vouchers.forEach(v => {
-        const total = parseFloat(v.grandTotal) || 0;
-        totalAmt += total;
-        if (v.status === 'Pending') pendingCount++;
-        else if (v.status === 'Approved') approvedCount++;
-        else if (v.status === 'Paid') paidCount++;
+        totalAmt += parseFloat(v.grandTotal) || 0;
     });
     
     el.statTotalAmount.textContent = `฿${totalAmt.toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-    el.statPendingCount.textContent = pendingCount;
-    el.statApprovedCount.textContent = approvedCount;
-    el.statPaidCount.textContent = paidCount;
+    
+    // Set Total Requests count card
+    const statTotalCountEl = document.getElementById('statTotalCount');
+    if (statTotalCountEl) {
+        statTotalCountEl.textContent = vouchers.length;
+    }
     
     el.recordCount.textContent = `${filtered.length} records found`;
     
@@ -370,7 +360,7 @@ function renderDashboard() {
     if (filtered.length === 0) {
         el.recordsTableBody.innerHTML = `
             <tr>
-                <td colspan="8" class="text-center text-muted py-5">
+                <td colspan="7" class="text-center text-muted py-5">
                     <i class="fa-solid fa-folder-open fa-2x mb-2"></i>
                     <p>No matching petty cash requests found.</p>
                 </td>
@@ -390,7 +380,6 @@ function renderDashboard() {
             <td>${v.department || '-'}</td>
             <td><span class="badge">${v.voucherType || 'Petty Cash'}</span></td>
             <td class="font-bold">฿${formattedAmount}</td>
-            <td><span class="badge-status ${v.status.toLowerCase()}">${v.status}</span></td>
             <td class="actions-cell">
                 <button class="btn btn-xs btn-secondary-outline btn-view" data-id="${v.voucherNo}">
                     <i class="fa-solid fa-eye"></i> View/Print
@@ -482,7 +471,6 @@ function clearVoucherForm() {
     el.voucherSupplier.value = '';
     el.voucherReason.value = '';
     el.vatToggle.checked = false;
-    el.voucherStatus.value = 'Pending';
     
     // Signatures
     el.signRequestBy.value = '';
@@ -525,7 +513,6 @@ function loadVoucherIntoForm(v) {
     el.voucherSupplier.value = v.supplier || '';
     el.voucherReason.value = v.reason || '';
     el.vatToggle.checked = !!v.vatEnabled;
-    el.voucherStatus.value = v.status || 'Pending';
     
     // Pre-fill Signatures
     el.signRequestBy.value = v.signRequestBy || v.requestBy || '';
@@ -685,7 +672,7 @@ function getFormVoucherData() {
         vatEnabled,
         vatAmount,
         grandTotal,
-        status: el.voucherStatus.value,
+        status: 'Request',
         
         // Signatures names
         signRequestBy: el.signRequestBy.value.trim(),

@@ -43,7 +43,7 @@
         <!-- ==================== DASHBOARD VIEW ==================== -->
         <section id="dashboardView" class="view-section">
             <!-- Stats Summary Cards -->
-            <div class="stats-grid">
+            <div class="stats-grid" style="grid-template-columns: repeat(2, 1fr);">
                 <div class="stat-card">
                     <div class="stat-icon bg-primary-light">
                         <i class="fa-solid fa-wallet text-primary"></i>
@@ -54,37 +54,19 @@
                     </div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-icon bg-warning-light">
-                        <i class="fa-solid fa-clock text-warning"></i>
-                    </div>
-                    <div class="stat-info">
-                        <span class="stat-label">Pending Approval</span>
-                        <h2 class="stat-value" id="statPendingCount">0</h2>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon bg-success-light">
-                        <i class="fa-solid fa-circle-check text-success"></i>
-                    </div>
-                    <div class="stat-info">
-                        <span class="stat-label">Approved</span>
-                        <h2 class="stat-value" id="statApprovedCount">0</h2>
-                    </div>
-                </div>
-                <div class="stat-card">
                     <div class="stat-icon bg-info-light">
-                        <i class="fa-solid fa-hand-holding-dollar text-info"></i>
+                        <i class="fa-solid fa-file-invoice-dollar text-info"></i>
                     </div>
                     <div class="stat-info">
-                        <span class="stat-label">Paid Records</span>
-                        <h2 class="stat-value" id="statPaidCount">0</h2>
+                        <span class="stat-label">Total Requests</span>
+                        <h2 class="stat-value" id="statTotalCount">0</h2>
                     </div>
                 </div>
             </div>
 
             <!-- Filters & Search Controls -->
             <div class="card filter-card">
-                <div class="filter-grid">
+                <div class="filter-grid" style="grid-template-columns: 2fr 1fr 1fr;">
                     <div class="form-group search-group">
                         <i class="fa-solid fa-magnifying-glass search-icon"></i>
                         <input type="text" id="filterSearch" placeholder="Search by Requester, Dept, Voucher No, or Description...">
@@ -97,15 +79,6 @@
                             <option value="Stationary">Stationary</option>
                             <option value="Office Supply">Office Supply</option>
                             <option value="Other Expense">Other Expense</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="filterStatus">Status</label>
-                        <select id="filterStatus">
-                            <option value="All">All Statuses</option>
-                            <option value="Pending">Pending</option>
-                            <option value="Approved">Approved</option>
-                            <option value="Paid">Paid</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -136,13 +109,12 @@
                                 <th>Department</th>
                                 <th>Type</th>
                                 <th>Amount</th>
-                                <th>Status</th>
                                 <th class="text-right">Actions</th>
                             </tr>
                         </thead>
                         <tbody id="recordsTableBody">
                             <tr>
-                                <td colspan="8" class="text-center text-muted py-5">
+                                <td colspan="7" class="text-center text-muted py-5">
                                     <i class="fa-solid fa-circle-notch fa-spin fa-2x mb-3 text-primary"></i>
                                     <p>Loading records...</p>
                                 </td>
@@ -385,16 +357,6 @@
                                 <div class="signature-date-group">
                                     <label>Date</label>
                                     <input type="date" id="signPaidDate" class="print-input signature-date">
-                                </div>
-                            </div>
-                            
-                            <div class="form-group mt-3 hide-print">
-                                <label for="voucherStatus">Application Approval Status</label>
-                                <select id="voucherStatus" class="form-control">
-                                    <option value="Pending">Pending (รออนุมัติ)</option>
-                                    <option value="Approved">Approved (อนุมัติแล้ว)</option>
-                                    <option value="Paid">Paid (จ่ายเงินเรียบร้อย)</option>
-                                </select>
                             </div>
                         </div>
                     </div>

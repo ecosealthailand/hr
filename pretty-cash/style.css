@@ -1136,7 +1136,7 @@ textarea.print-input {
         padding: 0.5rem !important;
         background-color: #ffffff !important;
         width: 190mm !important; /* Perfect fit for A4 Portrait width */
-        height: 130mm !important; /* Sits strictly within the top half (A4 is 297mm high) */
+        height: 140mm !important; /* Sits strictly within the top half (A4 is 297mm high) */
         display: flex !important;
         flex-direction: column !important;
         justify-content: space-between !important;
@@ -1246,7 +1246,7 @@ textarea.print-input {
     /* Voucher Metadata Grid in A5 */
     .voucher-meta-grid {
         display: grid !important;
-        grid-template-columns: 2fr 1.5fr 2fr 1.5fr !important;
+        grid-template-columns: repeat(4, 1fr) !important;
         gap: 0.2rem !important;
         margin-bottom: 0.2rem !important;
     }
