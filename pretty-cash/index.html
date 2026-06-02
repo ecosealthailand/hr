@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecoseal - Petty Cash Management System</title>
+    <!-- Google Fonts: Inter and Sarabun for professional Thai/English UI -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for gorgeous modern icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Top Sticky Header -->
+    <header class="app-header">
+        <div class="header-container">
+            <div class="brand">
+                <img src="ecoseal logo.jpg" alt="Ecoseal Logo" class="brand-logo" onerror="this.style.display='none'; document.getElementById('brand-text-logo').style.display='block';">
+                <div id="brand-text-logo" class="brand-text-logo" style="display:none;">ECOSEAL</div>
+                <div class="brand-title">
+                    <h1>Petty Cash Vouchers</h1>
+                    <span class="sub-title">Flow and Sealing Technology</span>
+                </div>
+            </div>
+            <div class="header-actions">
+                <div class="sync-status" id="syncStatus">
+                    <i class="fa-solid fa-cloud-arrow-up text-warning"></i>
+                    <span id="syncStatusText">Local Mode</span>
+                </div>
+                <button class="btn btn-secondary" id="btnOpenSettings">
+                    <i class="fa-solid fa-gear"></i> Google Sheet Settings
+                </button>
+                <button class="btn btn-primary" id="btnCreateNew">
+                    <i class="fa-solid fa-plus"></i> New Request
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="app-container">
+        
+        <!-- ==================== DASHBOARD VIEW ==================== -->
+        <section id="dashboardView" class="view-section">
+            <!-- Stats Summary Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon bg-primary-light">
+                        <i class="fa-solid fa-wallet text-primary"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Total Monthly Request</span>
+                        <h2 class="stat-value" id="statTotalAmount">฿0.00</h2>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon bg-warning-light">
+                        <i class="fa-solid fa-clock text-warning"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Pending Approval</span>
+                        <h2 class="stat-value" id="statPendingCount">0</h2>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon bg-success-light">
+                        <i class="fa-solid fa-circle-check text-success"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Approved</span>
+                        <h2 class="stat-value" id="statApprovedCount">0</h2>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon bg-info-light">
+                        <i class="fa-solid fa-hand-holding-dollar text-info"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Paid Records</span>
+                        <h2 class="stat-value" id="statPaidCount">0</h2>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filters & Search Controls -->
+            <div class="card filter-card">
+                <div class="filter-grid">
+                    <div class="form-group search-group">
+                        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                        <input type="text" id="filterSearch" placeholder="Search by Requester, Dept, Voucher No, or Description...">
+                    </div>
+                    <div class="form-group">
+                        <label for="filterType">Expense Type</label>
+                        <select id="filterType">
+                            <option value="All">All Types</option>
+                            <option value="Petty Cash">Petty Cash</option>
+                            <option value="Stationary">Stationary</option>
+                            <option value="Office Supply">Office Supply</option>
+                            <option value="Other Expense">Other Expense</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="filterStatus">Status</label>
+                        <select id="filterStatus">
+                            <option value="All">All Statuses</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Approved">Approved</option>
+                            <option value="Paid">Paid</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="filterDate">Date Range</label>
+                        <select id="filterDate">
+                            <option value="All">All Time</option>
+                            <option value="Today">Today</option>
+                            <option value="ThisWeek">This Week</option>
+                            <option value="ThisMonth">This Month</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Records List Table -->
+            <div class="card table-card">
+                <div class="card-header">
+                    <h2>Voucher Records History</h2>
+                    <span class="badge" id="recordCount">0 records found</span>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table" id="recordsTable">
+                        <thead>
+                            <tr>
+                                <th>Voucher No</th>
+                                <th>Date Requested</th>
+                                <th>Requested By</th>
+                                <th>Department</th>
+                                <th>Type</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th class="text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recordsTableBody">
+                            <tr>
+                                <td colspan="8" class="text-center text-muted py-5">
+                                    <i class="fa-solid fa-circle-notch fa-spin fa-2x mb-3 text-primary"></i>
+                                    <p>Loading records...</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== FORM VIEW (EDITOR) ==================== -->
+        <section id="formView" class="view-section" style="display: none;">
+            <div class="form-actions-bar">
+                <button class="btn btn-secondary" id="btnBackToDashboard">
+                    <i class="fa-solid fa-arrow-left"></i> Back to Dashboard
+                </button>
+                <div class="form-actions-right">
+                    <button class="btn btn-danger-outline" id="btnDeleteCurrent" style="display: none;">
+                        <i class="fa-solid fa-trash"></i> Delete
+                    </button>
+                    <button class="btn btn-secondary-outline" id="btnPrintVoucher">
+                        <i class="fa-solid fa-print"></i> Print / Save PDF
+                    </button>
+                    <button class="btn btn-primary" id="btnSaveVoucher">
+                        <i class="fa-solid fa-floppy-disk"></i> Save Request
+                    </button>
+                </div>
+            </div>
+
+            <!-- Authentic Voucher PDF Mockup Page for Printing & Screen Editing -->
+            <div class="voucher-print-container" id="voucherPrintContainer">
+                <div class="voucher-card">
+                    <!-- Voucher Header -->
+                    <div class="voucher-header">
+                        <div class="voucher-logo-area">
+                            <img src="ecoseal logo.jpg" alt="Ecoseal Logo" class="voucher-logo" onerror="this.style.display='none'; document.getElementById('voucher-text-logo').style.display='block';">
+                            <div id="voucher-text-logo" class="brand-text-logo-large" style="display:none;">ECOSEAL</div>
+                            <div class="logo-subtext">Flow and Sealing Technology</div>
+                        </div>
+                        <div class="voucher-title-area">
+                            <h2 class="voucher-title">Petty Cash Vouchers /Purchase Request Admin Expense</h2>
+                            
+                            <!-- Checkbox Options -->
+                            <div class="voucher-options-grid">
+                                <label class="checkbox-container">
+                                    <input type="radio" name="voucherType" value="Petty Cash" checked>
+                                    <span class="checkmark"></span>
+                                    Petty Cash
+                                </label>
+                                <label class="checkbox-container">
+                                    <input type="radio" name="voucherType" value="Stationary">
+                                    <span class="checkmark"></span>
+                                    Stationary
+                                </label>
+                                <label class="checkbox-container">
+                                    <input type="radio" name="voucherType" value="Office Supply">
+                                    <span class="checkmark"></span>
+                                    Office Supply
+                                </label>
+                                <label class="checkbox-container">
+                                    <input type="radio" name="voucherType" value="Other Expense">
+                                    <span class="checkmark"></span>
+                                    Other Expense
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Voucher Meta Grid -->
+                    <div class="voucher-meta-grid">
+                        <div class="meta-field">
+                            <label>Request By</label>
+                            <input type="text" id="voucherRequestBy" class="print-input" placeholder="Name/ชื่อผู้ขอเบิก">
+                        </div>
+                        <div class="meta-field">
+                            <label>Date</label>
+                            <input type="date" id="voucherDate" class="print-input">
+                        </div>
+                        <div class="meta-field">
+                            <label>Department</label>
+                            <input type="text" id="voucherDepartment" class="print-input" placeholder="Department/แผนก">
+                        </div>
+                        <div class="meta-field">
+                            <label>No.</label>
+                            <input type="text" id="voucherNo" class="print-input" placeholder="Auto-generated" readonly>
+                        </div>
+                        <div class="meta-field span-2">
+                            <label>Pay Check</label>
+                            <input type="text" id="voucherPayCheck" class="print-input" placeholder="Payee name or check info / สั่งจ่าย">
+                        </div>
+                        <div class="meta-field">
+                            <label>Due Payment</label>
+                            <input type="date" id="voucherDuePayment" class="print-input">
+                        </div>
+                        <div class="meta-field">
+                            <label>Date Require (Estimate)</label>
+                            <input type="date" id="voucherDateRequire" class="print-input">
+                        </div>
+                    </div>
+
+                    <!-- Voucher Items Table -->
+                    <div class="voucher-table-wrapper">
+                        <table class="voucher-table" id="itemsTable">
+                            <thead>
+                                <tr>
+                                    <th style="width: 50px;">No</th>
+                                    <th>Description</th>
+                                    <th style="width: 100px;">Unit (Qty)</th>
+                                    <th style="width: 130px;">Unit Price (฿)</th>
+                                    <th style="width: 150px;">Total (฿)</th>
+                                    <th style="width: 50px;" class="hide-print"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="itemsTableBody">
+                                <!-- Dynamically generated rows -->
+                            </tbody>
+                        </table>
+                        <button type="button" class="btn btn-secondary btn-sm hide-print mt-2" id="btnAddRow">
+                            <i class="fa-solid fa-plus"></i> Add Item
+                        </button>
+                    </div>
+
+                    <!-- Voucher Remarks and Totals -->
+                    <div class="voucher-footer-grid">
+                        <div class="remark-area">
+                            <div class="form-group-print">
+                                <label>Remark :</label>
+                                <textarea id="voucherRemark" class="print-input" rows="2" placeholder="Remarks/หมายเหตุ"></textarea>
+                            </div>
+                            <div class="form-group-print mt-2">
+                                <label>Supplier / ร้านที่ต้องการให้ติดต่อ/เบอร์โทรศัพท์ :</label>
+                                <textarea id="voucherSupplier" class="print-input" rows="2" placeholder="Supplier info / ร้านค้าติดต่อ"></textarea>
+                            </div>
+                        </div>
+                        <div class="totals-area">
+                            <table class="totals-table">
+                                <tr>
+                                    <td>Sub Total</td>
+                                    <td>
+                                        <input type="text" id="subTotalDisplay" class="print-input text-right font-bold" readonly value="0.00">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="checkbox-container inline-flex">
+                                            <input type="checkbox" id="vatToggle">
+                                            <span class="checkmark"></span>
+                                            Vat 7%
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <input type="text" id="vatDisplay" class="print-input text-right" readonly value="0.00">
+                                    </td>
+                                </tr>
+                                <tr class="grand-total-row">
+                                    <td>Grand Total</td>
+                                    <td>
+                                        <input type="text" id="grandTotalDisplay" class="print-input text-right font-bold" readonly value="0.00">
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Reason/Purpose -->
+                    <div class="reason-area mt-2">
+                        <label>Reason / เหตุผล :</label>
+                        <textarea id="voucherReason" class="print-input" rows="2" placeholder="Reason for request / เหตุผลความจำเป็นในการเบิกจ่าย"></textarea>
+                    </div>
+
+                    <!-- Approvals Block -->
+                    <div class="approval-block-grid">
+                        <div class="approval-column">
+                            <div class="signature-line">
+                                <div class="signature-input-group">
+                                    <label>Request By</label>
+                                    <input type="text" id="signRequestBy" class="print-input signature-name" placeholder="Requestor Name">
+                                </div>
+                                <div class="signature-date-group">
+                                    <label>Date</label>
+                                    <input type="date" id="signRequestDate" class="print-input signature-date">
+                                </div>
+                            </div>
+                            
+                            <div class="signature-line">
+                                <div class="signature-input-group">
+                                    <label>Dep. Approve</label>
+                                    <input type="text" id="signDepApprove" class="print-input signature-name" placeholder="Manager Name">
+                                </div>
+                                <div class="signature-date-group">
+                                    <label>Date</label>
+                                    <input type="date" id="signDepApproveDate" class="print-input signature-date">
+                                </div>
+                            </div>
+
+                            <div class="signature-line">
+                                <div class="signature-input-group">
+                                    <label>(Over LOA) MD/President</label>
+                                    <input type="text" id="signMd" class="print-input signature-name" placeholder="MD Signature Name">
+                                </div>
+                                <div class="signature-date-group">
+                                    <label>Date</label>
+                                    <input type="date" id="signMdDate" class="print-input signature-date">
+                                </div>
+                            </div>
+
+                            <div class="signature-line">
+                                <div class="signature-input-group">
+                                    <label>Account&Finance MGR (Acknowledge)</label>
+                                    <input type="text" id="signFinance" class="print-input signature-name" placeholder="Finance Manager">
+                                </div>
+                                <div class="signature-date-group">
+                                    <label>Date</label>
+                                    <input type="date" id="signFinanceDate" class="print-input signature-date">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="approval-column">
+                            <div class="signature-box-header">
+                                <!-- Empty space in original form orange block -->
+                            </div>
+                            
+                            <div class="signature-line">
+                                <div class="signature-input-group">
+                                    <label>Received By</label>
+                                    <input type="text" id="signReceivedBy" class="print-input signature-name" placeholder="Receiver Name">
+                                </div>
+                                <div class="signature-date-group">
+                                    <label>Date</label>
+                                    <input type="date" id="signReceivedDate" class="print-input signature-date">
+                                </div>
+                            </div>
+
+                            <div class="signature-line">
+                                <div class="signature-input-group">
+                                    <label>Paid By</label>
+                                    <input type="text" id="signPaidBy" class="print-input signature-name" placeholder="Payer Name">
+                                </div>
+                                <div class="signature-date-group">
+                                    <label>Date</label>
+                                    <input type="date" id="signPaidDate" class="print-input signature-date">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group mt-3 hide-print">
+                                <label for="voucherStatus">Application Approval Status</label>
+                                <select id="voucherStatus" class="form-control">
+                                    <option value="Pending">Pending (รออนุมัติ)</option>
+                                    <option value="Approved">Approved (อนุมัติแล้ว)</option>
+                                    <option value="Paid">Paid (จ่ายเงินเรียบร้อย)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ==================== GOOGLE SHEETS SETTINGS MODAL ==================== -->
+    <div class="modal" id="settingsModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title"><i class="fa-solid fa-cloud"></i> Google Sheet Cloud Integration</h3>
+                    <button class="modal-close" id="btnCloseSettings">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="settingsSheetUrl">Google Apps Script Web App URL</label>
+                        <input type="url" id="settingsSheetUrl" class="form-control" placeholder="https://script.google.com/macros/s/.../exec">
+                        <small class="form-text text-muted">Paste your deployed Google Apps Script Web App execution URL here.</small>
+                    </div>
+
+                    <div class="settings-actions mt-3">
+                        <button class="btn btn-primary" id="btnSaveSettings">Save Configuration</button>
+                        <button class="btn btn-secondary-outline" id="btnTestConnection">
+                            <span id="testConnSpinner" style="display:none;"><i class="fa-solid fa-circle-notch fa-spin"></i> </span>Test Connection
+                        </button>
+                    </div>
+
+                    <hr class="modal-divider">
+
+                    <h4 class="mt-3">How to set up your Google Sheet Database</h4>
+                    <div class="setup-steps">
+                        <ol>
+                            <li>Create a new <strong>Google Sheet</strong>.</li>
+                            <li>Open <strong>Extensions</strong> &gt; <strong>Apps Script</strong>.</li>
+                            <li>Delete any code in the editor, and paste the code below.</li>
+                            <li>Click <strong>Deploy</strong> &gt; <strong>New deployment</strong>.</li>
+                            <li>Select type <strong>Web app</strong>. Configure:
+                                <ul>
+                                    <li>Execute as: <strong>Me (your account)</strong></li>
+                                    <li>Who has access: <strong>Anyone</strong></li>
+                                </ul>
+                            </li>
+                            <li>Click <strong>Deploy</strong>, authorize permissions, and copy the <strong>Web App URL</strong>. Paste it in the input field above!</li>
+                        </ol>
+                    </div>
+
+                    <div class="code-container">
+                        <div class="code-header">
+                            <span>Google Apps Script Code</span>
+                            <button class="btn btn-xs btn-secondary-outline" id="btnCopyCode"><i class="fa-regular fa-copy"></i> Copy Code</button>
+                        </div>
+                        <pre><code id="appsScriptCode">/**
+ * Google Apps Script API endpoint for Petty Cash Vouchers.
+ * Deploys as a Web App to interact with Google Sheets.
+ */
+
+const SHEET_NAME = 'Vouchers';
+
+function doGet(e) {
+  const sheet = getOrCreateSheet();
+  const data = sheet.getDataRange().getValues();
+  const headers = data[0];
+  const rows = [];
+  
+  for (let i = 1; i < data.length; i++) {
+    const row = {};
+    for (let j = 0; j < headers.length; j++) {
+      row[headers[j]] = data[i][j];
+    }
+    rows.push(row);
+  }
+  
+  return ContentService.createTextOutput(JSON.stringify(rows))
+    .setMimeType(ContentService.MimeType.JSON)
+    .setHeader('Access-Control-Allow-Origin', '*');
+}
+
+function doPost(e) {
+  try {
+    const payload = JSON.parse(e.postData.contents);
+    const sheet = getOrCreateSheet();
+    const headers = sheet.getDataRange().getValues()[0];
+    
+    // Process items details as list
+    let itemSummary = '';
+    if (payload.items && payload.items.length > 0) {
+      itemSummary = payload.items.map(item => `${item.description} (${item.unit}x${item.price})`).join(', ');
+    }
+    
+    const rowData = {
+      'Timestamp': new Date().toISOString(),
+      'Voucher No': payload.voucherNo || '',
+      'Date of Request': payload.date || '',
+      'Requestor': payload.requestBy || '',
+      'Department': payload.department || '',
+      'Expense Type': payload.voucherType || '',
+      'Description Summary': itemSummary,
+      'Grand Total': payload.grandTotal || 0,
+      'VAT Amount': payload.vatAmount || 0,
+      'Supplier Details': payload.supplier || '',
+      'Reason': payload.reason || '',
+      'Status': payload.status || 'Pending',
+      'Full JSON Data': JSON.stringify(payload)
+    };
+    
+    // Check if updating an existing record
+    const data = sheet.getDataRange().getValues();
+    let rowIndex = -1;
+    for (let i = 1; i < data.length; i++) {
+      if (data[i][1] === payload.voucherNo) { // Column B is Voucher No
+        rowIndex = i + 1;
+        break;
+      }
+    }
+    
+    const rowValues = headers.map(header => rowData[header] !== undefined ? rowData[header] : '');
+    
+    if (rowIndex > 0) {
+      // Update
+      sheet.getRange(rowIndex, 1, 1, headers.length).setValues([rowValues]);
+    } else {
+      // Append
+      sheet.appendRow(rowValues);
+    }
+    
+    return ContentService.createTextOutput(JSON.stringify({ success: true, message: 'Record saved successfully!' }))
+      .setMimeType(ContentService.MimeType.JSON)
+      .setHeader('Access-Control-Allow-Origin', '*');
+      
+  } catch (error) {
+    return ContentService.createTextOutput(JSON.stringify({ success: false, error: error.toString() }))
+      .setMimeType(ContentService.MimeType.JSON)
+      .setHeader('Access-Control-Allow-Origin', '*');
+  }
+}
+
+function doOptions(e) {
+  return ContentService.createTextOutput("")
+    .setHeader('Access-Control-Allow-Origin', '*')
+    .setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+    .setHeader('Access-Control-Allow-Headers', 'Content-Type');
+}
+
+function getOrCreateSheet() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  let sheet = ss.getSheetByName(SHEET_NAME);
+  if (!sheet) {
+    sheet = ss.insertSheet(SHEET_NAME);
+    const headers = [
+      'Timestamp',
+      'Voucher No',
+      'Date of Request',
+      'Requestor',
+      'Department',
+      'Expense Type',
+      'Description Summary',
+      'Grand Total',
+      'VAT Amount',
+      'Supplier Details',
+      'Reason',
+      'Status',
+      'Full JSON Data'
+    ];
+    sheet.appendRow(headers);
+    // Format headers
+    const range = sheet.getRange(1, 1, 1, headers.length);
+    range.setFontWeight('bold');
+    range.setBackground('#005ba3');
+    range.setFontColor('#ffffff');
+    sheet.setFrozenRows(1);
+  }
+  return sheet;
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast">Successfully saved!</div>
+
+    <script src="app.js"></script>
+</body>
+</html>

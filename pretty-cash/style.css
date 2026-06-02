@@ -1,0 +1,1027 @@
+/* ==========================================================================
+   Ecoseal Petty Cash System - Brand Design System
+   ========================================================================== */
+
+:root {
+    /* Brand & Theme Colors */
+    --color-primary: #005ba3;          /* Ecoseal Royal Blue */
+    --color-primary-dark: #004278;     /* Darker tone for active/hover */
+    --color-primary-light: #e6f2fc;    /* Light accent backgrounds */
+    --color-accent: #ffc72c;           /* Ecoseal Brand Yellow/Gold */
+    --color-accent-light: #fff9e6;     /* Highlight badge background */
+    --color-form-accent: #fcd4b4;      /* Soft Peach/Orange matching the PDF form headers */
+    
+    /* Semantic Colors */
+    --color-success: #10b981;
+    --color-success-light: #ecfdf5;
+    --color-warning: #f59e0b;
+    --color-warning-light: #fffbeb;
+    --color-danger: #ef4444;
+    --color-danger-outline: #fca5a5;
+    --color-info: #3b82f6;
+    --color-info-light: #eff6ff;
+
+    /* Neutrals */
+    --color-background: #f1f5f9;
+    --color-surface: #ffffff;
+    --color-text: #1e293b;
+    --color-text-muted: #64748b;
+    --color-border: #cbd5e1;
+    
+    /* Layout & Styling Values */
+    --border-radius-lg: 12px;
+    --border-radius-md: 8px;
+    --border-radius-sm: 4px;
+    --box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --box-shadow-hover: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', 'Sarabun', sans-serif;
+    background-color: var(--color-background);
+    color: var(--color-text);
+    line-height: 1.5;
+    padding-bottom: 3rem;
+}
+
+/* Typography Utilities */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+}
+
+.text-right { text-align: right; }
+.text-center { text-align: center; }
+.text-muted { color: var(--color-text-muted); }
+.text-primary { color: var(--color-primary); }
+.text-warning { color: var(--color-warning); }
+.text-success { color: var(--color-success); }
+.text-info { color: var(--color-info); }
+.bg-primary-light { background-color: var(--color-primary-light); }
+.bg-warning-light { background-color: var(--color-warning-light); }
+.bg-success-light { background-color: var(--color-success-light); }
+.bg-info-light { background-color: var(--color-info-light); }
+.font-bold { font-weight: 700; }
+.mt-2 { margin-top: 0.5rem; }
+.mt-3 { margin-top: 1rem; }
+.mb-3 { margin-bottom: 1rem; }
+.py-5 { padding-top: 3rem; padding-bottom: 3rem; }
+
+/* Sticky Header Style */
+.app-header {
+    background-color: var(--color-surface);
+    border-bottom: 3px solid var(--color-accent);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--box-shadow);
+    padding: 0.75rem 0;
+}
+
+.header-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.brand-logo {
+    height: 50px;
+    object-fit: contain;
+}
+
+.brand-text-logo {
+    background-color: var(--color-primary);
+    color: white;
+    font-weight: 800;
+    font-size: 1.5rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--border-radius-sm);
+    letter-spacing: 1px;
+}
+
+.brand-title h1 {
+    font-size: 1.3rem;
+    color: var(--color-primary);
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.brand-title .sub-title {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    font-weight: 500;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.sync-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    background-color: var(--color-background);
+}
+
+/* Buttons Styles */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: var(--border-radius-md);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-primary {
+    background-color: var(--color-primary);
+    color: #ffffff;
+}
+.btn-primary:hover {
+    background-color: var(--color-primary-dark);
+}
+
+.btn-secondary {
+    background-color: var(--color-primary-light);
+    color: var(--color-primary);
+}
+.btn-secondary:hover {
+    background-color: #dbeafe;
+}
+
+.btn-secondary-outline {
+    border-color: var(--color-border);
+    background-color: transparent;
+    color: var(--color-text-muted);
+}
+.btn-secondary-outline:hover {
+    background-color: var(--color-background);
+    color: var(--color-text);
+}
+
+.btn-danger-outline {
+    border-color: var(--color-danger-outline);
+    background-color: transparent;
+    color: var(--color-danger);
+}
+.btn-danger-outline:hover {
+    background-color: #fee2e2;
+}
+
+.btn-sm {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+    border-radius: var(--border-radius-sm);
+}
+
+.btn-xs {
+    padding: 0.2rem 0.5rem;
+    font-size: 0.75rem;
+    border-radius: var(--border-radius-sm);
+}
+
+/* App container */
+.app-container {
+    max-width: 1400px;
+    margin: 2rem auto 0 auto;
+    padding: 0 1.5rem;
+}
+
+/* Statistical Cards layout */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background-color: var(--color-surface);
+    border-radius: var(--border-radius-lg);
+    padding: 1.5rem;
+    box-shadow: var(--box-shadow);
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    transition: var(--transition);
+}
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--box-shadow-hover);
+}
+
+.stat-icon {
+    width: 54px;
+    height: 54px;
+    border-radius: var(--border-radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.stat-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+}
+
+.stat-value {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--color-text);
+}
+
+/* Filter Card Styling */
+.card {
+    background-color: var(--color-surface);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--box-shadow);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.filter-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 1rem;
+    align-items: flex-end;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.form-group label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+}
+
+.form-control, select, input[type="text"], input[type="url"], input[type="date"] {
+    font-family: inherit;
+    width: 100%;
+    padding: 0.6rem 0.9rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-md);
+    font-size: 0.9rem;
+    color: var(--color-text);
+    background-color: var(--color-surface);
+    transition: var(--transition);
+}
+
+.form-control:focus, select:focus, input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(0, 91, 163, 0.1);
+}
+
+.search-group {
+    position: relative;
+}
+
+.search-group input {
+    padding-left: 2.5rem;
+}
+
+.search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-text-muted);
+    pointer-events: none;
+}
+
+/* Record Table Styles */
+.table-card {
+    padding: 0;
+    overflow: hidden;
+}
+
+.table-card .card-header {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid #f1f5f9;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.table-card .card-header h2 {
+    font-size: 1.1rem;
+    color: var(--color-primary);
+}
+
+.badge {
+    padding: 0.25rem 0.6rem;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    background-color: var(--color-background);
+    color: var(--color-text-muted);
+}
+
+.badge-status {
+    padding: 0.25rem 0.75rem;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.badge-status.pending {
+    background-color: var(--color-warning-light);
+    color: var(--color-warning);
+}
+
+.badge-status.approved {
+    background-color: var(--color-success-light);
+    color: var(--color-success);
+}
+
+.badge-status.paid {
+    background-color: var(--color-info-light);
+    color: var(--color-info);
+}
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.9rem;
+}
+
+.data-table th {
+    background-color: #f8fafc;
+    padding: 1rem 1.5rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.data-table td {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.data-table tbody tr {
+    transition: var(--transition);
+}
+
+.data-table tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+.actions-cell {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+}
+
+/* ==================== VOUCHER / PRINT CONTAINER ==================== */
+.form-actions-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.form-actions-right {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.voucher-print-container {
+    max-width: 900px;
+    margin: 0 auto;
+    background-color: var(--color-surface);
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 10px 25px -5px rgb(0 0 0 / 0.1);
+    padding: 2.5rem;
+}
+
+.voucher-card {
+    border: 2px solid #000000;
+    padding: 1.5rem;
+    background-color: #ffffff;
+    color: #000000;
+}
+
+/* Authentic PDF Header styling */
+.voucher-header {
+    display: flex;
+    border-bottom: 2px solid #000000;
+    padding-bottom: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.voucher-logo-area {
+    width: 250px;
+    border-right: 2px solid #000000;
+    padding-right: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.voucher-logo {
+    max-width: 180px;
+    max-height: 55px;
+    object-fit: contain;
+}
+
+.brand-text-logo-large {
+    background-color: var(--color-primary);
+    color: white;
+    font-weight: 900;
+    font-size: 2rem;
+    padding: 0.25rem 1rem;
+    letter-spacing: 2px;
+}
+
+.logo-subtext {
+    font-size: 0.7rem;
+    font-weight: bold;
+    color: #475569;
+    text-align: center;
+    margin-top: 0.25rem;
+}
+
+.voucher-title-area {
+    flex: 1;
+    padding-left: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.voucher-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1.3;
+    margin-bottom: 0.5rem;
+}
+
+/* Custom Checkboxes matching the PDF */
+.voucher-options-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.25rem;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding-left: 1.75rem;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: bold;
+    user-select: none;
+}
+
+.checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkmark {
+    position: absolute;
+    left: 0;
+    height: 18px;
+    width: 18px;
+    background-color: #ffffff;
+    border: 1.5px solid #000000;
+}
+
+.checkbox-container input[type="radio"] + .checkmark {
+    border-radius: 0%; /* Standard box matching original */
+}
+
+.checkbox-container input:checked ~ .checkmark {
+    background-color: #ffffff;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.checkbox-container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.checkbox-container .checkmark:after {
+    left: 5px;
+    top: 1px;
+    width: 5px;
+    height: 10px;
+    border: solid #000000;
+    border-width: 0 2.5px 2.5px 0;
+    transform: rotate(45deg);
+}
+
+.inline-flex {
+    display: inline-flex !important;
+}
+
+/* Voucher Metadata Grid */
+.voucher-meta-grid {
+    display: grid;
+    grid-template-columns: 2fr 1.5fr 2fr 1.5fr;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.meta-field {
+    display: flex;
+    align-items: center;
+    border: 1px solid #000000;
+    height: 32px;
+}
+
+.meta-field.span-2 {
+    grid-column: span 2;
+}
+
+.meta-field label {
+    font-size: 0.75rem;
+    font-weight: bold;
+    padding: 0 0.5rem;
+    white-space: nowrap;
+    border-right: 1px solid #000000;
+    background-color: #f8fafc;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.print-input {
+    flex: 1;
+    height: 100%;
+    border: none !important;
+    padding: 0 0.5rem !important;
+    font-size: 0.85rem !important;
+    background-color: transparent !important;
+    border-radius: 0 !important;
+    outline: none !important;
+    font-family: inherit;
+    box-shadow: none !important;
+    font-weight: bold;
+}
+
+.print-input::placeholder {
+    color: #94a3b8;
+    font-style: italic;
+    font-size: 0.75rem;
+}
+
+/* Print Specific Inputs lines for printed sheet */
+textarea.print-input {
+    border: none;
+    resize: none;
+    padding: 0.25rem 0.5rem !important;
+    line-height: 1.4;
+}
+
+/* Items Table inside PDF block */
+.voucher-table-wrapper {
+    margin-bottom: 0.5rem;
+}
+
+.voucher-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 2px solid #000000;
+    font-size: 0.8rem;
+}
+
+.voucher-table th {
+    background-color: var(--color-form-accent) !important; /* Soft peach orange matching template */
+    color: #000000;
+    font-weight: bold;
+    border: 1px solid #000000;
+    padding: 0.4rem;
+    text-align: center;
+}
+
+.voucher-table td {
+    border: 1px solid #000000;
+    padding: 0.15rem 0.3rem;
+    height: 28px;
+}
+
+/* Footer layout of Voucher */
+.voucher-footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    border: 2px solid #000000;
+    border-top: none;
+}
+
+.remark-area {
+    border-right: 2px solid #000000;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.form-group-print {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group-print label {
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+.form-group-print textarea {
+    border: 1px dotted #94a3b8;
+    border-radius: var(--border-radius-sm);
+    width: 100%;
+}
+
+.totals-area {
+    display: flex;
+    flex-direction: column;
+}
+
+.totals-table {
+    width: 100%;
+    height: 100%;
+    border-collapse: collapse;
+}
+
+.totals-table td {
+    border-bottom: 1px solid #000000;
+    border-left: 1px solid #000000;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.totals-table tr:last-child td {
+    border-bottom: none;
+}
+
+.grand-total-row {
+    background-color: #f8fafc;
+}
+
+.reason-area {
+    border: 2px solid #000000;
+    padding: 0.5rem;
+    font-size: 0.8rem;
+}
+
+.reason-area label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.reason-area textarea {
+    border: 1px dotted #94a3b8;
+    width: 100%;
+}
+
+/* Approval blocks */
+.approval-block-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 2px solid #000000;
+    border-top: none;
+    margin-top: -1px;
+}
+
+.approval-column {
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.approval-column:first-child {
+    border-right: 2px solid #000000;
+}
+
+.signature-box-header {
+    background-color: var(--color-form-accent); /* Soft peach background */
+    height: 25px;
+    border: 1px solid #000000;
+    margin-bottom: 0.25rem;
+}
+
+.signature-line {
+    display: flex;
+    border: 1px solid #000000;
+    height: 32px;
+    align-items: center;
+}
+
+.signature-input-group {
+    flex: 1;
+    display: flex;
+    height: 100%;
+    align-items: center;
+}
+
+.signature-input-group label {
+    font-size: 0.7rem;
+    font-weight: bold;
+    padding: 0 0.4rem;
+    border-right: 1px solid #000000;
+    background-color: #f8fafc;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.signature-date-group {
+    width: 140px;
+    display: flex;
+    border-left: 1px solid #000000;
+    height: 100%;
+    align-items: center;
+}
+
+.signature-date-group label {
+    font-size: 0.7rem;
+    font-weight: bold;
+    padding: 0 0.4rem;
+    border-right: 1px solid #000000;
+    background-color: #f8fafc;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.signature-name {
+    padding-left: 0.4rem !important;
+}
+
+.signature-date {
+    width: 100%;
+    padding-left: 0.4rem !important;
+}
+
+/* ==================== SETTINGS MODAL ==================== */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+}
+
+.modal.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-dialog {
+    background-color: var(--color-surface);
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    width: 100%;
+    max-width: 680px;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-top: 5px solid var(--color-primary);
+}
+
+.modal-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-header {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-title {
+    font-size: 1.15rem;
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    color: var(--color-text-muted);
+}
+.modal-close:hover {
+    color: var(--color-text);
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+.modal-divider {
+    border: none;
+    border-top: 1px solid var(--color-border);
+    margin: 1.5rem 0;
+}
+
+.setup-steps {
+    margin: 0.75rem 0;
+    padding-left: 1.25rem;
+    font-size: 0.85rem;
+}
+
+.setup-steps li {
+    margin-bottom: 0.4rem;
+}
+
+.code-container {
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+    margin-top: 1rem;
+}
+
+.code-header {
+    background-color: var(--color-background);
+    padding: 0.5rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.code-container pre {
+    margin: 0;
+    padding: 1rem;
+    background-color: #1e293b;
+    color: #f1f5f9;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.8rem;
+    overflow-x: auto;
+    max-height: 250px;
+}
+
+/* Toast Message */
+.toast {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background-color: var(--color-text);
+    color: var(--color-surface);
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--box-shadow);
+    z-index: 2000;
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transform: translateY(100px);
+    opacity: 0;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+}
+
+.toast.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* ==========================================================================
+   @media PRINT - Pixel Perfect PDF Layout
+   ========================================================================== */
+@media print {
+    /* Hide all web components */
+    body, html {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    header, 
+    .app-header, 
+    .app-container > *:not(#formView), 
+    .form-actions-bar,
+    .hide-print,
+    #toast,
+    .modal,
+    #btnAddRow {
+        display: none !important;
+    }
+
+    #formView, .view-section {
+        display: block !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .voucher-print-container {
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        background-color: transparent !important;
+    }
+
+    .voucher-card {
+        border: 2px solid #000000 !important;
+        padding: 1.25rem !important;
+        background-color: #ffffff !important;
+        /* Let's fit exactly inside standard A4 page height and width */
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    .voucher-table th {
+        background-color: var(--color-form-accent) !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    .signature-box-header {
+        background-color: var(--color-form-accent) !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    /* Input borders and backgrounds are removed for print naturally */
+    .print-input {
+        background-color: transparent !important;
+        color: #000000 !important;
+    }
+
+    /* In standard browser printing, it's nice to duplicate the form to have an official copy and receipt copy */
+    /* We can let them print it as standard. */
+}
