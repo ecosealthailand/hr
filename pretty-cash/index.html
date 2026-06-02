@@ -238,7 +238,7 @@
                             <input type="date" id="voucherDuePayment" class="print-input">
                         </div>
                         <div class="meta-field">
-                            <label>Date Require (Estimate)</label>
+                            <label>Date Require (Est.)</label>
                             <input type="date" id="voucherDateRequire" class="print-input">
                         </div>
                     </div>
@@ -471,8 +471,7 @@ function doGet(e) {
   }
   
   return ContentService.createTextOutput(JSON.stringify(rows))
-    .setMimeType(ContentService.MimeType.JSON)
-    .setHeader('Access-Control-Allow-Origin', '*');
+    .setMimeType(ContentService.MimeType.TEXT);
 }
 
 function doPost(e) {
@@ -524,13 +523,11 @@ function doPost(e) {
     }
     
     return ContentService.createTextOutput(JSON.stringify({ success: true, message: 'Record saved successfully!' }))
-      .setMimeType(ContentService.MimeType.JSON)
-      .setHeader('Access-Control-Allow-Origin', '*');
+      .setMimeType(ContentService.MimeType.TEXT);
       
   } catch (error) {
     return ContentService.createTextOutput(JSON.stringify({ success: false, error: error.toString() }))
-      .setMimeType(ContentService.MimeType.JSON)
-      .setHeader('Access-Control-Allow-Origin', '*');
+      .setMimeType(ContentService.MimeType.TEXT);
   }
 }
 

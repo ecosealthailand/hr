@@ -193,8 +193,16 @@ async function fetchVouchersFromCloud() {
     try {
         if (el.syncStatusText) el.syncStatusText.textContent = "Syncing...";
         
-        // Fetch direct URL without cache-buster to avoid CORS redirect issues
-        const response = await fetch(googleScriptUrl);
+        // Use POST with action 'get' to completely bypass CORS redirect checks in Google Sheets Web Apps
+        const response = await fetch(googleScriptUrl, {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'text/plain'
+            },
+            body: JSON.stringify({ action: 'get' })
+        });
+        
         if (!response.ok) throw new Error('Network response was not ok');
         
         const data = await response.json();
@@ -740,9 +748,9 @@ async function saveVoucher() {
                 method: 'POST',
                 mode: 'cors',
                 headers: {
-                    'Content-Type': 'text/plain' // Apps Script handles text/plain or multipart POST easily to avoid preflight CORS
+                    'Content-Type': 'text/plain'
                 },
-                body: JSON.stringify(payload)
+                body: JSON.stringify({ action: 'save', data: payload }) // Send unified POST save action
             });
             
             const resData = await response.json();
@@ -780,16 +788,14 @@ async function deleteCurrentVoucher() {
     // Apps script endpoint delete is not fully supported in standard appends, 
     // but we can update its status to "Deleted" or let them clear it in Google Sheets manually.
     // For completeness, if we send a POST with status: 'Deleted', our Apps Script will naturally update the row!
+    // Send unified POST delete action to remove or mark row in Google Sheets
     if (googleScriptUrl) {
         try {
-            const voucher = vouchers.find(v => v.voucherNo === currentVoucherId) || { voucherNo: currentVoucherId, status: 'Deleted' };
-            voucher.status = 'Deleted'; // Mark as deleted
-            
             await fetch(googleScriptUrl, {
                 method: 'POST',
                 mode: 'cors',
                 headers: { 'Content-Type': 'text/plain' },
-                body: JSON.stringify(voucher)
+                body: JSON.stringify({ action: 'delete', voucherNo: currentVoucherId })
             });
             
             fetchVouchersFromCloud(); // Refresh
@@ -816,3 +822,30 @@ function formatDisplayDate(dateString) {
         return dateString;
     }
 }
+
+// Automatically clear placeholder text for empty dates when printing
+function syncEmptyDateClasses() {
+    const dateInputs = document.querySelectorAll('input[type="date"]');
+    dateInputs.forEach(input => {
+        if (!input.value) {
+            input.classList.add('date-empty');
+            input.setAttribute('value', '');
+        } else {
+            input.classList.remove('date-empty');
+            input.setAttribute('value', input.value);
+        }
+    });
+}
+
+// Hook into the browser print cycles to ensure dates are synced
+window.addEventListener('beforeprint', syncEmptyDateClasses);
+// Also listen to inputs dynamically on change
+document.addEventListener('input', (e) => {
+    if (e.target && e.target.type === 'date') {
+        if (!e.target.value) {
+            e.target.classList.add('date-empty');
+        } else {
+            e.target.classList.remove('date-empty');
+        }
+    }
+});
