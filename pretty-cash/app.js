@@ -536,12 +536,14 @@ function loadVoucherIntoForm(v) {
 function renderVoucherRows(items = []) {
     el.itemsTableBody.innerHTML = '';
     
-    // Fill up to DEFAULT_ROW_COUNT (10) rows to maintain standard document proportions
-    const totalRowsCount = Math.max(DEFAULT_ROW_COUNT, items.length);
-    
-    for (let i = 0; i < totalRowsCount; i++) {
-        const item = items[i] || { description: '', unit: '', price: '' };
-        addVoucherRow(item.description, item.unit, item.price);
+    if (items.length === 0) {
+        // Start with exactly 1 empty row for a new request
+        addVoucherRow('', '', '');
+    } else {
+        // Render only the rows that have actual data
+        items.forEach(item => {
+            addVoucherRow(item.description, item.unit, item.price);
+        });
     }
     
     calculateTotals();

@@ -1252,27 +1252,29 @@ textarea.print-input {
     }
 
     .meta-field {
-        border: 1px solid #000000 !important;
+        border: none !important;
         border-radius: 0 !important;
-        height: 20px !important; /* Slim row height */
-        background-color: #ffffff !important;
+        height: 22px !important;
+        background-color: transparent !important;
     }
 
     .meta-field label {
         font-size: 7.5px !important;
         font-weight: bold !important;
-        padding: 0 0.25rem !important;
-        border-right: 1px solid #000000 !important;
-        background-color: #f8fafc !important;
+        padding: 0 0.25rem 0 0 !important;
+        border: none !important;
+        background-color: transparent !important;
         color: #000000 !important;
     }
 
     .print-input {
-        padding: 0 0.25rem !important;
-        font-size: 8px !important;
+        padding: 0 !important;
+        font-size: 8.5px !important;
         color: #000000 !important;
         font-weight: bold !important;
         background-color: transparent !important;
+        border-bottom: 1px solid #000000 !important; /* Authentic underline space */
+        height: 100% !important;
     }
 
     textarea.print-input {
@@ -1414,31 +1416,38 @@ textarea.print-input {
     }
 
     .signature-line {
-        border: 1px solid #000000 !important;
+        border: none !important;
         border-radius: 0 !important;
-        height: 20px !important;
+        height: 22px !important;
+        background-color: transparent !important;
     }
 
     .signature-input-group label {
         font-size: 7.5px !important;
         font-weight: bold !important;
-        padding: 0 0.25rem !important;
-        border-right: 1px solid #000000 !important;
-        background-color: #f8fafc !important;
+        padding: 0 0.25rem 0 0 !important;
+        border: none !important;
+        background-color: transparent !important;
         color: #000000 !important;
     }
 
     .signature-date-group {
-        width: 100px !important;
-        border-left: 1px solid #000000 !important;
+        width: 110px !important;
+        border: none !important;
     }
 
     .signature-date-group label {
-        font-size: 7px !important;
+        font-size: 7.5px !important;
         font-weight: bold !important;
         padding: 0 0.25rem !important;
-        border-right: 1px solid #000000 !important;
-        background-color: #f8fafc !important;
+        border: none !important;
+        background-color: transparent !important;
         color: #000000 !important;
+    }
+
+    .signature-name, .signature-date {
+        border-bottom: 1px solid #000000 !important; /* Underline spaces */
+        height: 100% !important;
+        padding-left: 0.25rem !important;
     }
 }
