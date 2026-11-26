@@ -276,7 +276,14 @@ const avCol  = i => `background:${PALE[i%PALE.length]};color:${PAL[i%PAL.length]
 const avs    = avCol;
 
 // ── รูปพนักงาน ───────────────────────────────────────────────
-function photoUrl(r){ return PHOTO_BASE + (g(r,'code')||'0') + '.jpg'; }
+// Preserve the displayed employee code; normalize only the photo filename.
+const PHOTO_FILE_OVERRIDES = {'050':'050.jpg','50':'050.jpg','088':'088.jpg','405':'405 ลาออก.jpg'};
+function photoUrl(r){
+  const code = String(g(r,'code') || '').normalize('NFKC').trim();
+  const numericCode = /^\d+$/.test(code) ? code.replace(/^0+(?=\d)/,'') : code;
+  const file = PHOTO_FILE_OVERRIDES[code] || PHOTO_FILE_OVERRIDES[numericCode] || (numericCode || '0') + '.jpg';
+  return PHOTO_BASE + encodeURIComponent(file);
+}
 function photoImg(r, size=40){
   const code = g(r,'code');
   if(!code) return '';
@@ -1187,7 +1194,7 @@ const BASE_IDX = {...IDX};
 const norm = v => String(v ?? '').normalize('NFKC').replace(/[\s\u200b\ufeff_–—-]+/g,'').toLowerCase();
 const aliases = {
  ...Object.fromEntries(Object.entries(C).filter(([k,v])=>v).map(([k,v])=>[k,[v]])),
- no:['No.','No','ลำดับ'], code:['Emp.Code','Employee Code','รหัสพนักงาน','รหัส'],
+ no:['No.','No','ลำดับ','ที่ No.'], code:['Emp.Code','Employee Code','รหัสพนักงาน','รหัส','รหัสพนักงาน Emp.Code','รหัสพนักงาน Employee Code'],
  name:['ชื่อ-สกุล (ไทย)','ชื่อ-สกุล','ชื่อ นามสกุล','ชื่อ-นามสกุล (ไทย)','ชื่อ-นามสกุล','ชื่อพนักงาน','Full Name (TH)'],
  status:['Work Status','Status','สถานะ','สถานะพนักงาน','สถานะการทำงาน','สถานะ Work Status','สถานะการทำงาน Work Status'],
  prefixEN:['คำนำหน้า (อังกฤษ)','Prefix (EN)'],nameEN:['ชื่อ-สกุล (อังกฤษ)','Full Name (EN)'],nickEN:['ชื่อเล่น (อังกฤษ)'],posEN:['ตำแหน่ง (อังกฤษ)'],deptEN:['แผนก (อังกฤษ)'],divEN:['ฝ่าย (อังกฤษ)'],branchEN:['สาขา (อังกฤษ)'],effdate:['Effective Date','วันที่มีผล','วันที่ลาออก']
