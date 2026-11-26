@@ -187,6 +187,7 @@ tr:last-child td{border-bottom:none}.tr-click:hover td{background:var(--Bl);curs
         </a>
       </div>
     </div>
+    <div id="statusNotice" class="err-box" style="display:none"></div>
     <div id="page-dash" class="pg active"></div>
     <div id="page-dir" class="pg">
       <div class="toolbar">
@@ -258,7 +259,7 @@ const IDX = {
 const g = (r,k) => {
   const idx = IDX[k];
   if(idx !== undefined && r._r){
-    const val = (r._r[idx]||'').trim();
+    const val = k==='status' && r._status ? r._status : (r._r[idx]||'').trim();
     // ถ้า mobile ว่าง ให้ใช้ เบอร์โทร (tel) แทน
     if(k==='mobile' && !val) return (r._r[IDX.tel]||'').trim();
     return val;
@@ -1208,22 +1209,49 @@ function parseEmployees(rawText){
  const original=map.name===BASE_IDX.name && map.dobiso===BASE_IDX.dobiso && map.dept===BASE_IDX.dept;
  if(original){for(const k of Object.keys(map)) if(map[k]<0 && BASE_IDX[k]<header.length) map[k]=BASE_IDX[k];}
  if(map.code<0 && map.name===3 && !norm(header[1])) map.code=1;
- if(map.status<0) throw new Error('ไม่พบคอลัมน์สถานะพนักงาน (Work Status)');
+ // Status column can also be identified by recognized values below.
  const employees=data.slice(hi+1).filter(r=>String(r[map.name]||'').trim() && !matches(r[map.name],'name') && (map.code<0 || String(r[map.code]||'').trim())).map(r=>({_r:r}));
  if(!employees.length) throw new Error('พบหัวตาราง แต่ไม่พบรายชื่อพนักงาน');
+ const classify = value => {
+   const st=norm(value).replace(/\u0e4d\u0e32/g,'\u0e33').replace(/[✅✔✓❌✖✗●🟢🔴]/gu,'').trim();
+   if(!st) return 'blank';
+   if(/^(ไม่ทำงาน|ไม่ได้ทำงาน|ลาออก|พ้นสภาพ|เลิกจ้าง|เกษียณ|resigned|inactive|terminated|retired|อดีตพนักงาน)/.test(st)) return 'resigned';
+   if(/^(ทำงาน|ยังทำงาน|ปฏิบัติงาน|ยังปฏิบัติงาน|active|working|ปัจจุบัน|ทดลองงาน|probation|employed|พนักงานปัจจุบัน|คงอยู่|ยังอยู่)/.test(st) || /^(ปกติ|อยู่|พนักงานประจำ|onboard|onboarding|current|on duty|onduty)$/.test(st)) return 'active';
+   return 'unknown';
+ };
+ // Prefer columns whose actual values support a status interpretation.
+ const candidates=header.map((v,i)=>({i, named:matches(v,'status') || /workstatus|สถานะการทำงาน|สถานะพนักงาน/.test(norm(v))}));
+ const scores=candidates.map(c=>{
+   const kinds=employees.map(r=>classify(r._r[c.i]));
+   const known=kinds.filter(k=>k==='active'||k==='resigned').length;
+   const nonblank=kinds.filter(k=>k!=='blank').length;
+   return {...c,known,nonblank,ratio:known/Math.max(1,nonblank)};
+ });
+ const ranked=scores.filter(c=>c.known>0 && c.ratio>=0.8 && (c.named || c.known>=Math.max(3,employees.length*0.5)))
+ .sort((a,b)=>Number(b.named)-Number(a.named)||b.known-a.known||b.ratio-a.ratio);
+ const namedStatus=candidates.find(c=>c.named);
+ if(namedStatus) map.status=namedStatus.i;
+ else if(ranked.length) map.status=ranked[0].i;
+ const confirmedStatus=!!namedStatus || ranked.some(c=>c.i===map.status);
+ const statusCounts=new Map();
+ for(const r of employees){const v=String(r._r[map.status]??'').trim();statusCounts.set(v,(statusCounts.get(v)||0)+1);}
+ const statusSummary=[...statusCounts].map(([value,count])=>({status:value||'(ว่าง)',count,classification:classify(value)}));
+ console.table(statusSummary);
  const active=[], resigned=[], unknown=[];
  for(const r of employees){
-   const st=norm(r._r[map.status]);
-   if(['','ทำงานอยู่','ทำงาน','ปฏิบัติงาน','active','working','ปัจจุบัน','ทดลองงาน','probation'].includes(st)) active.push(r);
-   else if(['ลาออก','resigned','inactive','พ้นสภาพ','terminated','เลิกจ้าง','เกษียณ'].includes(st)) resigned.push(r);
+   const kind=classify(r._r[map.status]);
+   if(kind==='active' || (kind==='blank' && confirmedStatus)){r._status='ทำงานอยู่';active.push(r);}
+   else if(kind==='resigned'){r._status='ลาออก';resigned.push(r);}
    else unknown.push(r);
  }
- if(unknown.length) throw new Error('พบสถานะที่ระบบไม่รู้จัก '+unknown.length+' รายการ กรุณาตรวจสอบคอลัมน์สถานะ');
- return {map,active,resigned};
+ console.info('HR CSV diagnostic', {header:header.map((v,i)=>({index:i,header:v})),statusColumn:map.status,total:employees.length,active:active.length,resigned:resigned.length,unknown:unknown.length,statusSummary});
+ return {map,active,resigned,unknown,total:employees.length};
 }
 function initApp(rawText){
  const parsed=parseEmployees(rawText);
- Object.assign(IDX,parsed.map); rows=parsed.active; window.resignedRows=parsed.resigned;
+ Object.assign(IDX,parsed.map); rows=parsed.active; window.resignedRows=parsed.resigned; window.unknownRows=parsed.unknown;
+ const notice=document.getElementById('statusNotice'); notice.replaceChildren(); notice.style.display=parsed.unknown.length?'block':'none';
+ if(parsed.unknown.length){notice.append(document.createTextNode(`⚠ โหลดข้อมูล ${parsed.total} รายการแล้ว แต่ยังไม่ยืนยันสถานะ ${parsed.unknown.length} รายการ (ไม่นับใน KPI ทำงานอยู่/ลาออก) `)); const btn=document.createElement('button');btn.className='vbtn';btn.textContent='ดูรายชื่อที่ต้องตรวจสอบ';btn.onclick=()=>{document.querySelectorAll('.pg').forEach(p=>p.classList.remove('active'));document.getElementById('page-dash').classList.add('active');buildDash(window.unknownRows,'รายการที่ยังไม่ยืนยันสถานะ');};notice.append(btn);}
  document.getElementById('page-bday').innerHTML=''; document.getElementById('page-org').innerHTML='';
  buildDash(); buildDir();
  const btn=document.querySelector('.nb.active');
