@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ecoseal Staff Dashboard</title>
+<link rel="icon" href="data:,">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{--Y:#FFC107;--Yd:#e6ac00;--Yl:#fff8e1;--B:#29ABE2;--Bd:#1a8abf;--Bl:#e3f4fc;--T:#0a0a0a;--T2:#1a1a18;--T3:#4a5568;--BOR:#d1d9e0;--BG:#f0f2f5;--W:#fff}
@@ -173,6 +174,7 @@ tr:last-child td{border-bottom:none}.tr-click:hover td{background:var(--Bl);curs
       <button class="nb" onclick="show('bday',this)">🎂 วันเกิด</button>
       <button class="nb" onclick="show('org',this)">🏢 Org Chart</button>
       <div style="margin-left:auto;display:flex;gap:8px;align-items:center;margin-right:8px">
+        <button class="vbtn" onclick="tryLoad(URLS,0)">🔄 Refresh Data</button>
         <a href="https://github.com/ecosealthailand/hr/upload/main/photos" target="_blank"
            style="padding:8px 16px;background:#29ABE2;color:#fff;border-radius:9px;font-size:13px;font-weight:700;text-decoration:none;display:flex;align-items:center;gap:6px;white-space:nowrap;border:1.5px solid #1a8abf;transition:all .15s"
            onmouseover="this.style.background='#1a8abf'" onmouseout="this.style.background='#29ABE2'">
@@ -230,12 +232,7 @@ const PHOTO_BASE = `https://${GH_USER}.github.io/${GH_REPO}/photos/`;
 // ชื่อไฟล์รูป = รหัสพนักงาน.jpg เช่น photos/2.jpg, photos/6.jpg
 
 const PUB_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT8quBD-tiz47Dyqq9qZLwpwRh2Db0B9n0XJbJQ4sWXvMALL_G3FP78dntvyX7eGI5p3z-dpRoBdQPW/pub?gid=0&single=true&output=csv';
-const URLS = [
-  PUB_CSV,
-  `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=0`,
-  `https://api.allorigins.win/raw?url=${encodeURIComponent('https://docs.google.com/spreadsheets/d/e/2PACX-1vT8quBD-tiz47Dyqq9qZLwpwRh2Db0B9n0XJbJQ4sWXvMALL_G3FP78dntvyX7eGI5p3z-dpRoBdQPW/pub?gid=0&single=true&output=csv')}`,
-  `https://corsproxy.io/?${encodeURIComponent('https://docs.google.com/spreadsheets/d/e/2PACX-1vT8quBD-tiz47Dyqq9qZLwpwRh2Db0B9n0XJbJQ4sWXvMALL_G3FP78dntvyX7eGI5p3z-dpRoBdQPW/pub?gid=0&single=true&output=csv')}`,
-];
+const URLS = [PUB_CSV, `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=0`];
 
 const PAL  = ['#29ABE2','#1a8abf','#10b981','#7c3aed','#e11d48','#FFC107','#db2777','#0891b2','#65a30d','#9333ea','#0f766e','#dc2626'];
 const PALE = ['#e3f4fc','#b3dff5','#d1fae5','#ede9fe','#fee2e2','#fff8e1','#fce7f3','#cffafe','#ecfccb','#f3e8ff','#ccfbf1','#fecaca'];
@@ -753,6 +750,7 @@ function buildDir(){
   const depts = [...new Set(rows.map(r=>g(r,'dept')).filter(Boolean))].sort();
   const brs   = [...new Set(rows.map(r=>g(r,'branch')).filter(Boolean))].sort();
   const divs  = [...new Set(rows.map(r=>g(r,'div')).filter(Boolean))].sort();
+  ['fd','fb','ff'].forEach(id=>{document.getElementById(id).options.length=1;});
   depts.forEach(v=>document.getElementById('fd').add(new Option(v,v)));
   brs.forEach(v=>document.getElementById('fb').add(new Option(v,v)));
   divs.forEach(v=>document.getElementById('ff').add(new Option(v,v)));
@@ -1184,71 +1182,80 @@ function zoomOrg(delta){
 }
 
 // ── INIT & LOAD ──────────────────────────────────────────────
+const BASE_IDX = {...IDX};
+const norm = v => String(v ?? '').normalize('NFKC').replace(/[\s\u200b\ufeff_–—-]+/g,'').toLowerCase();
+const aliases = {
+ ...Object.fromEntries(Object.entries(C).filter(([k,v])=>v).map(([k,v])=>[k,[v]])),
+ no:['No.','No','ลำดับ'], code:['Emp.Code','Employee Code','รหัสพนักงาน','รหัส'],
+ name:['ชื่อ-สกุล (ไทย)','ชื่อ-สกุล','ชื่อ นามสกุล','ชื่อ-นามสกุล (ไทย)','ชื่อ-นามสกุล','ชื่อพนักงาน','Full Name (TH)'],
+ status:['Work Status','Status','สถานะ','สถานะพนักงาน','สถานะการทำงาน','สถานะ Work Status','สถานะการทำงาน Work Status'],
+ prefixEN:['คำนำหน้า (อังกฤษ)','Prefix (EN)'],nameEN:['ชื่อ-สกุล (อังกฤษ)','Full Name (EN)'],nickEN:['ชื่อเล่น (อังกฤษ)'],posEN:['ตำแหน่ง (อังกฤษ)'],deptEN:['แผนก (อังกฤษ)'],divEN:['ฝ่าย (อังกฤษ)'],branchEN:['สาขา (อังกฤษ)'],effdate:['Effective Date','วันที่มีผล','วันที่ลาออก']
+};
+function parseEmployees(rawText){
+ if(!rawText.trim() || /^\s*(?:<|\{|\[)/.test(rawText)) throw new Error('แหล่งข้อมูลไม่ได้ส่ง CSV');
+ const result=Papa.parse(rawText,{header:false,skipEmptyLines:'greedy',delimiter:','});
+ if(result.errors.some(e=>e.type==='Quotes')) throw new Error('รูปแบบ CSV ไม่สมบูรณ์');
+ const data=result.data;
+ const matches=(cell,key)=> (aliases[key]||[]).some(a=>norm(a)===norm(cell));
+ const hi=data.slice(0,30).findIndex(r=>r.some(v=>matches(v,'name')) && (r.some(v=>matches(v,'dobiso')) || r.some(v=>matches(v,'dept')) || r.some(v=>matches(v,'status'))));
+ if(hi<0) throw new Error('ไม่พบหัวตารางชื่อพนักงาน กรุณาตรวจสอบ Sheet / gid');
+ const header=data[hi]; const map={};
+ for(const k of Object.keys(BASE_IDX)){
+   const j=header.findIndex(v=>matches(v,k));
+   map[k]=j>=0?j:-1;
+ }
+ // Original sheet has two unnamed leading columns and fixed English fields.
+ const original=map.name===BASE_IDX.name && map.dobiso===BASE_IDX.dobiso && map.dept===BASE_IDX.dept;
+ if(original){for(const k of Object.keys(map)) if(map[k]<0 && BASE_IDX[k]<header.length) map[k]=BASE_IDX[k];}
+ if(map.code<0 && map.name===3 && !norm(header[1])) map.code=1;
+ if(map.status<0) throw new Error('ไม่พบคอลัมน์สถานะพนักงาน (Work Status)');
+ const employees=data.slice(hi+1).filter(r=>String(r[map.name]||'').trim() && !matches(r[map.name],'name') && (map.code<0 || String(r[map.code]||'').trim())).map(r=>({_r:r}));
+ if(!employees.length) throw new Error('พบหัวตาราง แต่ไม่พบรายชื่อพนักงาน');
+ const active=[], resigned=[], unknown=[];
+ for(const r of employees){
+   const st=norm(r._r[map.status]);
+   if(['','ทำงานอยู่','ทำงาน','ปฏิบัติงาน','active','working','ปัจจุบัน','ทดลองงาน','probation'].includes(st)) active.push(r);
+   else if(['ลาออก','resigned','inactive','พ้นสภาพ','terminated','เลิกจ้าง','เกษียณ'].includes(st)) resigned.push(r);
+   else unknown.push(r);
+ }
+ if(unknown.length) throw new Error('พบสถานะที่ระบบไม่รู้จัก '+unknown.length+' รายการ กรุณาตรวจสอบคอลัมน์สถานะ');
+ return {map,active,resigned};
+}
 function initApp(rawText){
-  // Parse CSV without header — use index-based column access
-  // Sheet structure: row 0-1 = metadata, row 2 = headers, row 3+ = data
-  const result = Papa.parse(rawText, {header:false, skipEmptyLines:false});
-  const allRows = result.data;
-  
-  // Find header row — works for both formats (row 0 or row 2+)
-  let dataStart = 1; // default: header at row 0
-  for(let i=0; i<Math.min(8,allRows.length); i++){
-    const rowStr = allRows[i].join(',');
-    if(rowStr.includes('ชื่อ-สกุล') || rowStr.includes('DOB (ISO)')){
-      dataStart = i+1; break;
-    }
-  }
-  
-  // Build rows — all employees
-  const allEmps = allRows.slice(dataStart)
-    .map(r=>({_r:r}))
-    .filter(({_r:r})=> r.length>4 && (r[1]||r[3]||'').trim());
-  
-  // rows = เฉพาะพนักงานที่ทำงานอยู่ (Work Status = ทำงานอยู่ หรือว่าง)
-  rows = allEmps.filter(r=>{
-    const st = (r._r[24]||'').trim();
-    return st==='' || st==='ทำงานอยู่';
-  });
-  
-  // resignedRows = พนักงานที่ลาออก
-  window.resignedRows = allEmps.filter(r=>{
-    const st = (r._r[24]||'').trim();
-    return st==='ลาออก';
-  });
-  
-  document.getElementById('hm').textContent = `พนักงาน ${rows.length} คน · ${new Date().toLocaleTimeString('th-TH')}`;
-  document.getElementById('loading').style.display = 'none';
-  document.getElementById('main').style.display = 'block';
-  buildDash(); buildDir();
+ const parsed=parseEmployees(rawText);
+ Object.assign(IDX,parsed.map); rows=parsed.active; window.resignedRows=parsed.resigned;
+ document.getElementById('page-bday').innerHTML=''; document.getElementById('page-org').innerHTML='';
+ buildDash(); buildDir();
+ const btn=document.querySelector('.nb.active');
+ if(btn) btn.click();
+ document.getElementById('hm').textContent=`พนักงาน ${rows.length} คน · ${new Date().toLocaleTimeString('th-TH')}`;
+ document.getElementById('loading').style.display='none'; document.getElementById('main').style.display='block';
 }
-
-async function tryLoad(urls, idx){
-  if(idx >= urls.length){
-    document.getElementById('loading').innerHTML = `<div class="err-box">❌ โหลดข้อมูลไม่ได้ทุก source<br><br>
-      <button onclick="tryLoad(URLS,0)" style="padding:8px 16px;background:#29ABE2;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:14px;font-weight:700;margin-top:8px">🔄 ลองใหม่</button></div>`;
-    return;
-  }
-  document.getElementById('loading').innerHTML = `<div style="text-align:center;padding:60px"><div style="font-size:40px;margin-bottom:16px">⏳</div><div style="font-size:15px;font-weight:700;color:#4a5568;margin-bottom:6px">กำลังโหลดข้อมูลพนักงาน...</div><div style="font-size:13px;color:#9aa0ab">(${idx+1}/${urls.length})</div></div>`;
-  try{
-    const ctrl = new AbortController();
-    const tid = setTimeout(()=>ctrl.abort(), 8000);
-    const res = await fetch(urls[idx], {cache:'no-cache', signal:ctrl.signal});
-    clearTimeout(tid);
-    if(!res.ok) throw new Error('HTTP '+res.status);
-    const text = await res.text();
-    if(text.trim().length < 20) throw new Error('empty');
-    if(text.trim().startsWith('<!')) throw new Error('got HTML');
-    initApp(text);
-  } catch(e){
-    console.warn(`URL ${idx} failed:`, e.message);
-    tryLoad(urls, idx+1);
-  }
+let loadingNow=false;
+async function tryLoad(urls,idx=0){
+ if(loadingNow)return; loadingNow=true;
+ const box=document.getElementById('loading'); box.style.display='block'; document.getElementById('main').style.display='none';
+ const errors=[];
+ try{
+ for(let i=idx;i<urls.length;i++){
+   box.textContent=`⏳ กำลังโหลดข้อมูลพนักงาน... (${i+1}/${urls.length})`;
+   const ctrl=new AbortController(); const tid=setTimeout(()=>ctrl.abort(),15000);
+   try{
+     const res=await fetch(urls[i],{cache:'no-store',signal:ctrl.signal});
+     if(!res.ok)throw new Error('HTTP '+res.status);
+     initApp(await res.text()); return;
+   }catch(e){errors.push(`Source ${i+1}: ${e.name==='AbortError'?'หมดเวลารอข้อมูล':e.message}`);console.warn(errors.at(-1));}
+   finally{clearTimeout(tid);}
+ }
+ document.getElementById('hm').textContent='โหลดข้อมูลไม่สำเร็จ';
+ box.replaceChildren(); const err=document.createElement('div');err.className='err-box';err.style.whiteSpace='pre-line';err.textContent='❌ โหลดข้อมูลไม่สำเร็จ\n'+errors.join('\n');
+ const retry=document.createElement('button');retry.className='vbtn';retry.textContent='🔄 ลองใหม่';retry.onclick=()=>tryLoad(URLS,0);box.append(err,retry);
+ }finally{loadingNow=false;}
 }
-
 const s = document.createElement('script');
 s.src = 'https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.0/papaparse.min.js';
-s.onload = () => tryLoad(URLS, 0);
-s.onerror = () => { document.getElementById('loading').innerHTML = '<div class="err-box">❌ โหลด library ไม่ได้ กรุณาตรวจสอบอินเทอร์เน็ต</div>'; };
+s.onload = () => tryLoad(URLS,0);
+s.onerror = () => { document.getElementById('loading').textContent='❌ โหลด CSV library ไม่ได้ กรุณารีเฟรชหน้าเว็บ'; };
 document.head.appendChild(s);
 </script>
 </body>
