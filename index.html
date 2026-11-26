@@ -277,7 +277,7 @@ const avs    = avCol;
 
 // ── รูปพนักงาน ───────────────────────────────────────────────
 // Preserve the displayed employee code; normalize only the photo filename.
-const PHOTO_FILE_OVERRIDES = {'050':'050.jpg','50':'050.jpg','088':'088.jpg','405':'405 ลาออก.jpg'};
+const PHOTO_FILE_OVERRIDES = {'050':'050.jpg','50':'050.jpg','405':'405 ลาออก.jpg'};
 function photoUrl(r){
   const code = String(g(r,'code') || '').normalize('NFKC').trim();
   const numericCode = /^\d+$/.test(code) ? code.replace(/^0+(?=\d)/,'') : code;
